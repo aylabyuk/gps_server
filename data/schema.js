@@ -32,7 +32,7 @@ type Query {
   Associated(agency_id: Int, associated_name: String): Associated
    allAssociated: [Associated]
 
-   Field(fieldwork_id: Int, first_date: Date, last_date: Date, logistical_note_id: Int, others: String): Field
+   Field(fieldwork_id: Int, first_date: String, last_date: String, logistical_note_id: Int, others: String): Field
    allField: [Field]
 
     Gallery(gallery_id: Int, gallery_name: String, image_name: String): Gallery
@@ -67,57 +67,7 @@ type Query {
       Surveytype(survey_id: Int): Surveytype
    allSurveytype: [Surveytype]
 
-
-       Authors(id: Int, firstName: String, lastName: String): Authors
-   allAuthors: [Authors]
-
-
-       Post(id: Int, title: String, text: String, tags: String): Post
-   allPost: [Post]
-
-
 } 
-
-type Authors {
-  id: Int
-  firstName: String 
-  lastName: String
-  createdAt: Date
-  updatedAt: Date
-  post:[Post]
-}
-type Post{
-  id: Int
-  title: String 
-  text: String
-  tags: Date
-  createdAt: Date
-  updatedAt: Date
-  author: Authors
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 type Sitename {
   site_id: Int
@@ -147,8 +97,8 @@ type Associated {
 }
 type Field {
  fieldwork_id: Int
- first_date : Date
- last_date: Date
+ first_date : String
+ last_date: String
  logistical_note_id : Int
  others: String
 }
@@ -163,7 +113,7 @@ type GPSCont {
 id: Int
 site_name: String
 fieldwork_id: Int
-update_date: Date
+update_date: String
 update_time: Time
 p_receiver_sn: String
 updated_receiver_sn: String
@@ -188,7 +138,7 @@ contact_num: Int
 division_name: String
 email_address: String
 office_location: String
-birthday: Date
+birthday: String
 
 }
 
@@ -207,7 +157,7 @@ type Logsheet {
   fieldwork_id:  Int   
   site_name:  String   
   survey_type:  String   
-  logsheet_date:  Date   
+  logsheet_date:  String   
   julian_day:  Int   
   marker:  String   
   receiver_serialnumber:  String   

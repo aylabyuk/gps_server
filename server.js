@@ -4,7 +4,7 @@ import Resolvers from './data/resolvers';
 // import Mocks from './data/mocks';
 
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
-import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
+import { makeExecutableSchema } from 'graphql-tools';
 import bodyParser from 'body-parser';
 
 const GRAPHQL_PORT = 4000;

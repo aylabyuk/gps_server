@@ -6,8 +6,8 @@ const db = new Sequelize('gps', 'root', '', {
 });
 
 const SitenameModel = db.define('site_name', {
- site_id: { type: Sequelize.INTEGER, primaryKey: true },
- site_name: { type: Sequelize.STRING },
+  site_id: { type: Sequelize.INTEGER, primaryKey: true },
+  site_name: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
 const ContactModel = db.define('contact_person', {
@@ -26,34 +26,34 @@ const AntennaModel = db.define('antenna_information', {
 
 const ReceiverModel = db.define('receiver_information', {
   receiver_id: { type: Sequelize.INTEGER, primaryKey: true },
- serial_number: { type: Sequelize.STRING },
+  serial_number: { type: Sequelize.STRING },
   receiver_type: { type: Sequelize.STRING },
   part_number: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
 const ChargerModel = db.define('power_source', {
- ps_id: { type: Sequelize.INTEGER, primaryKey: true },
- ps_serial_number: { type: Sequelize.STRING },
- comment: { type: Sequelize.TEXT}, 
+  ps_id: { type: Sequelize.INTEGER, primaryKey: true },
+  ps_serial_number: { type: Sequelize.STRING },
+  comment: { type: Sequelize.TEXT },
 }, { timestamps: false, freezeTableName: true });
 
 const AssociatedModel = db.define('associated_agency', {
- agency_id: { type: Sequelize.INTEGER, primaryKey: true },
- associated_name: { type: Sequelize.STRING },
+  agency_id: { type: Sequelize.INTEGER, primaryKey: true },
+  associated_name: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
 const FieldModel = db.define('fieldwork_table', {
- fieldwork_id: { type: Sequelize.INTEGER, primaryKey: true },
- first_date: { type: Sequelize.DATE },
- last_date: { type: Sequelize.DATE },
- logistical_note_id: { type: Sequelize.INTEGER },
- others:{type: Sequelize.STRING },
+  fieldwork_id: { type: Sequelize.INTEGER, primaryKey: true },
+  first_date: { type: Sequelize.DATE },
+  last_date: { type: Sequelize.DATE },
+  logistical_note_id: { type: Sequelize.INTEGER },
+  others: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
 const GalleryModel = db.define('gallery', {
- gallery_id: { type: Sequelize.INTEGER, primaryKey: true },
- gallery_name: { type: Sequelize.STRING },
- image_name: { type: Sequelize.STRING },
+  gallery_id: { type: Sequelize.INTEGER, primaryKey: true },
+  gallery_name: { type: Sequelize.STRING },
+  image_name: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
 const GPSContModel = db.define('gps_cont', {
@@ -139,20 +139,20 @@ const LogsheetModel = db.define('logsheet', {
 
 
 const ObserverModel = db.define('observer', {
- observer_id: { type: Sequelize.INTEGER, primaryKey: true },
- staff_id: { type: Sequelize.INTEGER },
- fieldwork_id: { type: Sequelize.INTEGER}, 
+  observer_id: { type: Sequelize.INTEGER, primaryKey: true },
+  staff_id: { type: Sequelize.INTEGER },
+  fieldwork_id: { type: Sequelize.INTEGER },
 }, { timestamps: false, freezeTableName: true });
 
 
 const DivisionModel = db.define('office_division', {
- division_id: { type: Sequelize.INTEGER, primaryKey: true },
- division: { type: Sequelize.STRING },
+  division_id: { type: Sequelize.INTEGER, primaryKey: true },
+  division: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
 const PositionModel = db.define('position', {
- position_id: { type: Sequelize.INTEGER, primaryKey: true },
- position_name: { type: Sequelize.STRING },
+  position_id: { type: Sequelize.INTEGER, primaryKey: true },
+  position_name: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
 const SiteinfoModel = db.define('site_information', {
@@ -174,37 +174,32 @@ const SiteinfoModel = db.define('site_information', {
 
 
 const SurveytypeModel = db.define('survey_type', {
- survey_id: { type: Sequelize.INTEGER, primaryKey: true },
- survey_type_info: { type: Sequelize.STRING },
+  survey_id: { type: Sequelize.INTEGER, primaryKey: true },
+  survey_type_info: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
 const AuthorsModel = db.define('authors', {
- id: { type: Sequelize.INTEGER, primaryKey: true },
- firstName: { type: Sequelize.STRING },
- lastName: { type: Sequelize.STRING },
- createdAt: { type: Sequelize.DATE },
- updateAt: { type: Sequelize.DATE },
+  id: { type: Sequelize.INTEGER, primaryKey: true },
+  firstName: { type: Sequelize.STRING },
+  lastName: { type: Sequelize.STRING },
+  createdAt: { type: Sequelize.DATE },
+  updateAt: { type: Sequelize.DATE },
 }, { timestamps: false, freezeTableName: true });
 
 const PostModel = db.define('posts', {
- id: { type: Sequelize.INTEGER, primaryKey: true },
- title: { type: Sequelize.STRING },
- text: { type: Sequelize.STRING },
- tags: { type: Sequelize.STRING },
- createdAt: { type: Sequelize.DATE },
- updateAt: { type: Sequelize.DATE },
+  id: { type: Sequelize.INTEGER, primaryKey: true },
+  title: { type: Sequelize.STRING },
+  text: { type: Sequelize.STRING },
+  tags: { type: Sequelize.STRING },
+  createdAt: { type: Sequelize.DATE },
+  updateAt: { type: Sequelize.DATE },
 }, { timestamps: false, freezeTableName: true });
-
 
 
 AuthorsModel.hasMany(PostModel);
 PostModel.belongsTo(AuthorsModel);
 
 
-
-
-
- 
 const Sitename = db.models.site_name;
 const Contact = db.models.contact_person;
 const Antenna = db.models.antenna_information;
@@ -226,5 +221,5 @@ const Authors = db.models.Authors;
 const Post = db.models.Post;
 
 
-export { Contact, Antenna, Receiver, Charger, Sitename, Associated, Field, Gallery , GPSCont, Staff, Logistic, Logsheet,Observer, Division, Position,Siteinfo,Surveytype,Post, Authors};
+export { Contact, Antenna, Receiver, Charger, Sitename, Associated, Field, Gallery, GPSCont, Staff, Logistic, Logsheet, Observer, Division, Position, Siteinfo, Surveytype, Post, Authors };
 

@@ -1,8 +1,28 @@
-import { Contact, Antenna, Receiver, Charger, Sitename, Associated, Field, Gallery ,GPSCont, Staff, Logistic, Logsheet, Observer, Division, Position, Siteinfo,Surveytype, Post,Authors} from './connectors';
+import { Contact,
+        Antenna,
+        Receiver,
+        Charger,
+        Sitename,
+        Associated,
+        Field,
+        Gallery,
+        GPSCont,
+        Staff,
+        Logistic,
+        Logsheet,
+        Observer,
+        Division,
+        Position,
+        Siteinfo,
+        Surveytype,
+      } from './connectors';
+
+import { GraphQLScalarType } from 'graphql';
+import { Kind } from 'graphql/language';
 
 const resolvers = {
   Query: {
-     Sitename(_, args) {
+    Sitename(_, args) {
       return Sitename.find({ where: args });
     },
     allSitename() {
@@ -21,13 +41,13 @@ const resolvers = {
     allAntenna() {
       return Antenna.findAll();
     },
-       Receiver(_, args) {
+    Receiver(_, args) {
       return Receiver.find({ where: args });
     },
     allReceiver() {
       return Receiver.findAll();
     },
-     Charger(_, args) {
+    Charger(_, args) {
       return Charger.find({ where: args });
     },
     allCharger() {
@@ -45,13 +65,13 @@ const resolvers = {
     allField() {
       return Field.findAll();
     },
-      Gallery(_, args) {
+    Gallery(_, args) {
       return Gallery.find({ where: args });
     },
     allGallery() {
       return Gallery.findAll();
     },
-      GPSCont(_, args) {
+    GPSCont(_, args) {
       return GPSCont.find({ where: args });
     },
     allGPSCont() {
@@ -73,7 +93,7 @@ const resolvers = {
       return Logistic.findAll();
     },
 
-    
+
     Logsheet(_, args) {
       return Logsheet.find({ where: args });
     },
@@ -88,49 +108,32 @@ const resolvers = {
       return Observer.findAll();
     },
 
-  Division(_, args) {
+    Division(_, args) {
       return Division.find({ where: args });
     },
     allDivision() {
       return Division.findAll();
     },
-     Position(_, args) {
+    Position(_, args) {
       return Position.find({ where: args });
     },
     allPosition() {
       return Position.findAll();
     },
-     Siteinfo(_, args) {
+    Siteinfo(_, args) {
       return Siteinfo.find({ where: args });
     },
     allSiteinfo() {
       return Siteinfo.findAll();
     },
-      Surveytype(_, args) {
+    Surveytype(_, args) {
       return Surveytype.find({ where: args });
     },
     allSurveytype() {
       return Surveytype.findAll();
     },
-    
-   
 
-Authors: {
-    posts(author) {
-      return author.getPosts();
-    },
-  },
-  Post: {
-    author(post) {
-      return post.getAuthor();
-    },
-  },
-
-
-
-
-
-//input more query at the top of this comment
+// input more query at the top of this comment
   },
 };
 
