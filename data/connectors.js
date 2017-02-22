@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-const db = new Sequelize('gps', 'root', '', {
+const db = new Sequelize('gps', 'root', 'dec31989', {
   host: 'localhost',
   port: '3306',
 });
@@ -159,7 +159,7 @@ const SiteinfoModel = db.define('site_information', {
   site_info_id: { type: Sequelize.INTEGER, primaryKey: true },
   site_name: { type: Sequelize.STRING },
   last_update: { type: Sequelize.DATE },
-  lattitude: { type: Sequelize.DOUBLE },
+  latitude: { type: Sequelize.DOUBLE },
   longitude: { type: Sequelize.DOUBLE },
   receiver_sn: { type: Sequelize.STRING },
   antenna_sn: { type: Sequelize.STRING },

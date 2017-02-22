@@ -183,7 +183,7 @@ type Logsheet {
   gateway:  String   
   dns:  String   
   local_tcp_port:  String   
-  lattitude:  Double   
+  latitude:  Double   
   longitude:  Double   
   site_sketch_id:  Int   
   observed_situation:  String   
@@ -216,7 +216,7 @@ type Siteinfo {
  site_info_id: Int
   site_name: String 
   last_update: Date 
-  lattitude: Double 
+  latitude: Double 
   longitude: Double 
   receiver_sn: String 
   antenna_sn: String 
