@@ -6,10 +6,25 @@ import Resolvers from './data/resolvers';
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import { makeExecutableSchema } from 'graphql-tools';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 const GRAPHQL_PORT = 4000;
 
 const graphQLServer = express();
+
+// FIXES CORS ERROR
+const whitelist = [
+  'http://localhost:8080',
+];
+const corsOptions = {
+  origin(origin, callback) {
+    const originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  },
+  credentials: true,
+};
+graphQLServer.use(cors(corsOptions));
+
 
 const executableSchema = makeExecutableSchema({
   typeDefs: Schema,
