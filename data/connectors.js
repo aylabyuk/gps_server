@@ -178,27 +178,6 @@ const SurveytypeModel = db.define('survey_type', {
   survey_type_info: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
-const AuthorsModel = db.define('authors', {
-  id: { type: Sequelize.INTEGER, primaryKey: true },
-  firstName: { type: Sequelize.STRING },
-  lastName: { type: Sequelize.STRING },
-  createdAt: { type: Sequelize.DATE },
-  updateAt: { type: Sequelize.DATE },
-}, { timestamps: false, freezeTableName: true });
-
-const PostModel = db.define('posts', {
-  id: { type: Sequelize.INTEGER, primaryKey: true },
-  title: { type: Sequelize.STRING },
-  text: { type: Sequelize.STRING },
-  tags: { type: Sequelize.STRING },
-  createdAt: { type: Sequelize.DATE },
-  updateAt: { type: Sequelize.DATE },
-}, { timestamps: false, freezeTableName: true });
-
-
-AuthorsModel.hasMany(PostModel);
-PostModel.belongsTo(AuthorsModel);
-
 
 const Sitename = db.models.site_name;
 const Contact = db.models.contact_person;
@@ -217,9 +196,6 @@ const Division = db.models.office_division;
 const Position = db.models.position;
 const Siteinfo = db.models.site_information;
 const Surveytype = db.models.survey_type;
-const Authors = db.models.Authors;
-const Post = db.models.Post;
 
-
-export { Contact, Antenna, Receiver, Charger, Sitename, Associated, Field, Gallery, GPSCont, Staff, Logistic, Logsheet, Observer, Division, Position, Siteinfo, Surveytype, Post, Authors };
+export { Contact, Antenna, Receiver, Charger, Sitename, Associated, Field, Gallery, GPSCont, Staff, Logistic, Logsheet, Observer, Division, Position, Siteinfo, Surveytype };
 

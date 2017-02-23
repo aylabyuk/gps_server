@@ -17,18 +17,14 @@ import { Contact,
         Surveytype,
       } from './connectors';
 
-import { GraphQLScalarType } from 'graphql';
-import { Kind } from 'graphql/language';
-
 const resolvers = {
   Query: {
     Sitename(_, args) {
       return Sitename.find({ where: args });
     },
-    allSitename() {
-      return Sitename.findAll();
+    allSitename(_, args) {
+      return Sitename.findAll({ limit: args.limit, offset: args.offset });
     },
-
     Contact(_, args) {
       return Contact.find({ where: args });
     },
