@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-const db = new Sequelize('gps', 'root', 'dec31989', {
+const db = new Sequelize('gps', 'root', '', {
   host: 'localhost',
   port: '3306',
 });

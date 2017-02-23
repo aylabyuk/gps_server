@@ -33,12 +33,6 @@ const executableSchema = makeExecutableSchema({
   printErrors: true,
 });
 
-// addMockFunctionsToSchema({
-//   schema: executableSchema,
-//   mocks: Mocks,
-//   preserveResolvers: true,
-// });
-
 // `context` must be an object and can't be undefined when using connectors
 graphQLServer.use('/graphql', bodyParser.json(), apolloExpress({
   schema: executableSchema,
