@@ -83,7 +83,7 @@ type Receiver {
   receiver_id: Int
   serial_number: String
   receiver_type: String
-  antenna_type: String
+  part_number: String
 }
 
 type Charger {
