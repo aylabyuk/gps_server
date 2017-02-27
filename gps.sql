@@ -1,3 +1,21 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Feb 27, 2017 at 09:50 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
 -- Database: `gps`
 --
@@ -170,17 +188,17 @@ DELIMITER ;
 --
 
 CREATE TABLE `antenna_information` (
-  `antenna_id` tinyint(4) NOT NULL,
-  `antenna_serialnumber` varchar(50) NOT NULL,
-  `antenna_partnumber` varchar(50) NOT NULL,
-  `antenna_type` varchar(50) NOT NULL
+  `id` tinyint(4) NOT NULL,
+  `serial_number` varchar(50) NOT NULL,
+  `part_number` varchar(50) NOT NULL,
+  `type` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `antenna_information`
 --
 
-INSERT INTO `antenna_information` (`antenna_id`, `antenna_serialnumber`, `antenna_partnumber`, `antenna_type`) VALUES
+INSERT INTO `antenna_information` (`id`, `serial_number`, `part_number`, `type`) VALUES
 (1, '123456789', 'adad', 'daa'),
 (2, '1440929209', '57971-00 DC 4937', 'Zephyr Geodetic Model 2'),
 (3, '1441021247', '57971-00 DC 5024', 'Zephyr Geodetic Model 2'),
@@ -987,9 +1005,9 @@ CREATE TABLE `power_source` (
 --
 
 CREATE TABLE `receiver_information` (
-  `receiver_id` tinyint(4) NOT NULL,
+  `id` tinyint(4) NOT NULL,
   `serial_number` varchar(20) NOT NULL,
-  `receiver_type` varchar(50) NOT NULL,
+  `type` varchar(50) NOT NULL,
   `part_number` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -997,7 +1015,7 @@ CREATE TABLE `receiver_information` (
 -- Dumping data for table `receiver_information`
 --
 
-INSERT INTO `receiver_information` (`receiver_id`, `serial_number`, `receiver_type`, `part_number`) VALUES
+INSERT INTO `receiver_information` (`id`, `serial_number`, `type`, `part_number`) VALUES
 (1, '123456789', 'adad', 'dadada'),
 (2, '3551A13863', 'Trimble 4000SSi', '24840-41'),
 (3, '3551A13917', 'Trimble 4000SSi', '24840-41'),
@@ -1658,8 +1676,8 @@ CREATE TABLE `velocity` (
 -- Indexes for table `antenna_information`
 --
 ALTER TABLE `antenna_information`
-  ADD PRIMARY KEY (`antenna_id`),
-  ADD UNIQUE KEY `antenna_serialnumber` (`antenna_serialnumber`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `antenna_serialnumber` (`serial_number`);
 
 --
 -- Indexes for table `associated_agency`
@@ -1747,7 +1765,7 @@ ALTER TABLE `power_source`
 -- Indexes for table `receiver_information`
 --
 ALTER TABLE `receiver_information`
-  ADD PRIMARY KEY (`receiver_id`),
+  ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `serial_number` (`serial_number`);
 
 --
@@ -1816,7 +1834,7 @@ ALTER TABLE `velocity`
 -- AUTO_INCREMENT for table `antenna_information`
 --
 ALTER TABLE `antenna_information`
-  MODIFY `antenna_id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `associated_agency`
 --
@@ -1876,7 +1894,7 @@ ALTER TABLE `power_source`
 -- AUTO_INCREMENT for table `receiver_information`
 --
 ALTER TABLE `receiver_information`
-  MODIFY `receiver_id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 --
 -- AUTO_INCREMENT for table `scanned_logsheet`
 --
@@ -1896,7 +1914,7 @@ ALTER TABLE `site_information`
 -- AUTO_INCREMENT for table `site_name`
 --
 ALTER TABLE `site_name`
-  MODIFY `site_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=430;
+  MODIFY `site_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=431;
 --
 -- AUTO_INCREMENT for table `site_sketch`
 --

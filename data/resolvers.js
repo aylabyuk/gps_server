@@ -28,8 +28,8 @@ const resolvers = {
     Contact(_, args) {
       return Contact.find({ where: args });
     },
-    allContact() {
-      return Contact.findAll();
+    allContact(_, args) {
+      return Contact.findAll({ limit: args.limit, offset: args.offset });
     },
     Antenna(_, args) {
       return Antenna.find({ where: args });

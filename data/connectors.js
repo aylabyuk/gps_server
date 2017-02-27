@@ -18,16 +18,16 @@ const ContactModel = db.define('contact_person', {
 }, { timestamps: false, freezeTableName: true });
 
 const AntennaModel = db.define('antenna_information', {
-  antenna_id: { type: Sequelize.INTEGER, primaryKey: true },
-  antenna_serialnumber: { type: Sequelize.STRING },
-  antenna_partnumber: { type: Sequelize.STRING },
-  antenna_type: { type: Sequelize.STRING },
+  id: { type: Sequelize.INTEGER, primaryKey: true },
+  serial_number: { type: Sequelize.STRING },
+  part_number: { type: Sequelize.STRING },
+  type: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
 const ReceiverModel = db.define('receiver_information', {
-  receiver_id: { type: Sequelize.INTEGER, primaryKey: true },
+  id: { type: Sequelize.INTEGER, primaryKey: true },
   serial_number: { type: Sequelize.STRING },
-  receiver_type: { type: Sequelize.STRING },
+  type: { type: Sequelize.STRING },
   part_number: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 

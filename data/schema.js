@@ -9,12 +9,12 @@ type Query {
     allSitename(limit: Int, offset: Int): [Sitename]
 
   Contact(contact_id: Int, first_name: String, last_name: String): Contact
-    allContact: [Contact]
+    allContact(limit: Int, offset: Int): [Contact]
 
-  Antenna(antenna_id: Int, antenna_serialnumber: String, antenna_partnumber: String, antenna_type: String): Antenna
+  Antenna(id: Int, serial_number: String, type: String, part_number: String): Antenna
     allAntenna: [Antenna]
 
-  Receiver(receiver_id: Int, serial_number: String, receiver_type: String, part_number: String): Receiver
+  Receiver(id: Int, serial_number: String, type: String, part_number: String): Receiver
     allReceiver: [Receiver]
 
   Charger(ps_id: Int, ps_serial_number: String): Charger
@@ -73,16 +73,16 @@ type Sitename {
 }
 
 type Antenna {
-  antenna_id: Int
-  antenna_serialnumber: String
-  antenna_partnumber: String
-  antenna_type: String
+  id: Int
+  serial_number: String
+  type: String
+  part_number: String
 }
 
 type Receiver {
-  receiver_id: Int
+  id: Int
   serial_number: String
-  receiver_type: String
+  type: String
   part_number: String
 }
 
