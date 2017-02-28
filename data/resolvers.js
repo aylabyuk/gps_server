@@ -29,7 +29,7 @@ const resolvers = {
       return Contact.find({ where: args });
     },
     allContact(_, args) {
-      return Contact.findAll({ limit: args.limit, offset: args.offset });
+      return Contact.findAll({ limit: args.limit, offset: args.offset, order: args.order });
     },
     Antenna(_, args) {
       return Antenna.find({ where: args });

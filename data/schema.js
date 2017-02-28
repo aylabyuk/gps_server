@@ -9,7 +9,7 @@ type Query {
     allSitename(limit: Int, offset: Int): [Sitename]
 
   Contact(contact_id: Int, first_name: String, last_name: String): Contact
-    allContact(limit: Int, offset: Int): [Contact]
+    allContact(limit: Int, offset: Int, order: String): [Contact]
 
   Antenna(id: Int, serial_number: String, type: String, part_number: String): Antenna
     allAntenna: [Antenna]
