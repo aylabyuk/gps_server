@@ -168,9 +168,10 @@ const SurveytypeModel = db.define('survey_type', {
   survey_type_info: { type: Sequelize.STRING },
 });
 
-db.sync({
-  logging: console.log,
-});
+// uncommment this lines below to create the database tables
+// db.sync({
+//   logging: console.log,
+// });
 
 const Sitename = db.models.site_name;
 const Contact = db.models.contact_person;
