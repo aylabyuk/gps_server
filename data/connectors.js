@@ -1,72 +1,63 @@
 import Sequelize from 'sequelize';
 
-const db = new Sequelize('gps', 'root', '', {
+const db = new Sequelize('gps_db', 'root', '', {
   host: 'localhost',
   port: '3306',
 });
 
-const SitenameModel = db.define('site_name', {
-  site_id: { type: Sequelize.INTEGER, primaryKey: true },
-  site_name: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+const SiteNameModel = db.define('site_name', {
+  site_name: { type: Sequelize.STRING, unique: true, allowNull: false },
+});
 
 const ContactModel = db.define('contact_person', {
-  contact_id: { type: Sequelize.INTEGER, primaryKey: true },
-  first_name: { type: Sequelize.STRING },
-  last_name: { type: Sequelize.STRING },
-  position: { type: Sequelize.STRING },
-  contact_number: { type: Sequelize.STRING },
-  organization: { type: Sequelize.STRING },
-  email_add: { type: Sequelize.STRING },
+  first_name: { type: Sequelize.STRING, allowNull: false },
+  last_name: { type: Sequelize.STRING, allowNull: false },
+  position: { type: Sequelize.STRING, allowNull: false },
+  contact_number: { type: Sequelize.STRING, allowNull: false },
+  organization: { type: Sequelize.STRING, allowNull: false },
+  email_add: { type: Sequelize.STRING, unique: true, allowNull: false },
   address_one: { type: Sequelize.STRING },
   address_two: { type: Sequelize.STRING },
-  city: { type: Sequelize.STRING },
-  province: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+  city: { type: Sequelize.STRING, allowNull: false },
+  province: { type: Sequelize.STRING, allowNull: false },
+});
 
-const AntennaModel = db.define('antenna_information', {
-  id: { type: Sequelize.INTEGER, primaryKey: true },
-  serial_number: { type: Sequelize.STRING },
-  part_number: { type: Sequelize.STRING },
-  type: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+const AntennaModel = db.define('antenna', {
+  serial_number: { type: Sequelize.STRING, unique: true, allowNull: false },
+  part_number: { type: Sequelize.STRING, allowNull: false },
+  type: { type: Sequelize.STRING, allowNull: false },
+});
 
-const ReceiverModel = db.define('receiver_information', {
-  id: { type: Sequelize.INTEGER, primaryKey: true },
-  serial_number: { type: Sequelize.STRING },
-  type: { type: Sequelize.STRING },
-  part_number: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+const ReceiverModel = db.define('receiver', {
+  serial_number: { type: Sequelize.STRING, unique: true, allowNull: false },
+  type: { type: Sequelize.STRING, allowNull: false },
+  part_number: { type: Sequelize.STRING, allowNull: false },
+});
 
-const ChargerModel = db.define('power_source', {
-  ps_id: { type: Sequelize.INTEGER, primaryKey: true },
-  ps_serial_number: { type: Sequelize.STRING },
+const PowerSourceModel = db.define('power_source', {
+  ps_serial_number: { type: Sequelize.STRING, unique: true },
   comment: { type: Sequelize.TEXT },
-}, { timestamps: false, freezeTableName: true });
+});
 
-const AssociatedModel = db.define('associated_agency', {
-  agency_id: { type: Sequelize.INTEGER, primaryKey: true },
+const AssociatedAgencyModel = db.define('associated_agency', {
   associated_name: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+});
 
-const FieldModel = db.define('fieldwork_table', {
-  fieldwork_id: { type: Sequelize.INTEGER, primaryKey: true },
+const FieldWorkModel = db.define('fieldwork', {
   first_date: { type: Sequelize.DATE },
   last_date: { type: Sequelize.DATE },
   logistical_note_id: { type: Sequelize.INTEGER },
   others: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+});
 
 const GalleryModel = db.define('gallery', {
-  gallery_id: { type: Sequelize.INTEGER, primaryKey: true },
-  gallery_name: { type: Sequelize.STRING },
-  image_name: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+  gallery_name: { type: Sequelize.STRING, allowNull: false },
+  image_name: { type: Sequelize.STRING, allowNull: false },
+});
 
 const GPSContModel = db.define('gps_cont', {
-  id: { type: Sequelize.INTEGER, primaryKey: true },
-  site_name: { type: Sequelize.STRING },
-  fieldwork_id: { type: Sequelize.STRING },
+  site_name: { type: Sequelize.STRING, allowNull: false },
+  fieldwork_id: { type: Sequelize.STRING, allowNull: false },
   updated_date: { type: Sequelize.DATE },
   updated_time: { type: Sequelize.TIME },
   p_receiver_sn: { type: Sequelize.STRING },
@@ -79,48 +70,45 @@ const GPSContModel = db.define('gps_cont', {
   battery_condition: { type: Sequelize.STRING },
   charger_status: { type: Sequelize.STRING },
   note: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+});
 
-const StaffModel = db.define('gps_staff_info', {
-  staf_id: { type: Sequelize.INTEGER, primaryKey: true },
-  first_name: { type: Sequelize.STRING },
-  last_name: { type: Sequelize.STRING },
-  nickname: { type: Sequelize.STRING },
-  position_name: { type: Sequelize.STRING },
-  contact_num: { type: Sequelize.INTEGER },
-  division_name: { type: Sequelize.STRING },
-  email_address: { type: Sequelize.STRING },
-  office_location: { type: Sequelize.STRING },
-  birthday: { type: Sequelize.DATE },
-}, { timestamps: false, freezeTableName: true });
+const StaffModel = db.define('gps_staff', {
+  first_name: { type: Sequelize.STRING, allowNull: false },
+  last_name: { type: Sequelize.STRING, allowNull: false },
+  nickname: { type: Sequelize.STRING, allowNull: false },
+  position_name: { type: Sequelize.STRING, allowNull: false },
+  contact_num: { type: Sequelize.INTEGER, unique: true, allowNull: false },
+  division_name: { type: Sequelize.STRING, allowNull: false },
+  email_address: { type: Sequelize.STRING, unique: true, allowNull: false },
+  office_location: { type: Sequelize.STRING, allowNull: false },
+  birthday: { type: Sequelize.DATE, allowNull: false },
+});
 
 
-const LogisticModel = db.define('logistical_notes', {
-  logistical_note_id: { type: Sequelize.INTEGER, primaryKey: true },
+const LogisticModel = db.define('logistical_note', {
   accessibility: { type: Sequelize.STRING },
   site_stability: { type: Sequelize.STRING },
   construction_dev_plans: { type: Sequelize.STRING },
   accommodation: { type: Sequelize.STRING },
   associated_id: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+});
 
 const LogsheetModel = db.define('logsheet', {
-  logsheet_id: { type: Sequelize.INTEGER, primaryKey: true },
   fieldwork_id: { type: Sequelize.INTEGER },
-  site_name: { type: Sequelize.STRING },
-  survey_type: { type: Sequelize.STRING },
-  logsheet_date: { type: Sequelize.DATE },
-  julian_day: { type: Sequelize.INTEGER },
-  marker: { type: Sequelize.STRING },
-  receiver_serialnumber: { type: Sequelize.STRING },
-  antenna_serialnumber: { type: Sequelize.STRING },
+  site_name: { type: Sequelize.STRING, allowNull: false },
+  survey_type: { type: Sequelize.STRING, allowNull: false },
+  logsheet_date: { type: Sequelize.DATE, allowNull: false },
+  julian_day: { type: Sequelize.INTEGER, allowNull: false },
+  marker: { type: Sequelize.STRING, allowNull: false },
+  receiver_serialnumber: { type: Sequelize.STRING, allowNull: false },
+  antenna_serialnumber: { type: Sequelize.STRING, allowNull: false },
   height: { type: Sequelize.DOUBLE },
   north: { type: Sequelize.DOUBLE },
   east: { type: Sequelize.DOUBLE },
   south: { type: Sequelize.DOUBLE },
   west: { type: Sequelize.DOUBLE },
-  time_start: { type: Sequelize.TIME },
-  time_end: { type: Sequelize.TIME },
+  time_start: { type: Sequelize.TIME, allowNull: false },
+  time_end: { type: Sequelize.TIME, allowNull: false },
   azimuth: { type: Sequelize.INTEGER },
   scan_log_id: { type: Sequelize.INTEGER },
   power_source_serialnumber: { type: Sequelize.STRING },
@@ -142,29 +130,25 @@ const LogsheetModel = db.define('logsheet', {
   lodging_road_information: { type: Sequelize.STRING },
   contact_id: { type: Sequelize.INTEGER },
   others: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+});
 
 
 const ObserverModel = db.define('observer', {
-  observer_id: { type: Sequelize.INTEGER, primaryKey: true },
-  staff_id: { type: Sequelize.INTEGER },
-  fieldwork_id: { type: Sequelize.INTEGER },
-}, { timestamps: false, freezeTableName: true });
+  staff_id: { type: Sequelize.INTEGER, allowNull: false },
+  fieldwork_id: { type: Sequelize.INTEGER, allowNull: false },
+});
 
 
 const DivisionModel = db.define('office_division', {
-  division_id: { type: Sequelize.INTEGER, primaryKey: true },
-  division: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+  division: { type: Sequelize.STRING, allowNull: false },
+});
 
 const PositionModel = db.define('position', {
-  position_id: { type: Sequelize.INTEGER, primaryKey: true },
-  position_name: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+  position_name: { type: Sequelize.STRING, allowNull: false },
+});
 
-const SiteinfoModel = db.define('site_information', {
-  site_info_id: { type: Sequelize.INTEGER, primaryKey: true },
-  site_name: { type: Sequelize.STRING },
+const SiteinfoModel = db.define('site', {
+  site_name: { type: Sequelize.STRING, unique: true, allowNull: false },
   last_update: { type: Sequelize.DATE },
   latitude: { type: Sequelize.DOUBLE },
   longitude: { type: Sequelize.DOUBLE },
@@ -177,32 +161,51 @@ const SiteinfoModel = db.define('site_information', {
   city: { type: Sequelize.STRING },
   province: { type: Sequelize.STRING },
   gallery_name: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+});
 
 
 const SurveytypeModel = db.define('survey_type', {
-  survey_id: { type: Sequelize.INTEGER, primaryKey: true },
   survey_type_info: { type: Sequelize.STRING },
-}, { timestamps: false, freezeTableName: true });
+});
 
+db.sync({
+  logging: console.log,
+});
 
 const Sitename = db.models.site_name;
 const Contact = db.models.contact_person;
-const Antenna = db.models.antenna_information;
-const Receiver = db.models.receiver_information;
+const Antenna = db.models.antenna;
+const Receiver = db.models.receiver;
 const Charger = db.models.power_source;
 const Associated = db.models.associated_agency;
-const Field = db.models.fieldwork_table;
+const Field = db.models.fieldwork;
 const Gallery = db.models.gallery;
 const GPSCont = db.models.gps_cont;
-const Staff = db.models.gps_staff_info;
-const Logistic = db.models.logistical_notes;
+const Staff = db.models.gps_staff;
+const Logistic = db.models.logistical_note;
 const Logsheet = db.models.logsheet;
 const Observer = db.models.observer;
 const Division = db.models.office_division;
 const Position = db.models.position;
-const Siteinfo = db.models.site_information;
+const Site = db.models.site;
 const Surveytype = db.models.survey_type;
 
-export { Contact, Antenna, Receiver, Charger, Sitename, Associated, Field, Gallery, GPSCont, Staff, Logistic, Logsheet, Observer, Division, Position, Siteinfo, Surveytype };
-
+export {
+  Sitename,
+  Contact,
+  Antenna,
+  Receiver,
+  Charger,
+  Associated,
+  Field,
+  Gallery,
+  GPSCont,
+  Staff,
+  Logistic,
+  Logsheet,
+  Observer,
+  Division,
+  Position,
+  Site,
+  Surveytype,
+};

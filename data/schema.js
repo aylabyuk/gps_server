@@ -22,10 +22,10 @@ type Mutation {
 
 type Query {
 
-  Sitename(site_id: Int, site_name: String): Sitename
+  Sitename(id: Int, site_name: String): Sitename
     allSitename(limit: Int, offset: Int): [Sitename]
 
-  Contact(contact_id: Int, first_name: String, last_name: String): Contact
+  Contact(id: Int, first_name: String, last_name: String): Contact
     allContact(limit: Int, offset: Int, order: String): [Contact]
 
   Antenna(id: Int, serial_number: String, type: String, part_number: String): Antenna
@@ -34,50 +34,50 @@ type Query {
   Receiver(id: Int, serial_number: String, type: String, part_number: String): Receiver
     allReceiver: [Receiver]
 
-  Charger(ps_id: Int, ps_serial_number: String): Charger
+  Charger(id: Int, ps_serial_number: String): Charger
     allCharger: [Charger]
 
-  Associated(agency_id: Int, associated_name: String): Associated
+  Associated(id: Int, associated_name: String): Associated
     allAssociated: [Associated]
 
-  Field(fieldwork_id: Int, first_date: String, last_date: String, logistical_note_id: Int, others: String): Field
+  Field(id: Int, first_date: String, last_date: String, logistical_note_id: Int, others: String): Field
     allField: [Field]
 
-  Gallery(gallery_id: Int, gallery_name: String, image_name: String): Gallery
+  Gallery(id: Int, gallery_name: String, image_name: String): Gallery
     allGallery: [Gallery]
 
-  GPSCont(fieldwork_id: Int): GPSCont
+  GPSCont(id: Int): GPSCont
     allGPSCont: [GPSCont]
 
-  Staff(first_name: String, last_name: String, staf_id: Int): Staff
+  Staff(first_name: String, last_name: String, id: Int): Staff
     allStaff: [Staff]
 
-  Logistic(logistical_note_id: Int): Logistic
+  Logistic(id: Int): Logistic
     allLogistic: [Logistic]
 
-  Logsheet(logsheet_id: Int): Logsheet
+  Logsheet(id: Int): Logsheet
     allLogsheet: [Logsheet]
 
-  Observer(observer_id: Int): Observer
+  Observer(id: Int): Observer
     allObserver: [Observer]
 
-  Division(division_id: Int): Division
+  Division(id: Int): Division
     allDivision: [Division]
 
 
-  Position(position_id: Int): Position
+  Position(id: Int): Position
     allPosition: [Position]
 
-  Siteinfo(site_info_id: Int): Siteinfo
+  Siteinfo(id: Int): Siteinfo
     allSiteinfo: [Siteinfo]
 
-  Surveytype(survey_id: Int): Surveytype
+  Surveytype(id: Int): Surveytype
     allSurveytype: [Surveytype]
 
 } 
 
 type Contact {
-  contact_id: Int,
+  id: Int,
   first_name: String,
   last_name: String,
   position: String,
@@ -91,7 +91,7 @@ type Contact {
 }
 
 type Sitename {
-  site_id: Int
+  id: Int
   site_name: String 
 }
 
@@ -110,18 +110,18 @@ type Receiver {
 }
 
 type Charger {
-  ps_id: Int
+  id: Int
   ps_serial_number: String
   comment : String
 }
 
 type Associated {
-  agency_id: Int
+  id: Int
   associated_name : String
 }
 
 type Field {
-  fieldwork_id: Int
+  id: Int
   first_date : String
   last_date: String
   logistical_note_id : Int
@@ -129,7 +129,7 @@ type Field {
 }
 
 type Gallery {
-  gallery_id: Int
+  id: Int
   gallery_name : String
   image_name: String
 }
@@ -153,7 +153,7 @@ type GPSCont {
 }
 
 type Staff {
-  staf_id: Int
+  id: Int
   first_name: String
   last_name: String
   nickname: String
@@ -166,7 +166,7 @@ type Staff {
 }
 
 type Logistic {
-  logistical_note_id: Int
+  id: Int
   accessibility: String
   site_stability: String
   construction_dev_plans: String
@@ -175,7 +175,7 @@ type Logistic {
 }
 
 type Logsheet {
-  logsheet_id:  Int   
+  id:  Int   
   fieldwork_id:  Int   
   site_name:  String   
   survey_type:  String   
@@ -215,23 +215,23 @@ type Logsheet {
 }
 
 type Observer {
-  observer_id: Int
+  id: Int
   staff_id: Int
   fieldwork_id: Int
 }
 
 type Division {
-  division_id: Int
+  id: Int
   division: String
 }
 
 type Position {
-position_id: Int
+id: Int
 position_name : String
 }
 
 type Siteinfo {
-  site_info_id: Int
+  id: Int
   site_name: String
   last_update: Date
   latitude: Double
@@ -248,7 +248,7 @@ type Siteinfo {
 }
 
 type Surveytype {
-  survey_id: Int
+  id: Int
   survey_type_info : String
 }
 
