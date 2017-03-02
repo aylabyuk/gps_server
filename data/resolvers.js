@@ -20,9 +20,7 @@ import { Contact,
 const resolvers = {
   Mutation: {
     createContact(_, args) {
-      Contact.create(args).then((insertedContact) => {
-        return insertedContact.dataValues;
-      });
+      return Contact.create(args);
     },
   },
   Query: {
