@@ -14,7 +14,14 @@ const ContactModel = db.define('contact_person', {
   contact_id: { type: Sequelize.INTEGER, primaryKey: true },
   first_name: { type: Sequelize.STRING },
   last_name: { type: Sequelize.STRING },
+  position: { type: Sequelize.STRING },
   contact_number: { type: Sequelize.STRING },
+  organization: { type: Sequelize.STRING },
+  email_add: { type: Sequelize.STRING },
+  address_one: { type: Sequelize.STRING },
+  address_two: { type: Sequelize.STRING },
+  city: { type: Sequelize.STRING },
+  province: { type: Sequelize.STRING },
 }, { timestamps: false, freezeTableName: true });
 
 const AntennaModel = db.define('antenna_information', {

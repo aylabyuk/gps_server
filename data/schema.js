@@ -3,6 +3,23 @@ scalar Date
 scalar Time
 scalar Double
 
+type Mutation {
+
+  createContact(
+    first_name: String!,
+    last_name: String!,
+    position: String,
+    contact_number: String!,
+    organization: String,
+    email_add: String,
+    address_one: String,
+    address_two: String,
+    city: String,
+    province: String,
+  ) : Contact
+
+}
+
 type Query {
 
   Sitename(site_id: Int, site_name: String): Sitename
@@ -19,7 +36,6 @@ type Query {
 
   Charger(ps_id: Int, ps_serial_number: String): Charger
     allCharger: [Charger]
-
 
   Associated(agency_id: Int, associated_name: String): Associated
     allAssociated: [Associated]
@@ -61,10 +77,17 @@ type Query {
 } 
 
 type Contact {
-  contact_id: Int
-  first_name: String
-  last_name: String
-  contact_number: String
+  contact_id: Int,
+  first_name: String,
+  last_name: String,
+  position: String,
+  contact_number: String,
+  organization: String,
+  email_add: String,
+  address_one: String,
+  address_two: String,
+  city: String,
+  province: String,
 }
 
 type Sitename {
@@ -231,6 +254,7 @@ type Surveytype {
 
 schema {
   query: Query
+  mutation: Mutation
 }`];
 
 export default typeDefs;

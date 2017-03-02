@@ -18,6 +18,13 @@ import { Contact,
       } from './connectors';
 
 const resolvers = {
+  Mutation: {
+    createContact(_, args) {
+      Contact.create(args).then((insertedContact) => {
+        return insertedContact.dataValues;
+      });
+    },
+  },
   Query: {
     Sitename(_, args) {
       return Sitename.find({ where: args });
