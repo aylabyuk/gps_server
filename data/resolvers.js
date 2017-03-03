@@ -17,10 +17,20 @@ import { Contact,
         Surveytype,
       } from './connectors';
 
+import { pubsub } from '../subscriptions';
+
 const resolvers = {
   Mutation: {
     createContact(_, args) {
-      return Contact.create(args);
+      return Contact.create(args)
+        .then((newcontact) => {
+          pubsub.publish('contactCreated', newcontact);
+        });
+    },
+  },
+  Subscription: {
+    contactCreated(contact) {
+      return contact;
     },
   },
   Query: {

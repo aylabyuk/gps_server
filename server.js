@@ -1,7 +1,7 @@
 import express from 'express';
 import Schema from './data/schema';
 import Resolvers from './data/resolvers';
-// import Mocks from './data/mocks';
+// import { server } from './ws-server';
 
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import { makeExecutableSchema } from 'graphql-tools';
@@ -46,3 +46,5 @@ graphQLServer.use('/graphiql', graphiqlExpress({
 graphQLServer.listen(GRAPHQL_PORT, () => console.log(
   `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}/graphql`
 ));
+
+// server.start();
