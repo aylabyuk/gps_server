@@ -13,7 +13,7 @@ import { Contact,
         Observer,
         Division,
         Position,
-        Siteinfo,
+        Site,
         Surveytype,
       } from './connectors';
 
@@ -121,11 +121,11 @@ const resolvers = {
     allPosition() {
       return Position.findAll();
     },
-    Siteinfo(_, args) {
-      return Siteinfo.find({ where: args });
+    Site(_, args) {
+      return Site.find({ where: args });
     },
-    allSiteinfo() {
-      return Siteinfo.findAll();
+    allSite() {
+      return Site.findAll();
     },
     Surveytype(_, args) {
       return Surveytype.find({ where: args });
