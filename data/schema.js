@@ -3,6 +3,10 @@ scalar Date
 scalar Time
 scalar Double
 
+type Subscription {
+  contactCreated: Contact
+}
+
 type Mutation {
 
   createContact(
@@ -68,8 +72,8 @@ type Query {
   Position(id: Int): Position
     allPosition: [Position]
 
-  Siteinfo(id: Int): Siteinfo
-    allSiteinfo: [Siteinfo]
+  Site(id: Int): Site
+    allSite: [Site]
 
   Surveytype(id: Int): Surveytype
     allSurveytype: [Surveytype]
@@ -230,7 +234,7 @@ id: Int
 position_name : String
 }
 
-type Siteinfo {
+type Site {
   id: Int
   site_name: String
   last_update: Date
@@ -255,6 +259,7 @@ type Surveytype {
 schema {
   query: Query
   mutation: Mutation
+  subscription: Subscription
 }`];
 
 export default typeDefs;

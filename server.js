@@ -26,7 +26,7 @@ const corsOptions = {
 graphQLServer.use(cors(corsOptions));
 
 
-const executableSchema = makeExecutableSchema({
+export const executableSchema = makeExecutableSchema({
   typeDefs: Schema,
   resolvers: Resolvers,
   allowUndefinedInResolve: false,
