@@ -8,6 +8,8 @@ import { makeExecutableSchema } from 'graphql-tools';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
+import { server } from './ws-server';
+
 const GRAPHQL_PORT = 4000;
 
 const graphQLServer = express();
@@ -47,4 +49,3 @@ graphQLServer.listen(GRAPHQL_PORT, () => console.log(
   `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}/graphql`
 ));
 
-// server.start();
