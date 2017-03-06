@@ -30,6 +30,7 @@ const resolvers = {
   },
   Subscription: {
     contactCreated(contact) {
+      console.log('pub sub test');
       return contact;
     },
   },

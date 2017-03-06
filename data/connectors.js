@@ -12,14 +12,14 @@ const SiteNameModel = db.define('site_name', {
 const ContactModel = db.define('contact_person', {
   first_name: { type: Sequelize.STRING, allowNull: false },
   last_name: { type: Sequelize.STRING, allowNull: false },
-  position: { type: Sequelize.STRING, allowNull: false },
+  position: { type: Sequelize.STRING },
   contact_number: { type: Sequelize.STRING, allowNull: false },
-  organization: { type: Sequelize.STRING, allowNull: false },
-  email_add: { type: Sequelize.STRING, unique: true, allowNull: false },
+  organization: { type: Sequelize.STRING },
+  email_add: { type: Sequelize.STRING, unique: true },
   address_one: { type: Sequelize.STRING },
   address_two: { type: Sequelize.STRING },
-  city: { type: Sequelize.STRING, allowNull: false },
-  province: { type: Sequelize.STRING, allowNull: false },
+  city: { type: Sequelize.STRING },
+  province: { type: Sequelize.STRING },
 });
 
 const AntennaModel = db.define('antenna', {
