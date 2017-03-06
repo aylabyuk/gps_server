@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.2
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 02, 2017 at 04:11 PM
--- Server version: 10.1.13-MariaDB
--- PHP Version: 5.6.20
+-- Host: 127.0.0.1
+-- Generation Time: Mar 06, 2017 at 09:57 AM
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -86,14 +86,14 @@ CREATE TABLE `contact_people` (
   `id` int(11) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `position` varchar(255) NOT NULL,
+  `position` varchar(255) DEFAULT NULL,
   `contact_number` varchar(255) NOT NULL,
-  `organization` varchar(255) NOT NULL,
-  `email_add` varchar(255) NOT NULL,
+  `organization` varchar(255) DEFAULT NULL,
+  `email_add` varchar(255) DEFAULT NULL,
   `address_one` varchar(255) DEFAULT NULL,
   `address_two` varchar(255) DEFAULT NULL,
-  `city` varchar(255) NOT NULL,
-  `province` varchar(255) NOT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `province` varchar(255) DEFAULT NULL,
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -605,7 +605,8 @@ INSERT INTO `contact_people` (`id`, `first_name`, `last_name`, `position`, `cont
 (498, 'Daniel', 'Hicks', 'Sales', '1-(330)797-7607', 'Linklinks', 'dhicksdt@fc2.com', '38235 Hollow Ridge Drive', '367 Schurz Center', 'Canton', 'Ohio', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (499, 'Lori', 'Alexander', 'Business Development', '1-(801)339-8472', 'Aivee', 'lalexanderdu@mail.ru', '0 Butternut Avenue', '0 Bluejay Drive', 'Salt Lake City', 'Utah', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (500, 'Lillian', 'Owens', 'Marketing', '1-(813)660-3317', 'Mymm', 'lowensdv@hud.gov', '95334 Union Point', '74 Mallory Junction', 'Tampa', 'Florida', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(501, 'Oriel Vinci', 'Absin', 'Job Order', '09268199760', 'Phivolcs', 'oriel.absin@gmail.com', 'address one test', 'address two test', 'Quezon City', 'Metro Manila', '2017-03-02 14:45:20', '2017-03-02 14:45:20');
+(502, 'Oriel Vinci', 'Absin', 'Job Order', '09268199760', 'Phivolcs', 'oriel.absin@gmail.com', 'address one test', 'address two test', 'Quezon City', 'Metro Manila', '2017-03-03 05:15:53', '2017-03-03 05:15:53'),
+(513, 'bbbb', 'aaaa', NULL, '11112223333', NULL, NULL, NULL, NULL, NULL, NULL, '2017-03-06 07:15:56', '2017-03-06 07:15:56');
 
 -- --------------------------------------------------------
 
@@ -870,7 +871,6 @@ INSERT INTO `receivers` (`id`, `serial_number`, `type`, `part_number`, `createdA
 CREATE TABLE `sites` (
   `id` int(11) NOT NULL,
   `site_name` varchar(255) NOT NULL,
-  `last_update` datetime DEFAULT NULL,
   `latitude` double DEFAULT NULL,
   `longitude` double DEFAULT NULL,
   `receiver_sn` varchar(255) DEFAULT NULL,
@@ -1487,7 +1487,7 @@ ALTER TABLE `associated_agencies`
 -- AUTO_INCREMENT for table `contact_people`
 --
 ALTER TABLE `contact_people`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=502;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=514;
 --
 -- AUTO_INCREMENT for table `fieldworks`
 --
