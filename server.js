@@ -1,7 +1,6 @@
 import express from 'express';
 import Schema from './data/schema';
 import Resolvers from './data/resolvers';
-// import { server } from './ws-server';
 
 import { apolloExpress, graphiqlExpress } from 'apollo-server';
 import { makeExecutableSchema } from 'graphql-tools';

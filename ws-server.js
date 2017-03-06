@@ -2,7 +2,7 @@ import { createServer } from 'http';
 import { subscriptionManager } from './subscriptions';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 
-const WS_PORT = 5000;
+const WS_PORT = process.env.WS_PORT || 5000;
 
 const websocketServer = createServer((request, response) => {
   response.writeHead(404);

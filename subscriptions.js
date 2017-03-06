@@ -1,9 +1,14 @@
 import { PubSub, SubscriptionManager } from 'graphql-subscriptions';
-import { executableSchema as schema } from './server';
+import { executableSchema } from './server';
 
 const pubsub = new PubSub();
 const subscriptionManager = new SubscriptionManager({
-  schema,
+  schema: executableSchema,
   pubsub,
+  setupFunctions: {
+    contactCreated: () => ({
+      contactCreated: () => true,
+    }),
+  },
 });
 export { subscriptionManager, pubsub };
