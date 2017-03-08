@@ -15,21 +15,39 @@ import { Contact,
         Position,
         Site,
         Surveytype,
-      } from './connectors';
+      } from '../sql/connector';
 
-import { pubsub } from '../subscriptions';
+import { pubsub } from './schema';
 
 const resolvers = {
   Mutation: {
     createContact(_, args) {
       return Contact.create(args)
         .then((newcontact) => {
-          pubsub.publish('contactCreated', newcontact);
+          pubsub.publish('contactCreated', newcontact.dataValues);
+          return newcontact;
+        }).catch(err => {
+          console.error(err);
+          return err;
+        });
+    },
+    deleteContact(_, args) {
+      return Contact.destroy({ where: args })
+        .then((success) => {
+          console.log('success', success);
+          console.log('id', args);
+          pubsub.publish('contactDeleted', args);
+          return args.id;
         });
     },
   },
   Subscription: {
+    contactDeleted(args) {
+      console.log('contact deleted with id ', args.id);
+      return args.id;
+    },
     contactCreated(contact) {
+      console.log('new contact created', contact);
       return contact;
     },
   },
@@ -88,37 +106,30 @@ const resolvers = {
     allGPSCont() {
       return GPSCont.findAll();
     },
-
     Staff(_, args) {
       return Staff.find({ where: args });
     },
     allStaff() {
       return Staff.findAll();
     },
-
-
     Logistic(_, args) {
       return Logistic.find({ where: args });
     },
     allLogistic() {
       return Logistic.findAll();
     },
-
-
     Logsheet(_, args) {
       return Logsheet.find({ where: args });
     },
     allLogsheet() {
       return Logsheet.findAll();
     },
-
     Observer(_, args) {
       return Observer.find({ where: args });
     },
     allObserver() {
       return Observer.findAll();
     },
-
     Division(_, args) {
       return Division.find({ where: args });
     },
@@ -143,7 +154,6 @@ const resolvers = {
     allSurveytype() {
       return Surveytype.findAll();
     },
-
 // input more query at the top of this comment
   },
 };

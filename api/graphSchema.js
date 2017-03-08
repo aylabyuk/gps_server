@@ -1,14 +1,15 @@
 const typeDefs = [`
+
 scalar Date
 scalar Time
 scalar Double
 
 type Subscription {
-  contactCreated: Contact
+  contactCreated: Contact,
+  contactDeleted: ID
 }
 
 type Mutation {
-
   createContact(
     first_name: String!,
     last_name: String!,
@@ -22,66 +23,69 @@ type Mutation {
     province: String,
   ) : Contact
 
+  deleteContact(
+    id: ID
+  ) : ID
+
 }
 
 type Query {
 
-  Sitename(id: Int, site_name: String): Sitename
+  Sitename(id: ID, site_name: String): Sitename
     allSitename(limit: Int, offset: Int): [Sitename]
 
-  Contact(id: Int, first_name: String, last_name: String): Contact
+  Contact(id: ID, first_name: String, last_name: String): Contact
     allContact(limit: Int, offset: Int, order: String): [Contact]
 
-  Antenna(id: Int, serial_number: String, type: String, part_number: String): Antenna
+  Antenna(id: ID, serial_number: String, type: String, part_number: String): Antenna
     allAntenna: [Antenna]
 
-  Receiver(id: Int, serial_number: String, type: String, part_number: String): Receiver
+  Receiver(id: ID, serial_number: String, type: String, part_number: String): Receiver
     allReceiver: [Receiver]
 
-  Charger(id: Int, ps_serial_number: String): Charger
+  Charger(id: ID, ps_serial_number: String): Charger
     allCharger: [Charger]
 
-  Associated(id: Int, associated_name: String): Associated
+  Associated(id: ID, associated_name: String): Associated
     allAssociated: [Associated]
 
-  Field(id: Int, first_date: String, last_date: String, logistical_note_id: Int, others: String): Field
+  Field(id: ID, first_date: String, last_date: String, logistical_note_id: ID, others: String): Field
     allField: [Field]
 
-  Gallery(id: Int, gallery_name: String, image_name: String): Gallery
+  Gallery(id: ID, gallery_name: String, image_name: String): Gallery
     allGallery: [Gallery]
 
-  GPSCont(id: Int): GPSCont
+  GPSCont(id: ID): GPSCont
     allGPSCont: [GPSCont]
 
-  Staff(first_name: String, last_name: String, id: Int): Staff
+  Staff(first_name: String, last_name: String, id: ID): Staff
     allStaff: [Staff]
 
-  Logistic(id: Int): Logistic
+  Logistic(id: ID): Logistic
     allLogistic: [Logistic]
 
-  Logsheet(id: Int): Logsheet
+  Logsheet(id: ID): Logsheet
     allLogsheet: [Logsheet]
 
-  Observer(id: Int): Observer
+  Observer(id: ID): Observer
     allObserver: [Observer]
 
-  Division(id: Int): Division
+  Division(id: ID): Division
     allDivision: [Division]
 
-
-  Position(id: Int): Position
+  Position(id: ID): Position
     allPosition: [Position]
 
-  Site(id: Int): Site
+  Site(id: ID): Site
     allSite: [Site]
 
-  Surveytype(id: Int): Surveytype
+  Surveytype(id: ID): Surveytype
     allSurveytype: [Surveytype]
 
 } 
 
 type Contact {
-  id: Int,
+  id: ID,
   first_name: String,
   last_name: String,
   position: String,
@@ -95,53 +99,53 @@ type Contact {
 }
 
 type Sitename {
-  id: Int
+  id: ID
   site_name: String 
 }
 
 type Antenna {
-  id: Int
+  id: ID
   serial_number: String
   type: String
   part_number: String
 }
 
 type Receiver {
-  id: Int
+  id: ID
   serial_number: String
   type: String
   part_number: String
 }
 
 type Charger {
-  id: Int
+  id: ID
   ps_serial_number: String
   comment : String
 }
 
 type Associated {
-  id: Int
+  id: ID
   associated_name : String
 }
 
 type Field {
-  id: Int
+  id: ID
   first_date : String
   last_date: String
-  logistical_note_id : Int
+  logistical_note_id : ID
   others: String
 }
 
 type Gallery {
-  id: Int
+  id: ID
   gallery_name : String
   image_name: String
 }
 
 type GPSCont {
-  id: Int
+  id: ID
   site_name: String
-  fieldwork_id: Int
+  fieldwork_id: ID
   update_date: String
   update_time: Time
   p_receiver_sn: String
@@ -157,7 +161,7 @@ type GPSCont {
 }
 
 type Staff {
-  id: Int
+  id: ID
   first_name: String
   last_name: String
   nickname: String
@@ -170,7 +174,7 @@ type Staff {
 }
 
 type Logistic {
-  id: Int
+  id: ID
   accessibility: String
   site_stability: String
   construction_dev_plans: String
@@ -179,8 +183,8 @@ type Logistic {
 }
 
 type Logsheet {
-  id:  Int   
-  fieldwork_id:  Int   
+  id:  ID   
+  fieldwork_id:  ID   
   site_name:  String   
   survey_type:  String   
   logsheet_date:  String   
@@ -196,7 +200,7 @@ type Logsheet {
   time_start:  Time   
   time_end:  Time   
   azimuth:  Int   
-  scan_log_id:  Int   
+  scan_log_id:  ID   
   power_source_serialnumber:  String   
   failure_time:  Time   
   receiver_status:  String   
@@ -211,7 +215,7 @@ type Logsheet {
   local_tcp_port:  String   
   latitude:  Double   
   longitude:  Double   
-  site_sketch_id:  Int   
+  site_sketch_id:  ID   
   observed_situation:  String   
   lodging_road_information:  String   
   contact_id:  Int   
@@ -219,23 +223,23 @@ type Logsheet {
 }
 
 type Observer {
-  id: Int
-  staff_id: Int
-  fieldwork_id: Int
+  id: ID
+  staff_id: ID
+  fieldwork_id: ID
 }
 
 type Division {
-  id: Int
+  id: ID
   division: String
 }
 
 type Position {
-id: Int
+id: ID
 position_name : String
 }
 
 type Site {
-  id: Int
+  id: ID
   site_name: String
   last_update: Date
   latitude: Double
@@ -243,7 +247,7 @@ type Site {
   receiver_sn: String
   antenna_sn: String
   powersource_sn: String
-  contact_id: Int
+  contact_id: ID
   address_one: String
   address_two: String
   city: String
@@ -252,7 +256,7 @@ type Site {
 }
 
 type Surveytype {
-  id: Int
+  id: ID
   survey_type_info : String
 }
 
@@ -260,6 +264,8 @@ schema {
   query: Query
   mutation: Mutation
   subscription: Subscription
-}`];
+}
+
+`];
 
 export default typeDefs;
