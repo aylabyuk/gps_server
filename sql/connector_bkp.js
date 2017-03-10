@@ -1,25 +1,9 @@
 import Sequelize from 'sequelize';
-let db = null;
 
-if (!global.hasOwnProperty('db')) {
-
-  if (process.env.HEROKU_POSTGRESQL_WHITE_URL) {
-    // the application is executed on Heroku ... use the postgres database
-    db = new Sequelize(process.env.HEROKU_POSTGRESQL_WHITE_URL, {
-      dialect: 'postgres',
-      protocol: 'postgres',
-      port: match[4],
-      host: match[3],
-      logging: true, // false
-    });
-  } else {
-    // the application is executed on the local machine ... use mysql
-    db = new Sequelize('gps_db', 'root', '', {
-      host: 'localhost',
-      port: '3306',
-    });
-  }
-}
+const db = new Sequelize('gps_db', 'root', '', {
+  host: 'localhost',
+  port: '3306',
+});
 
 const SiteNameModel = db.define('site_name', {
   site_name: { type: Sequelize.STRING, unique: true, allowNull: false },
@@ -224,4 +208,3 @@ export {
   Site,
   Surveytype,
 };
-
