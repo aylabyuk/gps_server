@@ -189,8 +189,8 @@ const resolvers = {
     },
   }),
   Time: new GraphQLScalarType({
-    name: 'Time',
-    description: 'Time custom scalar type',
+    name: 'Date',
+    description: 'Date custom scalar type',
     parseValue(value) {
       return new Date(value).getTime();
     },

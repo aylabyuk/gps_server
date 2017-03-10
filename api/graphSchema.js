@@ -43,10 +43,10 @@ type Mutation {
     east:  Float   
     south:  Float   
     west:  Float   
-    time_start:  Time   
-    time_end:  Time   
+    time_start:  Date   
+    time_end:  Date   
     azimuth:  Int   
-    failure_time:  Time   
+    failure_time:  Date   
     receiver_status:  String   
     antenna_status:  String   
     rod_num:  Int   
