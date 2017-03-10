@@ -1,1 +1,1 @@
-web node api_server
+web babel-node api_server
