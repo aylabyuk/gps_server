@@ -121,7 +121,7 @@ const LogsheetModel = db.define('logsheet', {
   gateway: { type: Sequelize.STRING },
   dns: { type: Sequelize.STRING },
   local_tcp_port: { type: Sequelize.STRING },
-  lattitude: { type: Sequelize.FLOAT },
+  latitude: { type: Sequelize.FLOAT },
   longitude: { type: Sequelize.FLOAT },
   site_sketch_id: { type: Sequelize.INTEGER },
   observed_situation: { type: Sequelize.STRING },

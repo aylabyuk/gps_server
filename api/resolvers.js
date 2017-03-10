@@ -188,6 +188,22 @@ const resolvers = {
       return null;
     },
   }),
+  Time: new GraphQLScalarType({
+    name: 'Time',
+    description: 'Time custom scalar type',
+    parseValue(value) {
+      return new Date(value).getTime();
+    },
+    serialize(value) {
+      return value;
+    },
+    parseLiteral(ast) {
+      if (ast.kind === Kind.INT) {
+        return parseInt(ast.value, 10);
+      }
+      return null;
+    },
+  }),
 };
 
 
