@@ -167,9 +167,9 @@ const SurveytypeModel = db.define('survey_type', {
 });
 
 // uncommment this lines below to create the database tables
-// db.sync({
-//   logging: console.log,
-// });
+db.sync({
+  logging: console.log,
+});
 
 const Sitename = db.models.site_name;
 const Contact = db.models.contact_person;
