@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2017 at 09:57 AM
+-- Generation Time: Mar 13, 2017 at 03:59 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -606,7 +606,12 @@ INSERT INTO `contact_people` (`id`, `first_name`, `last_name`, `position`, `cont
 (499, 'Lori', 'Alexander', 'Business Development', '1-(801)339-8472', 'Aivee', 'lalexanderdu@mail.ru', '0 Butternut Avenue', '0 Bluejay Drive', 'Salt Lake City', 'Utah', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (500, 'Lillian', 'Owens', 'Marketing', '1-(813)660-3317', 'Mymm', 'lowensdv@hud.gov', '95334 Union Point', '74 Mallory Junction', 'Tampa', 'Florida', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
 (502, 'Oriel Vinci', 'Absin', 'Job Order', '09268199760', 'Phivolcs', 'oriel.absin@gmail.com', 'address one test', 'address two test', 'Quezon City', 'Metro Manila', '2017-03-03 05:15:53', '2017-03-03 05:15:53'),
-(513, 'bbbb', 'aaaa', NULL, '11112223333', NULL, NULL, NULL, NULL, NULL, NULL, '2017-03-06 07:15:56', '2017-03-06 07:15:56');
+(513, 'bbbb', 'aaaa', NULL, '11112223333', NULL, NULL, NULL, NULL, NULL, NULL, '2017-03-06 07:15:56', '2017-03-06 07:15:56'),
+(514, 'qqq', 'aaaaaaaaaaaaaaaa', NULL, '1234567', NULL, NULL, NULL, NULL, NULL, NULL, '2017-03-08 01:11:06', '2017-03-08 01:11:06'),
+(515, 'Yu', 'Ab', NULL, '123456', NULL, NULL, NULL, NULL, NULL, NULL, '2017-03-08 01:30:30', '2017-03-08 01:30:30'),
+(516, 'hsshshhs', 'jsjs', NULL, 'hahhah', NULL, NULL, NULL, NULL, NULL, NULL, '2017-03-09 01:26:33', '2017-03-09 01:26:33'),
+(517, '2', '3', NULL, '2313', NULL, NULL, NULL, NULL, NULL, NULL, '2017-03-10 03:58:46', '2017-03-10 03:58:46'),
+(518, 'sadsd', 'aaass', NULL, '233123', NULL, NULL, NULL, NULL, NULL, NULL, '2017-03-10 06:32:12', '2017-03-10 06:32:12');
 
 -- --------------------------------------------------------
 
@@ -718,29 +723,27 @@ CREATE TABLE `logsheets` (
   `marker` varchar(255) NOT NULL,
   `receiver_serialnumber` varchar(255) NOT NULL,
   `antenna_serialnumber` varchar(255) NOT NULL,
-  `height` double DEFAULT NULL,
-  `north` double DEFAULT NULL,
-  `east` double DEFAULT NULL,
-  `south` double DEFAULT NULL,
-  `west` double DEFAULT NULL,
+  `height` float DEFAULT NULL,
+  `north` float DEFAULT NULL,
+  `east` float DEFAULT NULL,
+  `south` float DEFAULT NULL,
+  `west` float DEFAULT NULL,
   `time_start` time NOT NULL,
   `time_end` time NOT NULL,
   `azimuth` int(11) DEFAULT NULL,
-  `scan_log_id` int(11) DEFAULT NULL,
-  `power_source_serialnumber` varchar(255) DEFAULT NULL,
   `failure_time` time DEFAULT NULL,
   `receiver_status` varchar(255) DEFAULT NULL,
   `antenna_status` varchar(255) DEFAULT NULL,
   `rod_num` int(11) DEFAULT NULL,
   `rod_correction` int(11) DEFAULT NULL,
-  `avg_slant_height` double DEFAULT NULL,
+  `avg_slant_height` float DEFAULT NULL,
   `ip_add` varchar(255) DEFAULT NULL,
   `netmask` varchar(255) DEFAULT NULL,
   `gateway` varchar(255) DEFAULT NULL,
   `dns` varchar(255) DEFAULT NULL,
   `local_tcp_port` varchar(255) DEFAULT NULL,
-  `lattitude` double DEFAULT NULL,
-  `longitude` double DEFAULT NULL,
+  `lattitude` float DEFAULT NULL,
+  `longitude` float DEFAULT NULL,
   `site_sketch_id` int(11) DEFAULT NULL,
   `observed_situation` varchar(255) DEFAULT NULL,
   `lodging_road_information` varchar(255) DEFAULT NULL,
@@ -749,6 +752,13 @@ CREATE TABLE `logsheets` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `logsheets`
+--
+
+INSERT INTO `logsheets` (`id`, `fieldwork_id`, `site_name`, `survey_type`, `logsheet_date`, `julian_day`, `marker`, `receiver_serialnumber`, `antenna_serialnumber`, `height`, `north`, `east`, `south`, `west`, `time_start`, `time_end`, `azimuth`, `failure_time`, `receiver_status`, `antenna_status`, `rod_num`, `rod_correction`, `avg_slant_height`, `ip_add`, `netmask`, `gateway`, `dns`, `local_tcp_port`, `lattitude`, `longitude`, `site_sketch_id`, `observed_situation`, `lodging_road_information`, `contact_id`, `others`, `createdAt`, `updatedAt`) VALUES
+(7, 0, 'ABLA', 'campaign', '2017-03-08 16:00:00', 68, '22', '4912167239', '123456789', 0, 0, 0, 0, 0, '00:00:00', '00:00:00', 123, '00:00:00', '2321', '213', 2, 3, 0, '123', '32', '123', '123', '123', NULL, 0, NULL, '4324', '4324', 515, NULL, '2017-03-10 08:20:27', '2017-03-10 08:20:27');
 
 -- --------------------------------------------------------
 
@@ -1487,7 +1497,7 @@ ALTER TABLE `associated_agencies`
 -- AUTO_INCREMENT for table `contact_people`
 --
 ALTER TABLE `contact_people`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=514;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=519;
 --
 -- AUTO_INCREMENT for table `fieldworks`
 --
@@ -1517,7 +1527,7 @@ ALTER TABLE `logistical_notes`
 -- AUTO_INCREMENT for table `logsheets`
 --
 ALTER TABLE `logsheets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `observers`
 --
