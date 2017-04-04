@@ -2,7 +2,7 @@ const typeDefs = [`
 
 scalar Date
 scalar Time
-scalar Double
+scalar Float
 
 type Subscription {
   contactCreated: Contact,
@@ -191,8 +191,8 @@ type GPSCont {
   updated_receiver_sn: String
   p_antenna_sn: String
   updated_antenna_sn: String
-  p_antenna_height: Double
-  updated_antenna_height: Double
+  p_antenna_height: Float
+  updated_antenna_height: Float
   power_failure: Boolean
   battery_condition: String
   charger_status: String
@@ -231,11 +231,11 @@ type Logsheet {
   marker:  String   
   receiver_serialnumber:  String   
   antenna_serialnumber:  String   
-  height:  Double   
-  north:  Double   
-  east:  Double   
-  south:  Double   
-  west:  Double   
+  height:  Float   
+  north:  Float   
+  east:  Float   
+  south:  Float   
+  west:  Float   
   time_start:  Time   
   time_end:  Time   
   azimuth:  Int   
@@ -246,14 +246,14 @@ type Logsheet {
   antenna_status:  String   
   rod_num:  Int   
   rod_correction:  Int   
-  avg_slant_height:  Double   
+  avg_slant_height:  Float   
   ip_add:  String   
   netmask:  String   
   gateway:  String   
   dns:  String   
   local_tcp_port:  String   
-  latitude:  Double   
-  longitude:  Double   
+  latitude:  Float   
+  longitude:  Float   
   site_sketch_id:  ID   
   observed_situation:  String   
   lodging_road_information:  String   
@@ -281,8 +281,8 @@ type Site {
   id: ID
   site_name: String
   last_update: Date
-  latitude: Double
-  longitude: Double
+  latitude: Float
+  longitude: Float
   receiver_sn: String
   antenna_sn: String
   powersource_sn: String
