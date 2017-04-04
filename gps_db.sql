@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2017 at 03:59 AM
+-- Generation Time: Apr 04, 2017 at 11:12 AM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -723,11 +723,11 @@ CREATE TABLE `logsheets` (
   `marker` varchar(255) NOT NULL,
   `receiver_serialnumber` varchar(255) NOT NULL,
   `antenna_serialnumber` varchar(255) NOT NULL,
-  `height` float DEFAULT NULL,
-  `north` float DEFAULT NULL,
-  `east` float DEFAULT NULL,
-  `south` float DEFAULT NULL,
-  `west` float DEFAULT NULL,
+  `height` double DEFAULT NULL,
+  `north` double DEFAULT NULL,
+  `east` double DEFAULT NULL,
+  `south` double DEFAULT NULL,
+  `west` double DEFAULT NULL,
   `time_start` time NOT NULL,
   `time_end` time NOT NULL,
   `azimuth` int(11) DEFAULT NULL,
@@ -742,8 +742,8 @@ CREATE TABLE `logsheets` (
   `gateway` varchar(255) DEFAULT NULL,
   `dns` varchar(255) DEFAULT NULL,
   `local_tcp_port` varchar(255) DEFAULT NULL,
-  `lattitude` float DEFAULT NULL,
-  `longitude` float DEFAULT NULL,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
   `site_sketch_id` int(11) DEFAULT NULL,
   `observed_situation` varchar(255) DEFAULT NULL,
   `lodging_road_information` varchar(255) DEFAULT NULL,
@@ -757,22 +757,8 @@ CREATE TABLE `logsheets` (
 -- Dumping data for table `logsheets`
 --
 
-INSERT INTO `logsheets` (`id`, `fieldwork_id`, `site_name`, `survey_type`, `logsheet_date`, `julian_day`, `marker`, `receiver_serialnumber`, `antenna_serialnumber`, `height`, `north`, `east`, `south`, `west`, `time_start`, `time_end`, `azimuth`, `failure_time`, `receiver_status`, `antenna_status`, `rod_num`, `rod_correction`, `avg_slant_height`, `ip_add`, `netmask`, `gateway`, `dns`, `local_tcp_port`, `lattitude`, `longitude`, `site_sketch_id`, `observed_situation`, `lodging_road_information`, `contact_id`, `others`, `createdAt`, `updatedAt`) VALUES
-(7, 0, 'ABLA', 'campaign', '2017-03-08 16:00:00', 68, '22', '4912167239', '123456789', 0, 0, 0, 0, 0, '00:00:00', '00:00:00', 123, '00:00:00', '2321', '213', 2, 3, 0, '123', '32', '123', '123', '123', NULL, 0, NULL, '4324', '4324', 515, NULL, '2017-03-10 08:20:27', '2017-03-10 08:20:27');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `observers`
---
-
-CREATE TABLE `observers` (
-  `id` int(11) NOT NULL,
-  `staff_id` int(11) NOT NULL,
-  `fieldwork_id` int(11) NOT NULL,
-  `createdAt` datetime NOT NULL,
-  `updatedAt` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+INSERT INTO `logsheets` (`id`, `fieldwork_id`, `site_name`, `survey_type`, `logsheet_date`, `julian_day`, `marker`, `receiver_serialnumber`, `antenna_serialnumber`, `height`, `north`, `east`, `south`, `west`, `time_start`, `time_end`, `azimuth`, `failure_time`, `receiver_status`, `antenna_status`, `rod_num`, `rod_correction`, `avg_slant_height`, `ip_add`, `netmask`, `gateway`, `dns`, `local_tcp_port`, `latitude`, `longitude`, `site_sketch_id`, `observed_situation`, `lodging_road_information`, `contact_id`, `others`, `createdAt`, `updatedAt`) VALUES
+(10, 0, 'COTF', 'campaign', '2017-04-04 05:46:49', 94, 'pivs', '123456789', '123456789', 4, 1.543434, 1.453442, 1.6565656, 1.343434434, '08:25:43', '08:27:46', 34, '13:26:49', 'status 1', 'status 2', 2, 43, 1.12313, '192.168.1.1', '255.255.255.0', '255.255.255.0', '255.255.255.0', '34', 324234, 324234234, NULL, 'observation', 'lodging', 3, NULL, '2017-04-04 06:10:13', '2017-04-04 06:10:13');
 
 -- --------------------------------------------------------
 
@@ -787,6 +773,16 @@ CREATE TABLE `office_divisions` (
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `office_divisions`
+--
+
+INSERT INTO `office_divisions` (`id`, `division`, `createdAt`, `updatedAt`) VALUES
+(1, 'GGRDD', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(2, 'SOEPD', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(3, 'VMEPD', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(4, 'ADMIN/SCIENCE AIDE', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -799,6 +795,22 @@ CREATE TABLE `positions` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `positions`
+--
+
+INSERT INTO `positions` (`id`, `position_name`, `createdAt`, `updatedAt`) VALUES
+(5, 'Associate Scientist', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(6, 'SRSI', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(7, 'SRSII', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(8, 'SR Analyst', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(9, 'SR Assistant', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(10, 'Senior SRS', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(11, 'Job Order', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(12, 'Science Aide', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(13, 'Science Aide III', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(14, 'Science Aide IV', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -1424,12 +1436,6 @@ ALTER TABLE `logsheets`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `observers`
---
-ALTER TABLE `observers`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `office_divisions`
 --
 ALTER TABLE `office_divisions`
@@ -1527,22 +1533,17 @@ ALTER TABLE `logistical_notes`
 -- AUTO_INCREMENT for table `logsheets`
 --
 ALTER TABLE `logsheets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT for table `observers`
---
-ALTER TABLE `observers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `office_divisions`
 --
 ALTER TABLE `office_divisions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `positions`
 --
 ALTER TABLE `positions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `power_sources`
 --
