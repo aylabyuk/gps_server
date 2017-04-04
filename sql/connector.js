@@ -146,13 +146,6 @@ const LogsheetModel = db.define('logsheet', {
   others: { type: Sequelize.STRING },
 });
 
-
-const ObserverModel = db.define('observer', {
-  staff_id: { type: Sequelize.INTEGER, allowNull: false },
-  fieldwork_id: { type: Sequelize.INTEGER, allowNull: false },
-});
-
-
 const DivisionModel = db.define('office_division', {
   division: { type: Sequelize.STRING, allowNull: false },
 });
@@ -199,7 +192,6 @@ const GPSCont = db.models.gps_cont;
 const Staff = db.models.gps_staff;
 const Logistic = db.models.logistical_note;
 const Logsheet = db.models.logsheet;
-const Observer = db.models.observer;
 const Division = db.models.office_division;
 const Position = db.models.position;
 const Site = db.models.site;
@@ -218,7 +210,6 @@ export {
   Staff,
   Logistic,
   Logsheet,
-  Observer,
   Division,
   Position,
   Site,

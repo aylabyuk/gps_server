@@ -66,6 +66,18 @@ type Mutation {
     others:  String   
   ) : Logsheet
 
+  createStaff(
+    first_name: String
+    last_name: String
+    nickname: String
+    position_name: String
+    contact_num: Int
+    division_name: String
+    email_address: String
+    office_location: String
+    birthday: String
+  ) : Staff
+
 }
 
 type Query {
@@ -105,9 +117,6 @@ type Query {
 
   Logsheet(id: ID): Logsheet
     allLogsheet: [Logsheet]
-
-  Observer(id: ID): Observer
-    allObserver: [Observer]
 
   Division(id: ID): Division
     allDivision: [Division]

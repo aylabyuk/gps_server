@@ -10,7 +10,6 @@ import { Contact,
         Staff,
         Logistic,
         Logsheet,
-        Observer,
         Division,
         Position,
         Site,
@@ -50,6 +49,15 @@ const resolvers = {
           console.log('id', args);
           pubsub.publish('contactDeleted', args);
           return args.id;
+        });
+    },
+    createStaff(_, args) {
+      return Staff.create(args)
+        .then((newstaff) => {
+          return newstaff;
+        }).catch(err => {
+          console.error(err);
+          return err;
         });
     },
   },
@@ -139,12 +147,6 @@ const resolvers = {
     },
     allLogsheet() {
       return Logsheet.findAll();
-    },
-    Observer(_, args) {
-      return Observer.find({ where: args });
-    },
-    allObserver() {
-      return Observer.findAll();
     },
     Division(_, args) {
       return Division.find({ where: args });

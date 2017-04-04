@@ -1,0 +1,34 @@
+FIELDWORK
+{
+    id: ID 
+    name: STRING
+    first_date: DATE 
+    last_date: DATE 
+    description: STRING 
+    teams: [ TEAM ]
+}
+
+
+TEAM
+{
+    id: ID 
+    name: STRING 
+    members: [ STAFF ]
+    sites: [ SITENAME ]
+}
+
+STAFF
+{
+    id: ID
+    first_name: STRING
+    middle_name: STRING
+    last_name: STRING
+    position: POSITION
+    division: DIVISION
+}
+
+SITENAME
+{
+    id: ID
+    site_name: STRING
+}
