@@ -2,7 +2,6 @@ import Sequelize from 'sequelize';
 let db = null;
 
 if (!global.hasOwnProperty('db')) {
-
   if (process.env.HEROKU_POSTGRESQL_WHITE_URL) {
     // the application is executed on Heroku ... use the postgres database
     db = new Sequelize(process.env.HEROKU_POSTGRESQL_WHITE_URL, {
@@ -92,10 +91,10 @@ const StaffModel = db.define('gps_staff', {
   first_name: { type: Sequelize.STRING, allowNull: false },
   last_name: { type: Sequelize.STRING, allowNull: false },
   nickname: { type: Sequelize.STRING, allowNull: false },
-  position_name: { type: Sequelize.STRING, allowNull: false },
-  contact_num: { type: Sequelize.INTEGER, unique: true, allowNull: false },
-  division_name: { type: Sequelize.STRING, allowNull: false },
-  email_address: { type: Sequelize.STRING, unique: true, allowNull: false },
+  position_id: { type: Sequelize.INTEGER, allowNull: false },
+  contact_num: { type: Sequelize.STRING, unique: true, allowNull: false },
+  division_id: { type: Sequelize.INTEGER, allowNull: false },
+  email_address: { type: Sequelize.STRING, unique: true, allowNull: true },
   office_location: { type: Sequelize.STRING, allowNull: false },
   birthday: { type: Sequelize.DATE, allowNull: false },
 });
@@ -196,6 +195,11 @@ const Division = db.models.office_division;
 const Position = db.models.position;
 const Site = db.models.site;
 const Surveytype = db.models.survey_type;
+
+// relationships
+Division.hasMany(Staff);
+Staff.belongsTo(Division);
+
 
 export {
   Sitename,

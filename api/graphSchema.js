@@ -7,7 +7,8 @@ scalar Float
 type Subscription {
   contactCreated: Contact,
   contactDeleted: ID,
-  logsheetCreated: Logsheet
+  logsheetCreated: Logsheet,
+  staffCreated: Staff
 }
 
 type Mutation {
@@ -70,12 +71,12 @@ type Mutation {
     first_name: String
     last_name: String
     nickname: String
-    position_name: String
-    contact_num: Int
-    division_name: String
+    position_id: Int
+    contact_num: String
+    division_id: Int
     email_address: String
     office_location: String
-    birthday: String
+    birthday: Date
   ) : Staff
 
 }
@@ -213,12 +214,12 @@ type Staff {
   first_name: String
   last_name: String
   nickname: String
-  position_name: String
-  contact_num: Int
-  division_name: String
+  position: Position
+  contact_num: String
+  division: Division
   email_address: String
   office_location: String
-  birthday: String
+  birthday: Date
 }
 
 type Logistic {
@@ -270,20 +271,14 @@ type Logsheet {
   others:  String   
 }
 
-type Observer {
-  id: ID
-  staff_id: ID
-  fieldwork_id: ID
-}
-
 type Division {
   id: ID
   division: String
 }
 
 type Position {
-id: ID
-position_name : String
+  id: ID
+  position_name: String
 }
 
 type Site {

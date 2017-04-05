@@ -54,6 +54,7 @@ const resolvers = {
     createStaff(_, args) {
       return Staff.create(args)
         .then((newstaff) => {
+          // pubsub.publish('staffCreated', newstaff.dataValues);
           return newstaff;
         }).catch(err => {
           console.error(err);
@@ -73,6 +74,10 @@ const resolvers = {
     logsheetCreated(logsheet) {
       console.log('new logsheet created', logsheet);
       return logsheet;
+    },
+    staffCreated(staff) {
+      console.log('new contact created', staff);
+      return staff;
     },
   },
   Query: {
