@@ -273,7 +273,7 @@ type Logsheet {
 
 type Division {
   id: ID
-  division: String
+  division_name: String
 }
 
 type Position {

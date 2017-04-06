@@ -87,13 +87,11 @@ const GPSContModel = db.define('gps_cont', {
   note: { type: Sequelize.STRING },
 });
 
-const StaffModel = db.define('gps_staff', {
+const StaffModel = db.define('staff', {
   first_name: { type: Sequelize.STRING, allowNull: false },
   last_name: { type: Sequelize.STRING, allowNull: false },
   nickname: { type: Sequelize.STRING, allowNull: false },
-  position_id: { type: Sequelize.INTEGER, allowNull: false },
   contact_num: { type: Sequelize.STRING, unique: true, allowNull: false },
-  division_id: { type: Sequelize.INTEGER, allowNull: false },
   email_address: { type: Sequelize.STRING, unique: true, allowNull: true },
   office_location: { type: Sequelize.STRING, allowNull: false },
   birthday: { type: Sequelize.DATE, allowNull: false },
@@ -145,8 +143,8 @@ const LogsheetModel = db.define('logsheet', {
   others: { type: Sequelize.STRING },
 });
 
-const DivisionModel = db.define('office_division', {
-  division: { type: Sequelize.STRING, allowNull: false },
+const DivisionModel = db.define('division', {
+  division_name: { type: Sequelize.STRING, allowNull: false },
 });
 
 const PositionModel = db.define('position', {
@@ -174,11 +172,6 @@ const SurveytypeModel = db.define('survey_type', {
   survey_type_info: { type: Sequelize.STRING },
 });
 
-// uncommment this lines below to create the database tables
-db.sync({
-  logging: console.log,
-});
-
 const Sitename = db.models.site_name;
 const Contact = db.models.contact_person;
 const Antenna = db.models.antenna;
@@ -188,18 +181,23 @@ const Associated = db.models.associated_agency;
 const Field = db.models.fieldwork;
 const Gallery = db.models.gallery;
 const GPSCont = db.models.gps_cont;
-const Staff = db.models.gps_staff;
+const Staff = db.models.staff;
 const Logistic = db.models.logistical_note;
 const Logsheet = db.models.logsheet;
-const Division = db.models.office_division;
+const Division = db.models.division;
 const Position = db.models.position;
 const Site = db.models.site;
 const Surveytype = db.models.survey_type;
 
 // relationships
-Division.hasMany(Staff);
-Staff.belongsTo(Division);
+Position.hasMany(Staff, { foreignKey: 'position_id' });
+Division.hasMany(Staff, { foreignKey: 'division_id' });
 
+// uncommment this lines below to create the database tables
+db.sync({
+  logging: console.log,
+  //force: true,
+});
 
 export {
   Sitename,

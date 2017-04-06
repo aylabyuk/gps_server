@@ -34,13 +34,13 @@ const resolvers = {
     },
     createLogSheet(_, args) {
       return Logsheet.create(args)
-        .then((newlogsheet) => {
-          pubsub.publish('logsheetCreated', newlogsheet.dataValues);
-          return newlogsheet;
-        }).catch(err => {
-          console.error(err);
-          return err;
-        });
+         .then((newlogsheet) => {
+           pubsub.publish('logsheetCreated', newlogsheet.dataValues);
+           return newlogsheet;
+         }).catch(err => {
+           console.error(err);
+           return err;
+         });
     },
     deleteContact(_, args) {
       return Contact.destroy({ where: args })
@@ -54,7 +54,7 @@ const resolvers = {
     createStaff(_, args) {
       return Staff.create(args)
         .then((newstaff) => {
-          // pubsub.publish('staffCreated', newstaff.dataValues);
+          pubsub.publish('staffCreated', newstaff.dataValues);
           return newstaff;
         }).catch(err => {
           console.error(err);
@@ -139,7 +139,9 @@ const resolvers = {
       return Staff.find({ where: args });
     },
     allStaff() {
-      return Staff.findAll();
+      return Staff.findAll({
+        include: [{ all: true }],
+      });
     },
     Logistic(_, args) {
       return Logistic.find({ where: args });
