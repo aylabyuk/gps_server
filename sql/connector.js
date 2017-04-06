@@ -130,7 +130,8 @@ Staff.hasMany(ContactNumber);
 // uncommment this lines below to create the database tables
 db.sync({
   logging: console.log,
-  force: true,
+  // warning: setting force to true will delete all the data!
+  // force: true, 
 });
 
 export {
