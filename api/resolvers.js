@@ -1,19 +1,13 @@
-import { Contact,
-        Antenna,
-        Receiver,
-        Charger,
-        Sitename,
-        Associated,
-        Field,
-        Gallery,
-        GPSCont,
-        Staff,
-        Logistic,
-        Logsheet,
-        Division,
-        Position,
-        Site,
-        Surveytype,
+import { Sitename,
+          Contact,
+          Antenna,
+          Receiver,
+          Staff,
+          Logsheet,
+          Division,
+          Position,
+          Email,
+          ContactNumber,
       } from '../sql/connector';
 
 import { pubsub } from './schema';
@@ -105,49 +99,13 @@ const resolvers = {
     allReceiver() {
       return Receiver.findAll();
     },
-    Charger(_, args) {
-      return Charger.find({ where: args });
-    },
-    allCharger() {
-      return Charger.findAll();
-    },
-    Associated(_, args) {
-      return Associated.find({ where: args });
-    },
-    allAssociated() {
-      return Associated.findAll();
-    },
-    Field(_, args) {
-      return Field.find({ where: args });
-    },
-    allField() {
-      return Field.findAll();
-    },
-    Gallery(_, args) {
-      return Gallery.find({ where: args });
-    },
-    allGallery() {
-      return Gallery.findAll();
-    },
-    GPSCont(_, args) {
-      return GPSCont.find({ where: args });
-    },
-    allGPSCont() {
-      return GPSCont.findAll();
-    },
     Staff(_, args) {
       return Staff.find({ where: args });
     },
     allStaff() {
       return Staff.findAll({
-        include: [Division, Position],
+        include: [{ all: true }],
       });
-    },
-    Logistic(_, args) {
-      return Logistic.find({ where: args });
-    },
-    allLogistic() {
-      return Logistic.findAll();
     },
     Logsheet(_, args) {
       return Logsheet.find({ where: args });
@@ -166,18 +124,6 @@ const resolvers = {
     },
     allPosition() {
       return Position.findAll();
-    },
-    Site(_, args) {
-      return Site.find({ where: args });
-    },
-    allSite() {
-      return Site.findAll();
-    },
-    Surveytype(_, args) {
-      return Surveytype.find({ where: args });
-    },
-    allSurveytype() {
-      return Surveytype.findAll();
     },
 // input more query at the top of this comment
   },

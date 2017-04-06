@@ -95,26 +95,8 @@ type Query {
   Receiver(id: ID, serial_number: String, type: String, part_number: String): Receiver
     allReceiver: [Receiver]
 
-  Charger(id: ID, ps_serial_number: String): Charger
-    allCharger: [Charger]
-
-  Associated(id: ID, associated_name: String): Associated
-    allAssociated: [Associated]
-
-  Field(id: ID, first_date: String, last_date: String, logistical_note_id: ID, others: String): Field
-    allField: [Field]
-
-  Gallery(id: ID, gallery_name: String, image_name: String): Gallery
-    allGallery: [Gallery]
-
-  GPSCont(id: ID): GPSCont
-    allGPSCont: [GPSCont]
-
   Staff(first_name: String, last_name: String, id: ID): Staff
     allStaff: [Staff]
-
-  Logistic(id: ID): Logistic
-    allLogistic: [Logistic]
 
   Logsheet(id: ID): Logsheet
     allLogsheet: [Logsheet]
@@ -124,12 +106,6 @@ type Query {
 
   Position(id: ID): Position
     allPosition: [Position]
-
-  Site(id: ID): Site
-    allSite: [Site]
-
-  Surveytype(id: ID): Surveytype
-    allSurveytype: [Surveytype]
 
 } 
 
@@ -166,69 +142,27 @@ type Receiver {
   part_number: String
 }
 
-type Charger {
-  id: ID
-  ps_serial_number: String
-  comment : String
-}
-
-type Associated {
-  id: ID
-  associated_name : String
-}
-
-type Field {
-  id: ID
-  first_date : String
-  last_date: String
-  logistical_note_id : ID
-  others: String
-}
-
-type Gallery {
-  id: ID
-  gallery_name : String
-  image_name: String
-}
-
-type GPSCont {
-  id: ID
-  site_name: String
-  fieldwork_id: ID
-  update_date: String
-  update_time: Time
-  p_receiver_sn: String
-  updated_receiver_sn: String
-  p_antenna_sn: String
-  updated_antenna_sn: String
-  p_antenna_height: Float
-  updated_antenna_height: Float
-  power_failure: Boolean
-  battery_condition: String
-  charger_status: String
-  note: String
-}
-
 type Staff {
   id: ID
   first_name: String
   last_name: String
   nickname: String
   position: Position
-  contact_num: String
+  contact_numbers: [ContactNumber]
   division: Division
-  email_address: String
+  emails: [Email]
   office_location: String
   birthday: Date
 }
 
-type Logistic {
+type Email {
   id: ID
-  accessibility: String
-  site_stability: String
-  construction_dev_plans: String
-  accommodation: String
-  associated_id: String
+  address: String
+}
+
+type ContactNumber {
+  id: ID
+  number: String
 }
 
 type Logsheet {
@@ -279,28 +213,6 @@ type Division {
 type Position {
   id: ID
   position_name: String
-}
-
-type Site {
-  id: ID
-  site_name: String
-  last_update: Date
-  latitude: Float
-  longitude: Float
-  receiver_sn: String
-  antenna_sn: String
-  powersource_sn: String
-  contact_id: ID
-  address_one: String
-  address_two: String
-  city: String
-  province: String
-  gallery_name: String
-}
-
-type Surveytype {
-  id: ID
-  survey_type_info : String
 }
 
 schema {

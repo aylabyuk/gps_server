@@ -13,7 +13,7 @@ if (!global.hasOwnProperty('db')) {
     });
   } else {
     // the application is executed on the local machine ... use mysql
-    db = new Sequelize('gps_db', 'root', '', {
+    db = new Sequelize('gpsdb', 'root', '', {
       host: 'localhost',
       port: '3306',
     });
@@ -49,61 +49,20 @@ const ReceiverModel = db.define('receiver', {
   part_number: { type: Sequelize.STRING, allowNull: false },
 });
 
-const PowerSourceModel = db.define('power_source', {
-  ps_serial_number: { type: Sequelize.STRING, unique: true },
-  comment: { type: Sequelize.TEXT },
-});
-
-const AssociatedAgencyModel = db.define('associated_agency', {
-  associated_name: { type: Sequelize.STRING },
-});
-
-const FieldWorkModel = db.define('fieldwork', {
-  first_date: { type: Sequelize.DATE },
-  last_date: { type: Sequelize.DATE },
-  logistical_note_id: { type: Sequelize.INTEGER },
-  others: { type: Sequelize.STRING },
-});
-
-const GalleryModel = db.define('gallery', {
-  gallery_name: { type: Sequelize.STRING, allowNull: false },
-  image_name: { type: Sequelize.STRING, allowNull: false },
-});
-
-const GPSContModel = db.define('gps_cont', {
-  site_name: { type: Sequelize.STRING, allowNull: false },
-  fieldwork_id: { type: Sequelize.STRING, allowNull: false },
-  updated_date: { type: Sequelize.DATE },
-  updated_time: { type: Sequelize.TIME },
-  p_receiver_sn: { type: Sequelize.STRING },
-  updated_receiver_sn: { type: Sequelize.STRING },
-  p_antenna_sn: { type: Sequelize.STRING },
-  updated_antenna_sn: { type: Sequelize.STRING },
-  p_antenna_height: { type: Sequelize.FLOAT },
-  updated_antenna_height: { type: Sequelize.FLOAT },
-  power_failure: { type: Sequelize.BOOLEAN },
-  battery_condition: { type: Sequelize.STRING },
-  charger_status: { type: Sequelize.STRING },
-  note: { type: Sequelize.STRING },
-});
-
 const StaffModel = db.define('staff', {
   first_name: { type: Sequelize.STRING, allowNull: false },
   last_name: { type: Sequelize.STRING, allowNull: false },
   nickname: { type: Sequelize.STRING, allowNull: false },
-  contact_num: { type: Sequelize.STRING, unique: true, allowNull: false },
-  email_address: { type: Sequelize.STRING, unique: true, allowNull: true },
   office_location: { type: Sequelize.STRING, allowNull: false },
   birthday: { type: Sequelize.DATE, allowNull: false },
 });
 
+const EmailModel = db.define('email', {
+  address: { type: Sequelize.STRING, allowNull: true },
+});
 
-const LogisticModel = db.define('logistical_note', {
-  accessibility: { type: Sequelize.STRING },
-  site_stability: { type: Sequelize.STRING },
-  construction_dev_plans: { type: Sequelize.STRING },
-  accommodation: { type: Sequelize.STRING },
-  associated_id: { type: Sequelize.STRING },
+const ContactNumberModel = db.define('contact_number', {
+  number: { type: Sequelize.STRING, allowNull: true },
 });
 
 const LogsheetModel = db.define('logsheet', {
@@ -151,52 +110,27 @@ const PositionModel = db.define('position', {
   position_name: { type: Sequelize.STRING, allowNull: false },
 });
 
-const SiteinfoModel = db.define('site', {
-  site_name: { type: Sequelize.STRING, unique: true, allowNull: false },
-  last_update: { type: Sequelize.DATE },
-  latitude: { type: Sequelize.FLOAT },
-  longitude: { type: Sequelize.FLOAT },
-  receiver_sn: { type: Sequelize.STRING },
-  antenna_sn: { type: Sequelize.STRING },
-  powersource_sn: { type: Sequelize.STRING },
-  contact_id: { type: Sequelize.INTEGER },
-  address_one: { type: Sequelize.STRING },
-  address_two: { type: Sequelize.STRING },
-  city: { type: Sequelize.STRING },
-  province: { type: Sequelize.STRING },
-  gallery_name: { type: Sequelize.STRING },
-});
-
-
-const SurveytypeModel = db.define('survey_type', {
-  survey_type_info: { type: Sequelize.STRING },
-});
-
 const Sitename = db.models.site_name;
 const Contact = db.models.contact_person;
 const Antenna = db.models.antenna;
 const Receiver = db.models.receiver;
-const Charger = db.models.power_source;
-const Associated = db.models.associated_agency;
-const Field = db.models.fieldwork;
-const Gallery = db.models.gallery;
-const GPSCont = db.models.gps_cont;
 const Staff = db.models.staff;
-const Logistic = db.models.logistical_note;
 const Logsheet = db.models.logsheet;
 const Division = db.models.division;
 const Position = db.models.position;
-const Site = db.models.site;
-const Surveytype = db.models.survey_type;
+const Email = db.models.email;
+const ContactNumber = db.models.contact_number;
 
 // relationships
-Staff.belongsTo(Position, { foreignKey: 'position_id' });
-Staff.belongsTo(Division, { foreignKey: 'division_id' });
+Staff.belongsTo(Position);
+Staff.belongsTo(Division);
+Staff.hasMany(Email);
+Staff.hasMany(ContactNumber);
 
 // uncommment this lines below to create the database tables
 db.sync({
   logging: console.log,
-  // force: true,
+  force: true,
 });
 
 export {
@@ -204,17 +138,11 @@ export {
   Contact,
   Antenna,
   Receiver,
-  Charger,
-  Associated,
-  Field,
-  Gallery,
-  GPSCont,
   Staff,
-  Logistic,
   Logsheet,
   Division,
   Position,
-  Site,
-  Surveytype,
+  Email,
+  ContactNumber,
 };
 
