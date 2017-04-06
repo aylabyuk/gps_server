@@ -140,7 +140,7 @@ const resolvers = {
     },
     allStaff() {
       return Staff.findAll({
-        include: [{ all: true }],
+        include: [Division, Position],
       });
     },
     Logistic(_, args) {

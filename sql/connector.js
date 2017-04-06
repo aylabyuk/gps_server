@@ -190,13 +190,13 @@ const Site = db.models.site;
 const Surveytype = db.models.survey_type;
 
 // relationships
-Position.hasMany(Staff, { foreignKey: 'position_id' });
-Division.hasMany(Staff, { foreignKey: 'division_id' });
+Staff.belongsTo(Position, { foreignKey: 'position_id' });
+Staff.belongsTo(Division, { foreignKey: 'division_id' });
 
 // uncommment this lines below to create the database tables
 db.sync({
   logging: console.log,
-  //force: true,
+  // force: true,
 });
 
 export {
