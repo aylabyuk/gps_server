@@ -54,7 +54,7 @@ const StaffModel = db.define('staff', {
   last_name: { type: Sequelize.STRING, allowNull: false },
   nickname: { type: Sequelize.STRING, allowNull: false },
   office_location: { type: Sequelize.STRING, allowNull: false },
-  birthday: { type: Sequelize.DATE, allowNull: false },
+  birthday: { type: Sequelize.DATE, allowNull: true },
 });
 
 const EmailModel = db.define('email', {
@@ -131,7 +131,7 @@ Staff.hasMany(ContactNumber);
 db.sync({
   logging: console.log,
   // warning: setting force to true will delete all the data!
-  // force: true, 
+  // force: true,
 });
 
 export {

@@ -68,15 +68,7 @@ type Mutation {
   ) : Logsheet
 
   createStaff(
-    first_name: String
-    last_name: String
-    nickname: String
-    position_id: Int
-    contact_num: String
-    division_id: Int
-    email_address: String
-    office_location: String
-    birthday: Date
+    input: StaffInput
   ) : Staff
 
 }
@@ -148,11 +140,33 @@ type Staff {
   last_name: String
   nickname: String
   position: Position
-  contact_numbers: [ContactNumber]
   division: Division
+  contact_numbers: [ContactNumber]
   emails: [Email]
   office_location: String
   birthday: Date
+}
+
+input StaffInput {
+  first_name: String
+  last_name: String
+  nickname: String
+  positionId: Int
+  divisionId: Int
+  contact_numbers: [ContactNumberInput]
+  emails: [EmailInput]
+  office_location: String
+  birthday: Date
+}
+
+type Division {
+  id: ID
+  division_name: String
+}
+
+type Position {
+  id: ID
+  position_name: String
 }
 
 type Email {
@@ -160,8 +174,16 @@ type Email {
   address: String
 }
 
+input EmailInput {
+  address: String
+}
+
 type ContactNumber {
   id: ID
+  number: String
+}
+
+input ContactNumberInput {
   number: String
 }
 
@@ -203,16 +225,6 @@ type Logsheet {
   lodging_road_information:  String   
   contact_id:  Int   
   others:  String   
-}
-
-type Division {
-  id: ID
-  division_name: String
-}
-
-type Position {
-  id: ID
-  position_name: String
 }
 
 schema {

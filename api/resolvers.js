@@ -6,8 +6,8 @@ import { Sitename,
           Logsheet,
           Division,
           Position,
-          Email,
           ContactNumber,
+          Email,
       } from '../sql/connector';
 
 import { pubsub } from './schema';
@@ -46,8 +46,23 @@ const resolvers = {
         });
     },
     createStaff(_, args) {
-      return Staff.create(args)
+      return Staff.create(args.input)
         .then((newstaff) => {
+          // save emails
+          args.input.emails.map((x) => {
+            Email.create({
+              staffId: newstaff.dataValues.id,
+              address: x.address,
+            });
+          });
+          // save numbers
+          args.input.contact_numbers.map((x) => {
+            ContactNumber.create({
+              staffId: newstaff.dataValues.id,
+              number: x.number,
+            });
+          });
+
           pubsub.publish('staffCreated', newstaff.dataValues);
           return newstaff;
         }).catch(err => {
