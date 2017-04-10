@@ -62,9 +62,15 @@ const resolvers = {
               number: x.number,
             });
           });
+          // construct data
+          const olddata = newstaff.dataValues;
+          const pos = Position.find({ where: olddata.positionId });
+          const div = Division.find({ where: olddata.divisionId });
 
-          pubsub.publish('staffCreated', newstaff.dataValues);
-          return newstaff;
+          const data = { ...olddata, position: pos, division: div };
+
+          pubsub.publish('staffCreated', data);
+          return data;
         }).catch(err => {
           console.error(err);
           return err;
@@ -85,7 +91,7 @@ const resolvers = {
       return logsheet;
     },
     staffCreated(staff) {
-      console.log('new contact created', staff);
+      console.log('new staff created', staff);
       return staff;
     },
   },
