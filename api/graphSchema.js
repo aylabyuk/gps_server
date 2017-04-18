@@ -29,44 +29,6 @@ type Mutation {
     id: ID
   ) : ID
 
-  createLogSheet(
-    id:  ID   
-    fieldwork_id:  ID   
-    site_name:  String   
-    survey_type:  String   
-    logsheet_date:  Date
-    julian_day:  Int   
-    marker:  String   
-    receiver_serialnumber:  String   
-    antenna_serialnumber:  String   
-    height:  Float   
-    north:  Float   
-    east:  Float   
-    south:  Float   
-    west:  Float   
-    time_start:  Date   
-    time_end:  Date   
-    azimuth:  Int   
-    failure_time:  Date   
-    receiver_status:  String   
-    antenna_status:  String   
-    rod_num:  Int   
-    rod_correction:  Int   
-    avg_slant_height:  Float   
-    ip_add:  String   
-    netmask:  String   
-    gateway:  String   
-    dns:  String   
-    local_tcp_port:  String   
-    latitude:  Float   
-    longitude:  Float   
-    site_sketch_id:  ID   
-    observed_situation:  String   
-    lodging_road_information:  String   
-    contact_id:  Int   
-    others:  String   
-  ) : Logsheet
-
   createStaff(
     input: StaffInput
   ) : Staff
@@ -187,16 +149,28 @@ input ContactNumberInput {
   number: String
 }
 
+enum SurveyType {
+  CONTINUOUS
+  CAMPAIGN
+}
+
+type Observer {
+  id: ID
+  staff: Staff
+  logsheet: Logsheet
+}
+
 type Logsheet {
   id:  ID   
-  fieldwork_id:  ID   
-  site_name:  String   
-  survey_type:  String   
-  logsheet_date:  String   
+  fieldwork_id:  ID
+  observers: [Observer]   
+  site:  Sitename
+  survey_type:  SurveyType   
+  logsheet_date:  Date   
   julian_day:  Int   
   marker:  String   
-  receiver_serialnumber:  String   
-  antenna_serialnumber:  String   
+  receiver:  Receiver   
+  antenna:  Antenna   
   height:  Float   
   north:  Float   
   east:  Float   
@@ -204,9 +178,7 @@ type Logsheet {
   west:  Float   
   time_start:  Time   
   time_end:  Time   
-  azimuth:  Int   
-  scan_log_id:  ID   
-  power_source_serialnumber:  String   
+  azimuth:  Int
   failure_time:  Time   
   receiver_status:  String   
   antenna_status:  String   
@@ -220,10 +192,9 @@ type Logsheet {
   local_tcp_port:  String   
   latitude:  Float   
   longitude:  Float   
-  site_sketch_id:  ID   
   observed_situation:  String   
   lodging_road_information:  String   
-  contact_id:  Int   
+  contact:  Contact   
   others:  String   
 }
 

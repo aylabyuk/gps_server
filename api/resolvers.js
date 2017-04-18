@@ -26,16 +26,16 @@ const resolvers = {
           return err;
         });
     },
-    createLogSheet(_, args) {
-      return Logsheet.create(args)
-         .then((newlogsheet) => {
-           pubsub.publish('logsheetCreated', newlogsheet.dataValues);
-           return newlogsheet;
-         }).catch(err => {
-           console.error(err);
-           return err;
-         });
-    },
+    // createLogSheet(_, args) {
+    //   return Logsheet.create(args)
+    //      .then((newlogsheet) => {
+    //        pubsub.publish('logsheetCreated', newlogsheet.dataValues);
+    //        return newlogsheet;
+    //      }).catch(err => {
+    //        console.error(err);
+    //        return err;
+    //      });
+    // },
     deleteContact(_, args) {
       return Contact.destroy({ where: args })
         .then((success) => {

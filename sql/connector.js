@@ -67,13 +67,10 @@ const ContactNumberModel = db.define('contact_number', {
 
 const LogsheetModel = db.define('logsheet', {
   fieldwork_id: { type: Sequelize.INTEGER },
-  site_name: { type: Sequelize.STRING, allowNull: false },
   survey_type: { type: Sequelize.STRING, allowNull: false },
   logsheet_date: { type: Sequelize.DATE, allowNull: false },
   julian_day: { type: Sequelize.INTEGER, allowNull: false },
   marker: { type: Sequelize.STRING, allowNull: false },
-  receiver_serialnumber: { type: Sequelize.STRING, allowNull: false },
-  antenna_serialnumber: { type: Sequelize.STRING, allowNull: false },
   height: { type: Sequelize.DOUBLE },
   north: { type: Sequelize.DOUBLE },
   east: { type: Sequelize.DOUBLE },
@@ -95,10 +92,8 @@ const LogsheetModel = db.define('logsheet', {
   local_tcp_port: { type: Sequelize.STRING },
   latitude: { type: Sequelize.DOUBLE },
   longitude: { type: Sequelize.DOUBLE },
-  site_sketch_id: { type: Sequelize.INTEGER },
   observed_situation: { type: Sequelize.STRING },
   lodging_road_information: { type: Sequelize.STRING },
-  contact_id: { type: Sequelize.INTEGER },
   others: { type: Sequelize.STRING },
 });
 
@@ -127,11 +122,18 @@ Staff.belongsTo(Division);
 Staff.hasMany(Email);
 Staff.hasMany(ContactNumber);
 
+Logsheet.belongsToMany(Staff, { through: 'Observer' });
+Staff.belongsToMany(Logsheet, { through: 'Observer' });
+Logsheet.belongsTo(Sitename);
+Logsheet.belongsTo(Antenna, { targetKey: 'serial_number' });
+Logsheet.belongsTo(Receiver, { targetKey: 'serial_number' });
+Contact.belongsToMany(Logsheet, { through: 'LogsheetContact' });
+
 // uncommment this lines below to create the database tables
 db.sync({
   logging: console.log,
   // warning: setting force to true will delete all the data!
-  // force: true,
+  force: true,
 });
 
 export {
