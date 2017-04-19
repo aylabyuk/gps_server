@@ -37,29 +37,21 @@ type Mutation {
 
 type Query {
 
-  Sitename(id: ID, site_name: String): Sitename
-    allSitename(limit: Int, offset: Int): [Sitename]
+  allSitename: [Sitename]
 
-  Contact(id: ID, first_name: String, last_name: String): Contact
-    allContact(limit: Int, offset: Int, order: String): [Contact]
+  allContact: [Contact]
 
-  Antenna(id: ID, serial_number: String, type: String, part_number: String): Antenna
-    allAntenna: [Antenna]
+  allAntenna: [Antenna]
 
-  Receiver(id: ID, serial_number: String, type: String, part_number: String): Receiver
-    allReceiver: [Receiver]
+  allReceiver: [Receiver]
 
-  Staff(first_name: String, last_name: String, id: ID): Staff
-    allStaff: [Staff]
+  allStaff: [Staff]
 
-  Logsheet(id: ID): Logsheet
-    allLogsheet: [Logsheet]
+  allLogsheet: [Logsheet]
 
-  Division(id: ID): Division
-    allDivision: [Division]
+  allDivision: [Division]
 
-  Position(id: ID): Position
-    allPosition: [Position]
+  allPosition: [Position]
 
 } 
 

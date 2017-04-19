@@ -98,59 +98,51 @@ const resolvers = {
     },
   },
   Query: {
-    Sitename(_, args) {
-      return Sitename.find({ where: args });
+    allSitename() {
+      return Sitename.findAll();
     },
-    allSitename(_, args) {
-      return Sitename.findAll({ limit: args.limit, offset: args.offset });
-    },
-    Contact(_, args) {
-      return Contact.find({ where: args });
-    },
-    allContact(_, args) {
-      return Contact.findAll({ limit: args.limit, offset: args.offset, order: args.order });
-    },
-    Antenna(_, args) {
-      return Antenna.find({ where: args });
+    allContact() {
+      return Contact.findAll();
     },
     allAntenna() {
       return Antenna.findAll();
     },
-    Receiver(_, args) {
-      return Receiver.find({ where: args });
-    },
     allReceiver() {
       return Receiver.findAll();
-    },
-    Staff(_, args) {
-      return Staff.find({ where: args });
     },
     allStaff() {
       return Staff.findAll({
         include: [{ all: true }],
       });
     },
-    Logsheet(_, args) {
-      return Logsheet.find({ where: args });
-    },
     allLogsheet() {
       return Logsheet.findAll({
         include: [{ all: true }],
       });
     },
-    Division(_, args) {
-      return Division.find({ where: args });
-    },
     allDivision() {
       return Division.findAll();
-    },
-    Position(_, args) {
-      return Position.find({ where: args });
     },
     allPosition() {
       return Position.findAll();
     },
 // input more query at the top of this comment
+  },
+  Logsheet: {
+    observers(logsheet) {
+      return logsheet.staffs;
+    },
+    site(logsheet) {
+      return logsheet.site_name;
+    },
+    contact(logsheet) {
+      return logsheet.contact_person;
+    },
+  },
+  Staff: {
+    emails(staff) {
+      return staff.emails;
+    },
   },
   Date: new GraphQLScalarType({
     name: 'Date',

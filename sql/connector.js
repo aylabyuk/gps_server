@@ -122,18 +122,18 @@ StaffModel.belongsTo(DivisionModel);
 StaffModel.hasMany(EmailModel);
 StaffModel.hasMany(ContactNumberModel);
 
-LogsheetModel.belongsToMany(StaffModel, { through: 'Observer' });
-StaffModel.belongsToMany(LogsheetModel, { through: 'Observer' });
+LogsheetModel.belongsToMany(StaffModel, { through: 'observer' });
+StaffModel.belongsToMany(LogsheetModel, { through: 'observer' });
 LogsheetModel.belongsTo(SiteNameModel);
 LogsheetModel.belongsTo(AntennaModel, { targetKey: 'serial_number' });
 LogsheetModel.belongsTo(ReceiverModel, { targetKey: 'serial_number' });
 LogsheetModel.belongsTo(ContactModel, { targetKey: 'id' });
 
 FieldWorkModel.hasMany(TeamModel);
-StaffModel.belongsToMany(TeamModel, { through: 'TeamMembers' });
-TeamModel.belongsToMany(StaffModel, { through: 'TeamMembers' });
-TeamModel.belongsToMany(SiteNameModel, { through: 'teamSites' });
-SiteNameModel.belongsToMany(TeamModel, { through: 'teamSites' });
+StaffModel.belongsToMany(TeamModel, { through: 'team_members' });
+TeamModel.belongsToMany(StaffModel, { through: 'team_members' });
+TeamModel.belongsToMany(SiteNameModel, { through: 'team_sites' });
+SiteNameModel.belongsToMany(TeamModel, { through: 'team_sites' });
 
 TeamModel.hasMany(LogsheetModel);
 
@@ -141,7 +141,7 @@ TeamModel.hasMany(LogsheetModel);
 db.sync({
   logging: console.log,
   // warning: setting force to true will delete all the data!
-  force: true,
+  // force: true,
 });
 
 const Sitename = db.models.site_name;
