@@ -116,6 +116,34 @@ const TeamModel = db.define('team', {
   description: { type: Sequelize.STRING, allowNull: true },
 });
 
+// relationships
+StaffModel.belongsTo(PositionModel);
+StaffModel.belongsTo(DivisionModel);
+StaffModel.hasMany(EmailModel);
+StaffModel.hasMany(ContactNumberModel);
+
+LogsheetModel.belongsToMany(StaffModel, { through: 'Observer' });
+StaffModel.belongsToMany(LogsheetModel, { through: 'Observer' });
+LogsheetModel.belongsTo(SiteNameModel);
+LogsheetModel.belongsTo(AntennaModel, { targetKey: 'serial_number' });
+LogsheetModel.belongsTo(ReceiverModel, { targetKey: 'serial_number' });
+LogsheetModel.belongsTo(ContactModel, { targetKey: 'id' });
+
+FieldWorkModel.hasMany(TeamModel);
+StaffModel.belongsToMany(TeamModel, { through: 'TeamMembers' });
+TeamModel.belongsToMany(StaffModel, { through: 'TeamMembers' });
+TeamModel.belongsToMany(SiteNameModel, { through: 'teamSites' });
+SiteNameModel.belongsToMany(TeamModel, { through: 'teamSites' });
+
+TeamModel.hasMany(LogsheetModel);
+
+// uncommment this lines below to create the database tables
+db.sync({
+  logging: console.log,
+  // warning: setting force to true will delete all the data!
+  force: true,
+});
+
 const Sitename = db.models.site_name;
 const Contact = db.models.contact_person;
 const Antenna = db.models.antenna;
@@ -128,34 +156,6 @@ const Email = db.models.email;
 const ContactNumber = db.models.contact_number;
 const FieldWork = db.models.fieldwork;
 const Team = db.models.team;
-
-// relationships
-Staff.belongsTo(Position);
-Staff.belongsTo(Division);
-Staff.hasMany(Email);
-Staff.hasMany(ContactNumber);
-
-Logsheet.belongsToMany(Staff, { through: 'Observer' });
-Staff.belongsToMany(Logsheet, { through: 'Observer' });
-Logsheet.belongsTo(Sitename);
-Logsheet.belongsTo(Antenna, { targetKey: 'serial_number' });
-Logsheet.belongsTo(Receiver, { targetKey: 'serial_number' });
-Logsheet.belongsTo(Contact, { targetKey: 'id' });
-
-FieldWork.hasMany(Team);
-Staff.belongsToMany(Team, { through: 'TeamMembers' });
-Team.belongsToMany(Staff, { through: 'TeamMembers' });
-Team.belongsToMany(Sitename, { through: 'teamSites' });
-Sitename.belongsToMany(Team, { through: 'teamSites' });
-
-Team.hasMany(Logsheet);
-
-// uncommment this lines below to create the database tables
-db.sync({
-  logging: console.log,
-  // warning: setting force to true will delete all the data!
-  force: true,
-});
 
 export {
   Sitename,
