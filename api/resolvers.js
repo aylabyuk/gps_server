@@ -130,7 +130,7 @@ const resolvers = {
   },
   Logsheet: {
     observers(logsheet) {
-      return logsheet.staffs;
+      return logsheet.getStaffs();
     },
     site(logsheet) {
       return logsheet.site_name;
@@ -141,7 +141,16 @@ const resolvers = {
   },
   Staff: {
     emails(staff) {
-      return staff.emails;
+      return staff.getEmails();
+    },
+    contact_numbers(staff) {
+      return staff.contact_numbers;
+    },
+    division(staff) {
+      return staff.getDivision();
+    },
+    position(staff) {
+      return staff.getPosition();
     },
   },
   Date: new GraphQLScalarType({

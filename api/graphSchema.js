@@ -146,12 +146,6 @@ enum SurveyType {
   CAMPAIGN
 }
 
-type Observer {
-  id: ID
-  staff: Staff
-  logsheet: Logsheet
-}
-
 type Logsheet {
   id:  ID 
   survey_type:  SurveyType
