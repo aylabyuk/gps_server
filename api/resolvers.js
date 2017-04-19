@@ -6,8 +6,10 @@ import { Sitename,
           Logsheet,
           Division,
           Position,
-          ContactNumber,
           Email,
+          ContactNumber,
+          FieldWork,
+          Team,
       } from '../sql/connector';
 
 import { pubsub } from './schema';
@@ -132,7 +134,9 @@ const resolvers = {
       return Logsheet.find({ where: args });
     },
     allLogsheet() {
-      return Logsheet.findAll();
+      return Logsheet.findAll({
+        include: [{ all: true }],
+      });
     },
     Division(_, args) {
       return Division.find({ where: args });

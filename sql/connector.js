@@ -66,7 +66,6 @@ const ContactNumberModel = db.define('contact_number', {
 });
 
 const LogsheetModel = db.define('logsheet', {
-  fieldwork_id: { type: Sequelize.INTEGER },
   survey_type: { type: Sequelize.STRING, allowNull: false },
   logsheet_date: { type: Sequelize.DATE, allowNull: false },
   julian_day: { type: Sequelize.INTEGER, allowNull: false },
@@ -105,6 +104,18 @@ const PositionModel = db.define('position', {
   position_name: { type: Sequelize.STRING, allowNull: false },
 });
 
+const FieldWorkModel = db.define('fieldwork', {
+  name: { type: Sequelize.STRING, allowNull: false },
+  description: { type: Sequelize.STRING, allowNull: true },
+  start_date: { type: Sequelize.DATE, allowNull: false },
+  end_date: { type: Sequelize.DATE, allowNull: false },
+});
+
+const TeamModel = db.define('team', {
+  name: { type: Sequelize.STRING, allowNull: false },
+  description: { type: Sequelize.STRING, allowNull: true },
+});
+
 const Sitename = db.models.site_name;
 const Contact = db.models.contact_person;
 const Antenna = db.models.antenna;
@@ -115,6 +126,8 @@ const Division = db.models.division;
 const Position = db.models.position;
 const Email = db.models.email;
 const ContactNumber = db.models.contact_number;
+const FieldWork = db.models.fieldwork;
+const Team = db.models.team;
 
 // relationships
 Staff.belongsTo(Position);
@@ -127,7 +140,15 @@ Staff.belongsToMany(Logsheet, { through: 'Observer' });
 Logsheet.belongsTo(Sitename);
 Logsheet.belongsTo(Antenna, { targetKey: 'serial_number' });
 Logsheet.belongsTo(Receiver, { targetKey: 'serial_number' });
-Contact.belongsToMany(Logsheet, { through: 'LogsheetContact' });
+Logsheet.belongsTo(Contact, { targetKey: 'id' });
+
+FieldWork.hasMany(Team);
+Staff.belongsToMany(Team, { through: 'TeamMembers' });
+Team.belongsToMany(Staff, { through: 'TeamMembers' });
+Team.belongsToMany(Sitename, { through: 'teamSites' });
+Sitename.belongsToMany(Team, { through: 'teamSites' });
+
+Team.hasMany(Logsheet);
 
 // uncommment this lines below to create the database tables
 db.sync({
@@ -147,5 +168,7 @@ export {
   Position,
   Email,
   ContactNumber,
+  FieldWork,
+  Team,
 };
 

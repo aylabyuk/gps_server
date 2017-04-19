@@ -161,16 +161,13 @@ type Observer {
 }
 
 type Logsheet {
-  id:  ID   
-  fieldwork_id:  ID
-  observers: [Observer]   
-  site:  Sitename
-  survey_type:  SurveyType   
-  logsheet_date:  Date   
-  julian_day:  Int   
-  marker:  String   
-  receiver:  Receiver   
-  antenna:  Antenna   
+  id:  ID 
+  survey_type:  SurveyType
+  logsheet_date:  Date
+  julian_day:  Int
+  marker:  String
+  observers: [Staff]   
+  site:  Sitename     
   height:  Float   
   north:  Float   
   east:  Float   
@@ -194,8 +191,25 @@ type Logsheet {
   longitude:  Float   
   observed_situation:  String   
   lodging_road_information:  String   
-  contact:  Contact   
-  others:  String   
+  others:  String  
+  antenna:  Antenna  
+  receiver:  Receiver  
+  contact:  Contact 
+  team: Team
+}
+
+type Fieldwork {
+  name: String
+  description: String
+  start_date: Date
+  end_date: Date
+  teams: [Team]
+}
+
+type Team {
+  name: String
+  description: String
+  fieldwork: Fieldwork
 }
 
 schema {
