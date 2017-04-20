@@ -15,7 +15,6 @@ import { Sitename,
 import { pubsub } from './schema';
 import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
-import Sequelize from 'sequelize';
 
 const resolvers = {
   Mutation: {
@@ -37,9 +36,9 @@ const resolvers = {
              where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
            }).then((staffs) => {
              newlogsheet.setStaffs(staffs);
-             pubsub.publish('logsheetCreated', newlogsheet.dataValues);
-             return newlogsheet;
            });
+           pubsub.publish('logsheetCreated', newlogsheet.dataValues);
+           return newlogsheet;
          })
          .catch(err => {
            console.error(err);
@@ -109,8 +108,8 @@ const resolvers = {
     allSitename() {
       return Sitename.findAll();
     },
-    allContact() {
-      return Contact.findAll();
+    allContact(_, args) {
+      return Contact.findAll({ limit: args.limit, offset: args.offset, order: args.order });
     },
     allAntenna() {
       return Antenna.findAll();

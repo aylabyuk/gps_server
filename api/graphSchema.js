@@ -43,7 +43,7 @@ type Query {
 
   allSitename: [Sitename]
 
-  allContact: [Contact]
+  allContact(limit: Int, offset: Int, order: String): [Contact]
 
   allAntenna: [Antenna]
 
