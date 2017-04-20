@@ -111,8 +111,14 @@ const resolvers = {
     allContact(_, args) {
       return Contact.findAll({ limit: args.limit, offset: args.offset, order: args.order });
     },
+    Antenna(_, args) {
+      return Antenna.find({ where: args });
+    },
     allAntenna() {
       return Antenna.findAll();
+    },
+    Receiver(_, args) {
+      return Receiver.find({ where: args });
     },
     allReceiver() {
       return Receiver.findAll();

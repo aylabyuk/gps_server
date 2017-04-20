@@ -45,9 +45,11 @@ type Query {
 
   allContact(limit: Int, offset: Int, order: String): [Contact]
 
-  allAntenna: [Antenna]
-
-  allReceiver: [Receiver]
+  Antenna(id: ID, serial_number: String, type: String, part_number: String): Antenna
+    allAntenna: [Antenna]
+    
+  Receiver(id: ID, serial_number: String, type: String, part_number: String): Receiver
+    allReceiver: [Receiver]
 
   allStaff: [Staff]
 
