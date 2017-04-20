@@ -33,6 +33,10 @@ type Mutation {
     input: StaffInput
   ) : Staff
 
+  createLogsheet(
+    input: LogsheetInput
+  ) : Logsheet
+
 }
 
 type Query {
@@ -182,6 +186,47 @@ type Logsheet {
   receiver:  Receiver  
   contact:  Contact 
   team: Team
+}
+
+input StaffIdInput {
+  id: Int
+}
+
+input LogsheetInput {
+  survey_type:  String
+  logsheet_date:  Date
+  julian_day:  Int
+  marker:  String
+  observers: [StaffIdInput]   
+  siteNameId:  Int     
+  height:  Float   
+  north:  Float   
+  east:  Float   
+  south:  Float   
+  west:  Float   
+  time_start:  Time   
+  time_end:  Time   
+  azimuth:  Int
+  failure_time:  Time   
+  receiver_status:  String   
+  antenna_status:  String   
+  rod_num:  Int   
+  rod_correction:  Int   
+  avg_slant_height:  Float   
+  ip_add:  String   
+  netmask:  String   
+  gateway:  String   
+  dns:  String   
+  local_tcp_port:  String   
+  latitude:  Float   
+  longitude:  Float   
+  observed_situation:  String   
+  lodging_road_information:  String   
+  others:  String  
+  antennaId:  String  
+  receiverId:  String  
+  contactPersonId:  Int 
+  teamId: Int
 }
 
 type Fieldwork {

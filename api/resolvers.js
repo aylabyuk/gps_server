@@ -15,6 +15,7 @@ import { Sitename,
 import { pubsub } from './schema';
 import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
+import Sequelize from 'sequelize';
 
 const resolvers = {
   Mutation: {
@@ -28,16 +29,23 @@ const resolvers = {
           return err;
         });
     },
-    // createLogSheet(_, args) {
-    //   return Logsheet.create(args)
-    //      .then((newlogsheet) => {
-    //        pubsub.publish('logsheetCreated', newlogsheet.dataValues);
-    //        return newlogsheet;
-    //      }).catch(err => {
-    //        console.error(err);
-    //        return err;
-    //      });
-    // },
+    createLogsheet(_, args) {
+      return Logsheet.create(args.input)
+         .then((newlogsheet) => {
+           // query staffs and add it to logsheet as observers
+           Staff.findAll({
+             where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
+           }).then((staffs) => {
+             newlogsheet.setStaffs(staffs);
+             pubsub.publish('logsheetCreated', newlogsheet.dataValues);
+             return newlogsheet;
+           });
+         })
+         .catch(err => {
+           console.error(err);
+           return err;
+         });
+    },
     deleteContact(_, args) {
       return Contact.destroy({ where: args })
         .then((success) => {
@@ -133,10 +141,10 @@ const resolvers = {
       return logsheet.getStaffs();
     },
     site(logsheet) {
-      return logsheet.site_name;
+      return logsheet.getSite_name();
     },
     contact(logsheet) {
-      return logsheet.contact_person;
+      return logsheet.getContact_person();
     },
   },
   Staff: {
@@ -144,7 +152,7 @@ const resolvers = {
       return staff.getEmails();
     },
     contact_numbers(staff) {
-      return staff.contact_numbers;
+      return staff.getContact_numbers();
     },
     division(staff) {
       return staff.getDivision();
