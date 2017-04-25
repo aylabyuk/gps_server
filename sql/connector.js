@@ -137,6 +137,7 @@ SiteNameModel.belongsToMany(TeamModel, { through: 'team_sites' });
 
 TeamModel.hasMany(LogsheetModel);
 
+
 // uncommment this lines below to create the database tables
 db.sync({
   logging: console.log,
