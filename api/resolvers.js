@@ -141,6 +141,12 @@ const resolvers = {
     },
   },
   Logsheet: {
+    antenna(logsheet) {
+      return logsheet.getAntenna();
+    },
+    receiver(logsheet) {
+      return logsheet.getReceiver();
+    },
     observers(logsheet) {
       return logsheet.getStaffs();
     },
