@@ -55,45 +55,17 @@ const resolvers = {
         });
     },
     createStaff(_, args) {
-      return Staff.create(args.input)
-        .then((newstaff) => {
-          Position.find({
-            where: { id: newstaff.dataValues.positionId },
-          }).then((pos) => {
-            newstaff.setPosition(pos);
-          });
-
-          Division.find({
-            where: { id: newstaff.dataValues.divisionId },
-          }).then((div) => {
-            newstaff.setDivision(div);
-          });
-
-          args.input.emails.map((x) => {
-            return (
-                Email.create({
-                  staffId: newstaff.dataValues.id,
-                  address: x.address,
-                })
-            );
-          });
-
-          args.input.contact_numbers.map((x) => {
-            return (
-              ContactNumber.create({
-                staffId: newstaff.dataValues.id,
-                number: x.number,
-              })
-            );
-          });
-
-          pubsub.publish('staffCreated', newstaff.dataValues);
-          return newstaff;
-        })
-        .catch(err => {
-          console.error(err);
-          return err;
-        });
+      return Staff.create(args.input, {
+        include: [Email, ContactNumber],
+      })
+      .then((newstaff) => {
+        pubsub.publish('staffCreated', newstaff);
+        return newstaff;
+      })
+      .catch(err => {
+        console.error(err);
+        return err;
+      });
     },
   },
   Subscription: {
