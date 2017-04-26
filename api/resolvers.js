@@ -36,8 +36,10 @@ const resolvers = {
              where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
            }).then((staffs) => {
              newlogsheet.setStaffs(staffs);
+
+             pubsub.publish('logsheetCreated', newlogsheet);
            });
-           pubsub.publish('logsheetCreated', newlogsheet.dataValues);
+
            return newlogsheet;
          })
          .catch(err => {
@@ -87,8 +89,18 @@ const resolvers = {
     },
   },
   Query: {
-    allSitename() {
-      return Sitename.findAll();
+    allSitename(_, args) {
+      return Sitename.findAll({ limit: args.limit, offset: args.offset, order: args.order });
+    },
+    sitesWithLogsheet() {
+      return Sitename.findAll({
+        where: {
+          '$logsheets.survey_type$': 'CAMPAIGN',
+        },
+        include: [
+          Logsheet,
+        ],
+      });
     },
     allContact(_, args) {
       return Contact.findAll({ limit: args.limit, offset: args.offset, order: args.order });
@@ -122,6 +134,11 @@ const resolvers = {
       return Position.findAll();
     },
 // input more query at the top of this comment
+  },
+  Sitename: {
+    logsheets(sitename) {
+      return sitename.getLogsheets();
+    },
   },
   Logsheet: {
     observers(logsheet) {

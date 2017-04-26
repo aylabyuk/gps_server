@@ -41,7 +41,9 @@ type Mutation {
 
 type Query {
 
-  allSitename: [Sitename]
+  allSitename(limit: Int, offset: Int, order: String): [Sitename]
+
+  sitesWithLogsheet: [Sitename]
 
   allContact(limit: Int, offset: Int, order: String): [Contact]
 
@@ -77,7 +79,8 @@ type Contact {
 
 type Sitename {
   id: ID
-  site_name: String 
+  site_name: String
+  logsheets: [Logsheet]
 }
 
 type Antenna {

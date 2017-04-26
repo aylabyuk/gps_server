@@ -129,6 +129,8 @@ LogsheetModel.belongsTo(AntennaModel, { targetKey: 'serial_number' });
 LogsheetModel.belongsTo(ReceiverModel, { targetKey: 'serial_number' });
 LogsheetModel.belongsTo(ContactModel, { targetKey: 'id' });
 
+SiteNameModel.hasMany(LogsheetModel);
+
 FieldWorkModel.hasMany(TeamModel);
 StaffModel.belongsToMany(TeamModel, { through: 'team_members' });
 TeamModel.belongsToMany(StaffModel, { through: 'team_members' });
