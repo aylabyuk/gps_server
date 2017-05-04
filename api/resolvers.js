@@ -29,6 +29,8 @@ const resolvers = {
         });
     },
     createLogsheet(_, args) {
+      console.log('args', args.input);
+
       return Logsheet.create(args.input)
          .then((newlogsheet) => {
            // query staffs and add it to logsheet as observers
@@ -36,7 +38,6 @@ const resolvers = {
              where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
            }).then((staffs) => {
              newlogsheet.setStaffs(staffs);
-
              pubsub.publish('logsheetCreated', newlogsheet);
            });
 
