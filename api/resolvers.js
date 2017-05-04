@@ -34,6 +34,7 @@ const resolvers = {
       return Logsheet.create(args.input)
          .then((newlogsheet) => {
            // query staffs and add it to logsheet as observers
+           // NOTE: need to fix async
            Staff.findAll({
              where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
            }).then((staffs) => {
@@ -127,6 +128,9 @@ const resolvers = {
       return Logsheet.findAll({
         include: [{ all: true }],
       });
+    },
+    singleLogsheet(_, args) {
+      return Logsheet.find({ where: args });
     },
     allDivision() {
       return Division.findAll();

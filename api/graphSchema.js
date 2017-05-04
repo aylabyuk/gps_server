@@ -56,6 +56,7 @@ type Query {
   allStaff: [Staff]
 
   allLogsheet: [Logsheet]
+    singleLogsheet(id: ID): Logsheet
 
   allDivision: [Division]
 
