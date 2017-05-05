@@ -81,6 +81,26 @@ const resolvers = {
         return err;
       });
     },
+    createReceiver(_, args) {
+      return Receiver.create(args.input)
+      .then((newReceiver) => {
+        return newReceiver;
+      })
+      .catch(err => {
+        console.error(err);
+        return err;
+      });
+    },
+    createAntenna(_, args) {
+      return Antenna.create(args.input)
+      .then((newAntenna) => {
+        return newAntenna;
+      })
+      .catch(err => {
+        console.error(err);
+        return err;
+      });
+    },
   },
   Subscription: {
     contactDeleted(args) {

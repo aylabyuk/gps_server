@@ -37,6 +37,14 @@ type Mutation {
     input: LogsheetInput
   ) : Logsheet
 
+  createReceiver(
+    input: ReceiverInput
+  ) : Receiver
+
+  createAntenna(
+    input: AntennaInput
+  ) : Antenna
+
   createSitename(
     input: SitenameInput
   ) : Sitename
@@ -99,8 +107,20 @@ type Antenna {
   part_number: String
 }
 
+input AntennaInput {
+  serial_number: String
+  type: String
+  part_number: String
+}
+
 type Receiver {
   id: ID
+  serial_number: String
+  type: String
+  part_number: String
+}
+
+input ReceiverInput {
   serial_number: String
   type: String
   part_number: String
