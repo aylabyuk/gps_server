@@ -37,6 +37,10 @@ type Mutation {
     input: LogsheetInput
   ) : Logsheet
 
+  createSitename(
+    input: SitenameInput
+  ) : Sitename
+
 }
 
 type Query {
@@ -82,6 +86,10 @@ type Sitename {
   id: ID
   site_name: String
   logsheets: [Logsheet]
+}
+
+input SitenameInput {
+  site_name: String
 }
 
 type Antenna {
@@ -169,10 +177,10 @@ type Logsheet {
   east:  Float   
   south:  Float   
   west:  Float   
-  time_start:  Time   
-  time_end:  Time   
+  time_start:  String   
+  time_end:  String   
   azimuth:  Int
-  failure_time:  Time   
+  failure_time:  String   
   receiver_status:  String   
   antenna_status:  String   
   rod_num:  Int   
@@ -210,10 +218,10 @@ input LogsheetInput {
   east:  Float   
   south:  Float   
   west:  Float   
-  time_start:  Time   
-  time_end:  Time   
+  time_start:  String   
+  time_end:  String   
   azimuth:  Int
-  failure_time:  Time   
+  failure_time:  String   
   receiver_status:  String   
   antenna_status:  String   
   rod_num:  Int   

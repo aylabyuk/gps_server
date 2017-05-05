@@ -71,6 +71,16 @@ const resolvers = {
         return err;
       });
     },
+    createSitename(_, args) {
+      return Sitename.create(args.input)
+      .then((newsite) => {
+        return newsite;
+      })
+      .catch(err => {
+        console.error(err);
+        return err;
+      });
+    },
   },
   Subscription: {
     contactDeleted(args) {
