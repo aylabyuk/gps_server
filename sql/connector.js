@@ -70,7 +70,6 @@ const LogsheetModel = db.define('logsheet', {
   logsheet_date: { type: Sequelize.DATE, allowNull: false },
   julian_day: { type: Sequelize.INTEGER, allowNull: false },
   marker: { type: Sequelize.STRING, allowNull: false },
-  height: { type: Sequelize.DOUBLE },
   north: { type: Sequelize.DOUBLE },
   east: { type: Sequelize.DOUBLE },
   south: { type: Sequelize.DOUBLE },

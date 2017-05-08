@@ -191,8 +191,7 @@ type Logsheet {
   julian_day:  Int
   marker:  String
   observers: [Staff]   
-  site:  Sitename     
-  height:  Float   
+  site:  Sitename       
   north:  Float   
   east:  Float   
   south:  Float   
@@ -233,7 +232,6 @@ input LogsheetInput {
   marker:  String
   observers: [StaffIdInput]   
   siteNameId:  Int     
-  height:  Float   
   north:  Float   
   east:  Float   
   south:  Float   
