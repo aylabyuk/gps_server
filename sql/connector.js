@@ -69,6 +69,7 @@ const LogsheetModel = db.define('logsheet', {
   survey_type: { type: Sequelize.STRING, allowNull: false },
   logsheet_date: { type: Sequelize.DATE, allowNull: false },
   julian_day: { type: Sequelize.INTEGER, allowNull: false },
+  location: { type: Sequelize.STRING, allowNull: false },
   marker: { type: Sequelize.STRING, allowNull: false },
   north: { type: Sequelize.DOUBLE },
   east: { type: Sequelize.DOUBLE },

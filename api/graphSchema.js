@@ -189,6 +189,7 @@ type Logsheet {
   survey_type:  SurveyType
   logsheet_date:  Date
   julian_day:  Int
+  location: String
   marker:  String
   observers: [Staff]   
   site:  Sitename       
@@ -229,6 +230,7 @@ input LogsheetInput {
   survey_type:  String
   logsheet_date:  Date
   julian_day:  Int
+  location: String
   marker:  String
   observers: [StaffIdInput]   
   siteNameId:  Int     
