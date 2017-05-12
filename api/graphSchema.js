@@ -65,7 +65,7 @@ type Query {
   Receiver(id: ID, serial_number: String, type: String, part_number: String): Receiver
     allReceiver: [Receiver]
 
-  allStaff: [Staff]
+  allStaff(order: String): [Staff]
 
   allLogsheet: [Logsheet]
     singleLogsheet(id: ID): Logsheet

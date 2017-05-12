@@ -149,9 +149,10 @@ const resolvers = {
     allReceiver() {
       return Receiver.findAll();
     },
-    allStaff() {
+    allStaff(_, args) {
       return Staff.findAll({
         include: [{ all: true }],
+        order: args.order,
       });
     },
     allLogsheet() {
