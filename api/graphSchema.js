@@ -263,6 +263,21 @@ input LogsheetInput {
   teamId: Int
 }
 
+input File {
+  name: String!
+  type: String!
+  size: Int!
+  path: String!
+}
+
+type File {
+  id: ID
+  name: String
+  type: String
+  size: Int
+  path: String
+}
+
 type Fieldwork {
   name: String
   description: String

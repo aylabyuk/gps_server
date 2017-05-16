@@ -6,8 +6,6 @@ import schema from '../api/schema';
 export default graphqlExpress(() => {
   return {
     schema,
-    context: {
-      // Count: new Count(),
-    },
+    context: {},
   };
 });

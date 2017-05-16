@@ -13,12 +13,33 @@ if (!global.hasOwnProperty('db')) {
     });
   } else {
     // the application is executed on the local machine ... use mysql
-    db = new Sequelize('gpsdb', 'root', '', {
+    db = new Sequelize('gpsdb_dev', 'root', '', {
       host: 'localhost',
       port: '3306',
     });
   }
 }
+
+const SiteDetailsModel = db.define('site_detail', {
+  marker: { type: Sequelize.STRING },
+  constructed: { type: Sequelize.DATE },
+  survey_type: { type: Sequelize.STRING },
+});
+
+const LocationModel = db.define('location', {
+  long: { type: Sequelize.STRING },
+  lat: { type: Sequelize.STRING },
+  address: { type: Sequelize.STRING },
+  description: { type: Sequelize.STRING },
+});
+
+const FileUploadModel = db.define('file_upload', {
+  description: { type: Sequelize.STRING },
+  name: { type: Sequelize.STRING },
+  type: { type: Sequelize.STRING },
+  size: { type: Sequelize.INTEGER },
+  path: { type: Sequelize.STRING },
+});
 
 const SiteNameModel = db.define('site_name', {
   site_name: { type: Sequelize.STRING, unique: true, allowNull: false },
@@ -138,16 +159,26 @@ TeamModel.belongsToMany(SiteNameModel, { through: 'team_sites' });
 SiteNameModel.belongsToMany(TeamModel, { through: 'team_sites' });
 
 TeamModel.hasMany(LogsheetModel);
+FieldWorkModel.hasMany(LogsheetModel);
+
+SiteDetailsModel.belongsTo(SiteNameModel, { targetKey: 'site_name', as: 'name' });
+SiteDetailsModel.belongsTo(SiteNameModel, { targetKey: 'site_name', as: 'other_name' });
+SiteDetailsModel.hasOne(LocationModel);
+ContactModel.belongsTo(SiteDetailsModel);
+SiteDetailsModel.hasMany(FileUploadModel);
 
 
 // uncommment this lines below to create the database tables
 db.sync({
   logging: console.log,
   // warning: setting force to true will delete all the data!
-  // force: true,
+  force: true,
 });
 
 const Sitename = db.models.site_name;
+const SiteDetail = db.models.site_detail;
+const FileUpload = db.models.file_upload;
+const Location = db.models.location;
 const Contact = db.models.contact_person;
 const Antenna = db.models.antenna;
 const Receiver = db.models.receiver;
@@ -162,6 +193,9 @@ const Team = db.models.team;
 
 export {
   Sitename,
+  SiteDetail,
+  FileUpload,
+  Location,
   Contact,
   Antenna,
   Receiver,

@@ -7,13 +7,14 @@ import cors from 'cors';
 // Hot reloadable modules
 const graphiqlMiddleware = require('./middleware/graphiql').default;
 const graphqlMiddleware = require('./middleware/graphql').default;
+const uploadServerMiddleware = require('./middleware/upload').default;
 const subscriptionManager = require('./api/subscriptions').subscriptionManager;
 
 let server;
 
 const app = express();
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4040;
 
 // Don't rate limit heroku
 app.enable('trust proxy');
@@ -38,6 +39,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use((...args) => uploadServerMiddleware(...args));
 app.use('/graphql', (...args) => graphqlMiddleware(...args));
 app.use('/graphiql', (...args) => graphiqlMiddleware(...args));
 

@@ -1,34 +1,34 @@
-FIELDWORK
+
+SITEDETAILS
 {
-    id: ID 
-    name: STRING
-    first_date: DATE 
-    last_date: DATE 
-    description: STRING 
-    teams: [ TEAM ]
+    name: SITENAME (via site_name)
+    location: LOCATION 
+    marker: String
+    other_name: SITENAME (via site_name)
+    constructed: Date
+    contact_people: [ CONTACT ]
+    fileUploads: [ FILEUPLOAD ]
+    survey_type: String
 }
 
-
-TEAM
-{
-    id: ID 
-    name: STRING 
-    members: [ STAFF ]
-    sites: [ SITENAME ]
-}
-
-STAFF
+LOCATION
 {
     id: ID
-    first_name: STRING
-    middle_name: STRING
-    last_name: STRING
-    position: POSITION
-    division: DIVISION
+    long: String
+    lat: String
+    address: String
+    description: String
 }
 
-SITENAME
+FILEUPLOAD
 {
-    id: ID
-    site_name: STRING
+    file: FILE
+    description: String
+}
+
+input FILE {
+  name: String!
+  type: String!
+  size: Int!
+  path: String!
 }
