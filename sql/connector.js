@@ -126,40 +126,31 @@ const PositionModel = db.define('position', {
 });
 
 const FieldWorkModel = db.define('fieldwork', {
-  name: { type: Sequelize.STRING, allowNull: false },
-  description: { type: Sequelize.STRING, allowNull: true },
-  start_date: { type: Sequelize.DATE, allowNull: false },
-  end_date: { type: Sequelize.DATE, allowNull: false },
+  year: { type: Sequelize.INTEGER, allowNull: false },
+  month: { type: Sequelize.STRING, allowNull: false },
+  description: { type: Sequelize.STRING, allowNull: false },
 });
 
-const TeamModel = db.define('team', {
-  name: { type: Sequelize.STRING, allowNull: false },
-  description: { type: Sequelize.STRING, allowNull: true },
-});
-
-// relationships
+// staff, contactnumber, email, division, position relationships
 StaffModel.belongsTo(PositionModel);
 StaffModel.belongsTo(DivisionModel);
 StaffModel.hasMany(EmailModel);
 StaffModel.hasMany(ContactNumberModel);
 
+// logsheet, receiver, antennam, staff, contact, sitename relationships
 LogsheetModel.belongsToMany(StaffModel, { through: 'observer' });
 StaffModel.belongsToMany(LogsheetModel, { through: 'observer' });
 LogsheetModel.belongsTo(SiteNameModel);
 LogsheetModel.belongsTo(AntennaModel, { targetKey: 'serial_number' });
 LogsheetModel.belongsTo(ReceiverModel, { targetKey: 'serial_number' });
 LogsheetModel.belongsTo(ContactModel, { targetKey: 'id' });
-
 SiteNameModel.hasMany(LogsheetModel);
 
-FieldWorkModel.hasMany(TeamModel);
-StaffModel.belongsToMany(TeamModel, { through: 'team_members' });
-TeamModel.belongsToMany(StaffModel, { through: 'team_members' });
-TeamModel.belongsToMany(SiteNameModel, { through: 'team_sites' });
-SiteNameModel.belongsToMany(TeamModel, { through: 'team_sites' });
 
-TeamModel.hasMany(LogsheetModel);
+// logsheet, fieldwork relationship
 FieldWorkModel.hasMany(LogsheetModel);
+StaffModel.belongsToMany(FieldWorkModel, { through: 'fieldwork_staff' });
+FieldWorkModel.belongsToMany(StaffModel, { through: 'fieldwork_staff' });
 
 SiteDetailsModel.belongsTo(SiteNameModel, { targetKey: 'site_name', as: 'name' });
 SiteDetailsModel.belongsTo(SiteNameModel, { targetKey: 'site_name', as: 'other_name' });
@@ -172,7 +163,7 @@ SiteDetailsModel.hasMany(FileUploadModel);
 db.sync({
   logging: console.log,
   // warning: setting force to true will delete all the data!
-  force: true,
+  // force: true,
 });
 
 const Sitename = db.models.site_name;
@@ -189,7 +180,6 @@ const Position = db.models.position;
 const Email = db.models.email;
 const ContactNumber = db.models.contact_number;
 const FieldWork = db.models.fieldwork;
-const Team = db.models.team;
 
 export {
   Sitename,
@@ -206,6 +196,5 @@ export {
   Email,
   ContactNumber,
   FieldWork,
-  Team,
 };
 

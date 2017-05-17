@@ -49,6 +49,10 @@ type Mutation {
     input: SitenameInput
   ) : Sitename
 
+  createFieldwork(
+    input: FieldworkInput
+  ) : Fieldwork
+
 }
 
 type Query {
@@ -73,6 +77,8 @@ type Query {
   allDivision: [Division]
 
   allPosition: [Position]
+
+  allFieldWork: [Fieldwork]
 
 } 
 
@@ -219,10 +225,14 @@ type Logsheet {
   antenna:  Antenna  
   receiver:  Receiver  
   contact:  Contact 
-  team: Team
+  fieldworkId: Int
 }
 
 input StaffIdInput {
+  id: Int
+}
+
+input SitenameIdInput {
   id: Int
 }
 
@@ -260,7 +270,7 @@ input LogsheetInput {
   antennaId:  String  
   receiverId:  String  
   contactPersonId:  Int 
-  teamId: Int
+  fieldworkId: Int
 }
 
 input File {
@@ -279,17 +289,18 @@ type File {
 }
 
 type Fieldwork {
-  name: String
+  id: ID
+  year: Int
+  month: String
   description: String
-  start_date: Date
-  end_date: Date
-  teams: [Team]
+  staffs: [Staff]
 }
 
-type Team {
-  name: String
+input FieldworkInput {
+  year: Int
+  month: String
   description: String
-  fieldwork: Fieldwork
+  staffs: [StaffIdInput]
 }
 
 schema {

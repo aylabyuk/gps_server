@@ -9,7 +9,6 @@ import { Sitename,
           Email,
           ContactNumber,
           FieldWork,
-          Team,
       } from '../sql/connector';
 
 import { pubsub } from './schema';
@@ -101,6 +100,22 @@ const resolvers = {
         return err;
       });
     },
+    createFieldwork(_, args) {
+      return FieldWork.create(args.input)
+      .then((newFieldwork) => {
+        Staff.findAll({
+          where: { id: { $in: args.input.staffs.map((a) => { return a.id; }) } },
+        }).then((staffs) => {
+          newFieldwork.setStaffs(staffs);
+        });
+
+        return newFieldwork;
+      })
+      .catch(err => {
+        console.error(err);
+        return err;
+      });
+    },
   },
   Subscription: {
     contactDeleted(args) {
@@ -168,6 +183,11 @@ const resolvers = {
     },
     allPosition() {
       return Position.findAll();
+    },
+    allFieldWork() {
+      return FieldWork.findAll({
+        include: [{ all: true }],
+      });
     },
 // input more query at the top of this comment
   },
