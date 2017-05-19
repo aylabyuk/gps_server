@@ -269,7 +269,7 @@ input LogsheetInput {
   others:  String  
   antennaId:  String  
   receiverId:  String  
-  contactPersonId:  Int 
+  contactPersonId: Int
   fieldworkId: Int
 }
 

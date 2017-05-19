@@ -88,7 +88,7 @@ const ContactNumberModel = db.define('contact_number', {
 
 const LogsheetModel = db.define('logsheet', {
   survey_type: { type: Sequelize.STRING, allowNull: false },
-  logsheet_date: { type: Sequelize.DATE, allowNull: false },
+  logsheet_date: { type: Sequelize.DATEONLY, allowNull: false },
   julian_day: { type: Sequelize.INTEGER, allowNull: false },
   location: { type: Sequelize.STRING, allowNull: false },
   marker: { type: Sequelize.STRING, allowNull: false },
@@ -143,8 +143,8 @@ StaffModel.belongsToMany(LogsheetModel, { through: 'observer' });
 LogsheetModel.belongsTo(SiteNameModel);
 LogsheetModel.belongsTo(AntennaModel, { targetKey: 'serial_number' });
 LogsheetModel.belongsTo(ReceiverModel, { targetKey: 'serial_number' });
-LogsheetModel.belongsTo(ContactModel, { targetKey: 'id' });
 SiteNameModel.hasMany(LogsheetModel);
+LogsheetModel.belongsTo(ContactModel, { targetKey: 'id' });
 
 
 // logsheet, fieldwork relationship

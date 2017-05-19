@@ -38,9 +38,9 @@ const resolvers = {
              where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
            }).then((staffs) => {
              newlogsheet.setStaffs(staffs);
-             pubsub.publish('logsheetCreated', newlogsheet);
            });
 
+           pubsub.publish('logsheetCreated', newlogsheet);
            return newlogsheet;
          })
          .catch(err => {
@@ -234,7 +234,7 @@ const resolvers = {
       return new Date(value);
     },
     serialize(value) {
-      return value.getTime();
+      return value;
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.INT) {
@@ -245,9 +245,9 @@ const resolvers = {
   }),
   Time: new GraphQLScalarType({
     name: 'Time',
-    description: 'Date custom scalar type',
+    description: 'Time custom scalar type',
     parseValue(value) {
-      return new Date(value).getTime();
+      return new Date(value);
     },
     serialize(value) {
       return value;
