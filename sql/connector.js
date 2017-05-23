@@ -13,7 +13,7 @@ if (!global.hasOwnProperty('db')) {
     });
   } else {
     // the application is executed on the local machine ... use mysql
-    db = new Sequelize('gpsdb_dev', 'root', '', {
+    db = new Sequelize('gpsdb', 'root', '', {
       host: 'localhost',
       port: '3306',
     });
@@ -146,7 +146,6 @@ LogsheetModel.belongsTo(ReceiverModel, { targetKey: 'serial_number' });
 SiteNameModel.hasMany(LogsheetModel);
 LogsheetModel.belongsTo(ContactModel, { targetKey: 'id' });
 
-
 // logsheet, fieldwork relationship
 FieldWorkModel.hasMany(LogsheetModel);
 StaffModel.belongsToMany(FieldWorkModel, { through: 'fieldwork_staff' });
@@ -162,7 +161,9 @@ SiteDetailsModel.hasMany(FileUploadModel);
 // uncommment this lines below to create the database tables
 db.sync({
   logging: console.log,
-  // warning: setting force to true will delete all the data!
+  // warning: setting force to true will delete all the data
+  // make backup of the database first
+  // only enable force to true if you know what you are doing.
   // force: true,
 });
 
