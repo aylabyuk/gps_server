@@ -14,7 +14,14 @@ let server;
 
 const app = express();
 
-const port = process.env.PORT || 4000;
+const env = process.env.NODE_ENV || 'prod';
+let port;
+
+if (env === 'dev') {
+  port = process.env.PORT || 4040;
+} else {
+  port = process.env.PORT || 4000;
+}
 
 // Don't rate limit heroku
 app.enable('trust proxy');
