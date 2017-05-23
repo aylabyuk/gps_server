@@ -28,9 +28,9 @@ app.enable('trust proxy');
 
 // FIXES CORS ERROR
 const whitelist = [
-  'http://192.168.1.208:8000',
-  'http://192.168.1.208:3000',
-  'http://localhost:3000',
+  'http://192.168.1.208:8000', // prod
+  'http://192.168.1.208:8080', // dev
+  'http://localhost:8080',
   'http://localhost:8000',
   'http://gpsteam.herokuapp.com',
 ];

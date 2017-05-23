@@ -1,6 +1,15 @@
 import Sequelize from 'sequelize';
 let db = null;
 
+const env = process.env.NODE_ENV || 'prod';
+let dbname;
+
+if (env === 'dev') {
+  dbname = 'gpsdb_dev';
+} else {
+  dbname = 'gpsdb';
+}
+
 if (!global.hasOwnProperty('db')) {
   if (process.env.HEROKU_POSTGRESQL_WHITE_URL) {
     // the application is executed on Heroku ... use the postgres database
@@ -13,7 +22,7 @@ if (!global.hasOwnProperty('db')) {
     });
   } else {
     // the application is executed on the local machine ... use mysql
-    db = new Sequelize('gpsdb', 'root', '', {
+    db = new Sequelize(dbname, 'root', '', {
       host: 'localhost',
       port: '3306',
     });
