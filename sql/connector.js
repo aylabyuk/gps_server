@@ -160,6 +160,7 @@ FieldWorkModel.hasMany(LogsheetModel);
 StaffModel.belongsToMany(FieldWorkModel, { through: 'fieldwork_staff' });
 FieldWorkModel.belongsToMany(StaffModel, { through: 'fieldwork_staff' });
 
+// sitedetail, sitename, location relationships
 SiteDetailsModel.belongsTo(SiteNameModel, { targetKey: 'site_name', as: 'name' });
 SiteDetailsModel.belongsTo(SiteNameModel, { targetKey: 'site_name', as: 'other_name' });
 SiteDetailsModel.hasOne(LocationModel);
