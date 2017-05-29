@@ -192,6 +192,13 @@ const Email = db.models.email;
 const ContactNumber = db.models.contact_number;
 const FieldWork = db.models.fieldwork;
 
+console.log('\nAssociations');
+for (const assoc of Object.keys(SiteDetail.associations)) {
+  for (const accessor of Object.keys(SiteDetail.associations[assoc].accessors)) {
+    console.log(SiteDetail.name + '.' + SiteDetail.associations[assoc].accessors[accessor] + '()');
+  }
+}
+
 export {
   Sitename,
   SiteDetail,

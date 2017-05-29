@@ -59,6 +59,8 @@ type Query {
 
   allSitename(limit: Int, offset: Int, order: String): [Sitename]
 
+  allSiteDetail: [SiteDetails]
+
   sitesWithLogsheet: [Sitename]
 
   allContact(limit: Int, offset: Int, order: String): [Contact]
@@ -100,6 +102,24 @@ type Sitename {
   id: ID
   site_name: String
   logsheets: [Logsheet]
+}
+
+type SiteDetails {
+  id: ID
+  marker: String
+  constructed: Date
+  survey_type: String
+  name: Sitename
+  otherName: Sitename
+  location: Location
+}
+
+type Location {
+  id: ID
+  long: String
+  lat: String
+  address: String
+  description: String
 }
 
 input SitenameInput {

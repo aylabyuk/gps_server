@@ -9,6 +9,9 @@ import { Sitename,
           Email,
           ContactNumber,
           FieldWork,
+          SiteDetail,
+          FileUpload,
+          Location,
       } from '../sql/connector';
 
 import { pubsub } from './schema';
@@ -137,7 +140,11 @@ const resolvers = {
   },
   Query: {
     allSitename(_, args) {
-      return Sitename.findAll({ limit: args.limit, offset: args.offset, order: args.order });
+      return Sitename.findAll({ limit: args.limit,
+        offset: args.offset, order: args.order, include: [{ all: true }] });
+    },
+    allSiteDetail() {
+      return SiteDetail.findAll({ include: [{ all: true }] });
     },
     sitesWithLogsheet() {
       return Sitename.findAll({
@@ -194,6 +201,14 @@ const resolvers = {
   Sitename: {
     logsheets(sitename) {
       return sitename.getLogsheets();
+    },
+  },
+  SiteDetails: {
+    name(detail) {
+      return detail.getName();
+    },
+    location(detail) {
+      return detail.getLocation();
     },
   },
   Logsheet: {
