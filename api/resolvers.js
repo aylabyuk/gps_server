@@ -151,6 +151,7 @@ const resolvers = {
         where: {
           '$logsheets.survey_type$': 'CAMPAIGN',
         },
+        order: 'site_name',
         include: [
           Logsheet,
         ],
