@@ -29,13 +29,11 @@ if (!global.hasOwnProperty('db')) {
   }
 }
 
-const SiteDetailsModel = db.define('site_detail', {
+const SiteModel = db.define('site', {
+  name: { type: Sequelize.STRING },
   marker: { type: Sequelize.STRING },
   constructed: { type: Sequelize.DATE },
   survey_type: { type: Sequelize.STRING },
-});
-
-const LocationModel = db.define('location', {
   long: { type: Sequelize.STRING },
   lat: { type: Sequelize.STRING },
   address: { type: Sequelize.STRING },
@@ -48,10 +46,6 @@ const FileUploadModel = db.define('file_upload', {
   type: { type: Sequelize.STRING },
   size: { type: Sequelize.INTEGER },
   path: { type: Sequelize.STRING },
-});
-
-const SiteNameModel = db.define('site_name', {
-  site_name: { type: Sequelize.STRING, unique: true, allowNull: false },
 });
 
 const ContactModel = db.define('contact_person', {
@@ -146,13 +140,13 @@ StaffModel.belongsTo(DivisionModel);
 StaffModel.hasMany(EmailModel);
 StaffModel.hasMany(ContactNumberModel);
 
-// logsheet, receiver, antennam, staff, contact, sitename relationships
+// logsheet, receiver, antennam, staff, contact, sitenamedetail relationships
 LogsheetModel.belongsToMany(StaffModel, { through: 'observer' });
 StaffModel.belongsToMany(LogsheetModel, { through: 'observer' });
-LogsheetModel.belongsTo(SiteNameModel);
+LogsheetModel.belongsTo(SiteModel);
 LogsheetModel.belongsTo(AntennaModel, { targetKey: 'serial_number' });
 LogsheetModel.belongsTo(ReceiverModel, { targetKey: 'serial_number' });
-SiteNameModel.hasMany(LogsheetModel);
+SiteModel.hasMany(LogsheetModel);
 LogsheetModel.belongsTo(ContactModel, { targetKey: 'id' });
 
 // logsheet, fieldwork relationship
@@ -160,12 +154,10 @@ FieldWorkModel.hasMany(LogsheetModel);
 StaffModel.belongsToMany(FieldWorkModel, { through: 'fieldwork_staff' });
 FieldWorkModel.belongsToMany(StaffModel, { through: 'fieldwork_staff' });
 
-// sitedetail, sitename, location relationships
-SiteDetailsModel.belongsTo(SiteNameModel, { targetKey: 'site_name', as: 'name' });
-SiteDetailsModel.belongsTo(SiteNameModel, { targetKey: 'site_name', as: 'other_name' });
-SiteDetailsModel.hasOne(LocationModel);
-ContactModel.belongsTo(SiteDetailsModel);
-SiteDetailsModel.hasMany(FileUploadModel);
+// sitedetail, sitename relationships
+SiteModel.hasOne(SiteModel, { as: 'PreviousSitename', foreignKey: 'previousSitenameId' });
+ContactModel.belongsTo(SiteModel);
+SiteModel.hasMany(FileUploadModel);
 
 
 // uncommment this lines below to create the database tables
@@ -177,10 +169,8 @@ db.sync({
   // force: true,
 });
 
-const Sitename = db.models.site_name;
-const SiteDetail = db.models.site_detail;
+const Site = db.models.site;
 const FileUpload = db.models.file_upload;
-const Location = db.models.location;
 const Contact = db.models.contact_person;
 const Antenna = db.models.antenna;
 const Receiver = db.models.receiver;
@@ -200,10 +190,8 @@ const FieldWork = db.models.fieldwork;
 // }
 
 export {
-  Sitename,
-  SiteDetail,
+  Site,
   FileUpload,
-  Location,
   Contact,
   Antenna,
   Receiver,

@@ -45,9 +45,9 @@ type Mutation {
     input: AntennaInput
   ) : Antenna
 
-  createSitename(
-    input: SitenameInput
-  ) : Sitename
+  createSite(
+    input: SiteInput
+  ) : Site
 
   createFieldwork(
     input: FieldworkInput
@@ -56,16 +56,14 @@ type Mutation {
   updateSiteTimeseriesPreview(
     siteName: String!
     timeseriesPreview: File!
-  ) : SiteDetails
+  ) : Site
 }
 
 type Query {
 
-  allSitename(limit: Int, offset: Int, order: String): [Sitename]
+  allSite(limit: Int, offset: Int, order: String): [Site]
 
-  allSiteDetail: [SiteDetails]
-
-  sitesWithLogsheet: [Sitename]
+  sitesWithLogsheet: [Site]
 
   allContact(limit: Int, offset: Int, order: String): [Contact]
 
@@ -102,32 +100,28 @@ type Contact {
   province: String,
 }
 
-type Sitename {
+type Site {
   id: ID
-  site_name: String
-  logsheets: [Logsheet]
-}
-
-type SiteDetails {
-  id: ID
+  name: String
+  aka: String
   marker: String
   constructed: Date
   survey_type: String
-  name: Sitename
-  otherName: Sitename
-  location: Location
-}
-
-type Location {
-  id: ID
   long: String
   lat: String
   address: String
   description: String
+  logsheets: [Logsheet]
 }
 
-input SitenameInput {
-  site_name: String
+input SiteInput {
+  name: String
+  aka: String
+  marker: String
+  constructed: Date
+  survey_type: String
+  long: String
+  lat: String
 }
 
 type Antenna {
@@ -222,7 +216,7 @@ type Logsheet {
   location: String
   marker:  String
   observers: [Staff]   
-  site:  Sitename       
+  site:  Site       
   north:  Float   
   east:  Float   
   south:  Float   
@@ -256,10 +250,6 @@ input StaffIdInput {
   id: Int
 }
 
-input SitenameIdInput {
-  id: Int
-}
-
 input LogsheetInput {
   survey_type:  String
   logsheet_date:  Date
@@ -267,7 +257,7 @@ input LogsheetInput {
   location: String
   marker:  String
   observers: [StaffIdInput]   
-  siteNameId:  Int     
+  siteId:  Int     
   north:  Float   
   east:  Float   
   south:  Float   

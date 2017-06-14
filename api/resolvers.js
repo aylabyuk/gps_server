@@ -1,4 +1,4 @@
-import { Sitename,
+import { Site,
           Contact,
           Antenna,
           Receiver,
@@ -9,9 +9,7 @@ import { Sitename,
           Email,
           ContactNumber,
           FieldWork,
-          SiteDetail,
           FileUpload,
-          Location,
       } from '../sql/connector';
 
 import { pubsub } from './schema';
@@ -73,8 +71,8 @@ const resolvers = {
         return err;
       });
     },
-    createSitename(_, args) {
-      return Sitename.create(args.input)
+    createSite(_, args) {
+      return Site.create(args.input)
       .then((newsite) => {
         return newsite;
       })
@@ -142,19 +140,16 @@ const resolvers = {
     },
   },
   Query: {
-    allSitename(_, args) {
-      return Sitename.findAll({ limit: args.limit,
+    allSite(_, args) {
+      return Site.findAll({ limit: args.limit,
         offset: args.offset, order: args.order, include: [{ all: true }] });
     },
-    allSiteDetail() {
-      return SiteDetail.findAll({ include: [{ all: true }] });
-    },
     sitesWithLogsheet() {
-      return Sitename.findAll({
+      return Site.findAll({
         where: {
           '$logsheets.survey_type$': 'CAMPAIGN',
         },
-        order: 'site_name',
+        order: 'name',
         include: [
           Logsheet,
         ],
@@ -202,17 +197,9 @@ const resolvers = {
     },
 // input more query at the top of this comment
   },
-  Sitename: {
-    logsheets(sitename) {
-      return sitename.getLogsheets();
-    },
-  },
-  SiteDetails: {
-    name(detail) {
-      return detail.getName();
-    },
-    location(detail) {
-      return detail.getLocation();
+  Site: {
+    logsheets(site) {
+      return site.getLogsheets();
     },
   },
   Logsheet: {
@@ -226,7 +213,7 @@ const resolvers = {
       return logsheet.getStaffs();
     },
     site(logsheet) {
-      return logsheet.getSite_name();
+      return logsheet.getSite();
     },
     contact(logsheet) {
       return logsheet.getContact_person();
