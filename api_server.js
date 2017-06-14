@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import http from 'http';
 import cors from 'cors';
+import { apolloUploadExpress } from 'apollo-upload-server'
 
 // Hot reloadable modules
 const graphiqlMiddleware = require('./middleware/graphiql').default;
@@ -28,9 +29,9 @@ app.enable('trust proxy');
 
 // FIXES CORS ERROR
 const whitelist = [
-  'http://192.168.1.205:8000', // prod
+  'http://192.168.1.200:8000', // prod
   'http://gps-toto-pc:8000', // prod
-  'http://192.168.40.205:8080', // dev
+  'http://192.168.1.200:8080', // dev
   'http://localhost:8080',
   'http://localhost:8000',
   'http://gpsteam.herokuapp.com',

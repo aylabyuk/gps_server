@@ -53,6 +53,10 @@ type Mutation {
     input: FieldworkInput
   ) : Fieldwork
 
+  updateSiteTimeseriesPreview(
+    siteName: String!
+    timeseriesPreview: File!
+  ) : SiteDetails
 }
 
 type Query {
@@ -298,14 +302,6 @@ input File {
   type: String!
   size: Int!
   path: String!
-}
-
-type File {
-  id: ID
-  name: String
-  type: String
-  size: Int
-  path: String
 }
 
 type Fieldwork {

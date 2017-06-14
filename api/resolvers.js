@@ -119,6 +119,9 @@ const resolvers = {
         return err;
       });
     },
+    updateSiteTimeseriesPreview(_, args) {
+      return console.log(args);
+    },
   },
   Subscription: {
     contactDeleted(args) {
