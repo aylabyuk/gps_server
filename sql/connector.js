@@ -1,4 +1,5 @@
 import Sequelize from 'sequelize';
+
 let db = null;
 
 const env = process.env.NODE_ENV || 'prod';
@@ -23,6 +24,7 @@ if (!global.hasOwnProperty('db')) {
   } else {
     // the application is executed on the local machine ... use mysql
     db = new Sequelize(dbname, 'root', '', {
+      dialect: 'mysql',
       host: 'localhost',
       port: '3306',
     });
@@ -182,12 +184,12 @@ const Email = db.models.email;
 const ContactNumber = db.models.contact_number;
 const FieldWork = db.models.fieldwork;
 
-// console.log('\nAssociations');
-// for (const assoc of Object.keys(SiteDetail.associations)) {
-//   for (const accessor of Object.keys(SiteDetail.associations[assoc].accessors)) {
-//     console.log(SiteDetail.name + '.' + SiteDetail.associations[assoc].accessors[accessor] + '()');
-//   }
-// }
+console.log('\nAssociations');
+for (const assoc of Object.keys(Site.associations)) {
+  for (const accessor of Object.keys(Site.associations[assoc].accessors)) {
+    console.log(`${Site.name}.${Site.associations[assoc].accessors[accessor]}()`);
+  }
+}
 
 export {
   Site,

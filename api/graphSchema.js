@@ -1,7 +1,6 @@
 const typeDefs = [`
 
 scalar Date
-scalar Time
 scalar Float
 
 type Subscription {
@@ -65,6 +64,8 @@ type Query {
 
   sitesWithLogsheet: [Site]
 
+  checkDuplicateLogsheetEntry(name: String, date: Date): [Site]
+
   allContact(limit: Int, offset: Int, order: String): [Contact]
 
   Antenna(id: ID, serial_number: String, type: String, part_number: String): Antenna
@@ -75,7 +76,7 @@ type Query {
 
   allStaff(order: String): [Staff]
 
-  allLogsheet: [Logsheet]
+  allLogsheet(logsheet_date: Date): [Logsheet]
     singleLogsheet(id: ID): Logsheet
 
   allDivision: [Division]

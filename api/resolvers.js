@@ -1,20 +1,20 @@
 import { Site,
-          Contact,
-          Antenna,
-          Receiver,
-          Staff,
-          Logsheet,
-          Division,
-          Position,
-          Email,
-          ContactNumber,
-          FieldWork,
-          FileUpload,
-      } from '../sql/connector';
+  Contact,
+  Antenna,
+  Receiver,
+  Staff,
+  Logsheet,
+  Division,
+  Position,
+  Email,
+  ContactNumber,
+  FieldWork,
+  FileUpload,
+} from '../sql/connector';
 
 import { pubsub } from './schema';
 import { GraphQLScalarType } from 'graphql';
-import { Kind } from 'graphql/language';
+import GraphQLToolsTypes from 'graphql-tools-types';
 
 const resolvers = {
   Mutation: {
@@ -23,7 +23,7 @@ const resolvers = {
         .then((newcontact) => {
           pubsub.publish('contactCreated', newcontact.dataValues);
           return newcontact;
-        }).catch(err => {
+        }).catch((err) => {
           console.error(err);
           return err;
         });
@@ -32,22 +32,22 @@ const resolvers = {
       console.log('args', args.input);
 
       return Logsheet.create(args.input)
-         .then((newlogsheet) => {
-           // query staffs and add it to logsheet as observers
-           // NOTE: need to fix async
-           Staff.findAll({
-             where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
-           }).then((staffs) => {
-             newlogsheet.setStaffs(staffs);
-           });
+        .then((newlogsheet) => {
+          // query staffs and add it to logsheet as observers
+          // NOTE: need to fix async
+          Staff.findAll({
+            where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
+          }).then((staffs) => {
+            newlogsheet.setStaffs(staffs);
+          });
 
-           pubsub.publish('logsheetCreated', newlogsheet);
-           return newlogsheet;
-         })
-         .catch(err => {
-           console.error(err);
-           return err;
-         });
+          pubsub.publish('logsheetCreated', newlogsheet);
+          return newlogsheet;
+        })
+        .catch((err) => {
+          console.error(err);
+          return err;
+        });
     },
     deleteContact(_, args) {
       return Contact.destroy({ where: args })
@@ -62,60 +62,60 @@ const resolvers = {
       return Staff.create(args.input, {
         include: [Email, ContactNumber],
       })
-      .then((newstaff) => {
-        pubsub.publish('staffCreated', newstaff);
-        return newstaff;
-      })
-      .catch(err => {
-        console.error(err);
-        return err;
-      });
+        .then((newstaff) => {
+          pubsub.publish('staffCreated', newstaff);
+          return newstaff;
+        })
+        .catch((err) => {
+          console.error(err);
+          return err;
+        });
     },
     createSite(_, args) {
       return Site.create(args.input)
-      .then((newsite) => {
-        return newsite;
-      })
-      .catch(err => {
-        console.error(err);
-        return err;
-      });
+        .then((newsite) => {
+          return newsite;
+        })
+        .catch((err) => {
+          console.error(err);
+          return err;
+        });
     },
     createReceiver(_, args) {
       return Receiver.create(args.input)
-      .then((newReceiver) => {
-        return newReceiver;
-      })
-      .catch(err => {
-        console.error(err);
-        return err;
-      });
+        .then((newReceiver) => {
+          return newReceiver;
+        })
+        .catch((err) => {
+          console.error(err);
+          return err;
+        });
     },
     createAntenna(_, args) {
       return Antenna.create(args.input)
-      .then((newAntenna) => {
-        return newAntenna;
-      })
-      .catch(err => {
-        console.error(err);
-        return err;
-      });
+        .then((newAntenna) => {
+          return newAntenna;
+        })
+        .catch((err) => {
+          console.error(err);
+          return err;
+        });
     },
     createFieldwork(_, args) {
       return FieldWork.create(args.input)
-      .then((newFieldwork) => {
-        Staff.findAll({
-          where: { id: { $in: args.input.staffs.map((a) => { return a.id; }) } },
-        }).then((staffs) => {
-          newFieldwork.setStaffs(staffs);
-        });
+        .then((newFieldwork) => {
+          Staff.findAll({
+            where: { id: { $in: args.input.staffs.map((a) => { return a.id; }) } },
+          }).then((staffs) => {
+            newFieldwork.setStaffs(staffs);
+          });
 
-        return newFieldwork;
-      })
-      .catch(err => {
-        console.error(err);
-        return err;
-      });
+          return newFieldwork;
+        })
+        .catch((err) => {
+          console.error(err);
+          return err;
+        });
     },
     updateSiteTimeseriesPreview(_, args) {
       return console.log(args);
@@ -142,21 +142,34 @@ const resolvers = {
   Query: {
     allSite(_, args) {
       return Site.findAll({ limit: args.limit,
-        offset: args.offset, order: args.order, include: [{ all: true }] });
+        offset: args.offset,
+        order: [args.order],
+        include: [{ all: true }] });
+    },
+    checkDuplicateLogsheetEntry(_, args) {
+      return Site.findAll({
+        where: {
+          name: args.name,
+          '$logsheets.logsheet_date$': args.date,
+        },
+        include: [
+          Logsheet,
+        ],
+      });
     },
     sitesWithLogsheet() {
       return Site.findAll({
         where: {
           '$logsheets.survey_type$': 'CAMPAIGN',
         },
-        order: 'name',
+        order: ['name'],
         include: [
           Logsheet,
         ],
       });
     },
     allContact(_, args) {
-      return Contact.findAll({ limit: args.limit, offset: args.offset, order: args.order });
+      return Contact.findAll({ limit: args.limit, offset: args.offset, order: [args.order] });
     },
     Antenna(_, args) {
       return Antenna.find({ where: args });
@@ -173,12 +186,13 @@ const resolvers = {
     allStaff(_, args) {
       return Staff.findAll({
         include: [{ all: true }],
-        order: args.order,
+        order: [args.order],
       });
     },
-    allLogsheet() {
+    allLogsheet(_, args) {
       return Logsheet.findAll({
         include: [{ all: true }],
+        where: args,
       });
     },
     singleLogsheet(_, args) {
@@ -195,12 +209,7 @@ const resolvers = {
         include: [{ all: true }],
       });
     },
-// input more query at the top of this comment
-  },
-  Site: {
-    logsheets(site) {
-      return site.getLogsheets();
-    },
+    // input more query at the top of this comment
   },
   Logsheet: {
     antenna(logsheet) {
@@ -233,38 +242,7 @@ const resolvers = {
       return staff.getPosition();
     },
   },
-  Date: new GraphQLScalarType({
-    name: 'Date',
-    description: 'Date custom scalar type',
-    parseValue(value) {
-      return new Date(value);
-    },
-    serialize(value) {
-      return value;
-    },
-    parseLiteral(ast) {
-      if (ast.kind === Kind.INT) {
-        return parseInt(ast.value, 10);
-      }
-      return null;
-    },
-  }),
-  Time: new GraphQLScalarType({
-    name: 'Time',
-    description: 'Time custom scalar type',
-    parseValue(value) {
-      return new Date(value);
-    },
-    serialize(value) {
-      return value;
-    },
-    parseLiteral(ast) {
-      if (ast.kind === Kind.INT) {
-        return parseInt(ast.value, 10);
-      }
-      return null;
-    },
-  }),
+  Date: GraphQLToolsTypes.Date({ name: 'Date' }),
 };
 
 
