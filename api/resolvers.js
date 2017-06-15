@@ -143,7 +143,6 @@ const resolvers = {
     allSite(_, args) {
       return Site.findAll({ limit: args.limit,
         offset: args.offset,
-        order: [args.order],
         include: [{ all: true }] });
     },
     checkDuplicateLogsheetEntry(_, args) {

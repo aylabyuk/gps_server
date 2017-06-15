@@ -60,7 +60,7 @@ type Mutation {
 
 type Query {
 
-  allSite(limit: Int, offset: Int, order: String): [Site]
+  allSite(limit: Int, offset: Int): [Site]
 
   sitesWithLogsheet: [Site]
 
