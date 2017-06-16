@@ -210,6 +210,11 @@ const resolvers = {
     },
     // input more query at the top of this comment
   },
+  Site: {
+    logsheets(site) {
+      return site.getLogsheets();
+    }
+  },
   Logsheet: {
     antenna(logsheet) {
       return logsheet.getAntenna();
