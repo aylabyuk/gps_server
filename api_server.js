@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import http from 'http';
 import cors from 'cors';
-import { apolloUploadExpress } from 'apollo-upload-server'
 
 // Hot reloadable modules
 const graphiqlMiddleware = require('./middleware/graphiql').default;

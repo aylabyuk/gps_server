@@ -85,7 +85,19 @@ type Query {
 
   allFieldWork: [Fieldwork]
 
-} 
+  siteTimeseriesPreview(name: String): FileUpload
+
+}
+
+type FileUpload {
+  id: ID
+  name: String
+  type: String
+  size: Int
+  path: String
+  site: Site
+  description: String
+}
 
 type Contact {
   id: ID,

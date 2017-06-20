@@ -15,6 +15,7 @@ import { Site,
 import { pubsub } from './schema';
 import { GraphQLScalarType } from 'graphql';
 import GraphQLToolsTypes from 'graphql-tools-types';
+import sequelize from 'sequelize'
 
 const resolvers = {
   Mutation: {
@@ -118,7 +119,24 @@ const resolvers = {
         });
     },
     updateSiteTimeseriesPreview(_, args) {
-      return console.log(args);
+
+      console.log(args)
+
+      return FileUpload.create({...args.timeseriesPreview, description: 'timeSeriesPreview'})
+        .then((newTimeSeriesPreview) => {
+
+          Site.find({
+            where: { name: args.siteName }
+          }).then((site) => {
+            site.addFile_uploads(newTimeSeriesPreview)  
+          })
+
+          return newTimeSeriesPreview;
+        })
+        .catch((err) => {
+          console.error(error);
+          return err;
+        })
     },
   },
   Subscription: {
@@ -208,11 +226,25 @@ const resolvers = {
         include: [{ all: true }],
       });
     },
+    siteTimeseriesPreview(_, args) {
+      return FileUpload.findOne({
+        include: [{ all: true }],
+        where: {
+          '$site.name$': args.name,
+          description: "timeSeriesPreview"
+        }
+      })
+    },
     // input more query at the top of this comment
   },
   Site: {
     logsheets(site) {
       return site.getLogsheets();
+    }
+  },
+  FileUpload: {
+    site(fileupload) {
+      return fileupload.getSite();
     }
   },
   Logsheet: {

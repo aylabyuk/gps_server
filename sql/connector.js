@@ -160,6 +160,7 @@ FieldWorkModel.belongsToMany(StaffModel, { through: 'fieldwork_staff' });
 SiteModel.hasOne(SiteModel, { as: 'PreviousSitename', foreignKey: 'previousSitenameId' });
 ContactModel.belongsTo(SiteModel);
 SiteModel.hasMany(FileUploadModel);
+FileUploadModel.belongsTo(SiteModel)
 
 
 // uncommment this lines below to create the database tables
@@ -185,9 +186,9 @@ const ContactNumber = db.models.contact_number;
 const FieldWork = db.models.fieldwork;
 
 console.log('\nAssociations');
-for (const assoc of Object.keys(Site.associations)) {
-  for (const accessor of Object.keys(Site.associations[assoc].accessors)) {
-    console.log(`${Site.name}.${Site.associations[assoc].accessors[accessor]}()`);
+for (const assoc of Object.keys(FileUpload.associations)) {
+  for (const accessor of Object.keys(FileUpload.associations[assoc].accessors)) {
+    console.log(`${FileUpload.name}.${FileUpload.associations[assoc].accessors[accessor]}()`);
   }
 }
 
