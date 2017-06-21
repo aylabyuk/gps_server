@@ -55,7 +55,7 @@ type Mutation {
   updateSiteTimeseriesPreview(
     siteName: String!
     timeseriesPreview: File!
-  ) : Site
+  ) : FileUpload
 }
 
 type Query {
