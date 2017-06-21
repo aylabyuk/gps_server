@@ -122,26 +122,23 @@ const resolvers = {
     },
     updateSiteTimeseriesPreview(_, args) {
 
-      // console.log(args)
-
       let newpath = getnewPath(args)
-      console.log(newpath)
 
-      // return FileUpload.create({...args.timeseriesPreview, description: 'timeSeriesPreview'})
-      //   .then((newTimeSeriesPreview) => {
+      return FileUpload.create({...args.timeseriesPreview, description: 'timeSeriesPreview', path: newpath})
+        .then((newTimeSeriesPreview) => {
 
-      //     Site.find({
-      //       where: { name: args.siteName }
-      //     }).then((site) => {
-      //       site.addFile_uploads(newTimeSeriesPreview)  
-      //     })
+          Site.find({
+            where: { name: args.siteName }
+          }).then((site) => {
+            site.addFile_uploads(newTimeSeriesPreview)  
+          })
 
-      //     return newTimeSeriesPreview;
-      //   })
-      //   .catch((err) => {
-      //     console.error(error);
-      //     return err;
-      //   })
+          return newTimeSeriesPreview;
+        })
+        .catch((err) => {
+          console.error(error);
+          return err;
+        })
     },
   },
   Subscription: {
