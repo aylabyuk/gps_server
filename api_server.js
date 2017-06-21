@@ -51,6 +51,8 @@ app.use((...args) => uploadServerMiddleware(...args));
 app.use('/graphql', (...args) => graphqlMiddleware(...args));
 app.use('/graphiql', (...args) => graphiqlMiddleware(...args));
 
+app.use(express.static('./gpsUPLOADS/timeseries'))
+
 server = http.createServer(app);
 
 const subscriptionServerConfig = {

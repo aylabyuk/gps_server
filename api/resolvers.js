@@ -17,6 +17,8 @@ import { GraphQLScalarType } from 'graphql';
 import GraphQLToolsTypes from 'graphql-tools-types';
 import sequelize from 'sequelize'
 
+import { getnewPath } from './fsmodule'
+
 const resolvers = {
   Mutation: {
     createContact(_, args) {
@@ -120,23 +122,26 @@ const resolvers = {
     },
     updateSiteTimeseriesPreview(_, args) {
 
-      console.log(args)
+      // console.log(args)
 
-      return FileUpload.create({...args.timeseriesPreview, description: 'timeSeriesPreview'})
-        .then((newTimeSeriesPreview) => {
+      let newpath = getnewPath(args)
+      console.log(newpath)
 
-          Site.find({
-            where: { name: args.siteName }
-          }).then((site) => {
-            site.addFile_uploads(newTimeSeriesPreview)  
-          })
+      // return FileUpload.create({...args.timeseriesPreview, description: 'timeSeriesPreview'})
+      //   .then((newTimeSeriesPreview) => {
 
-          return newTimeSeriesPreview;
-        })
-        .catch((err) => {
-          console.error(error);
-          return err;
-        })
+      //     Site.find({
+      //       where: { name: args.siteName }
+      //     }).then((site) => {
+      //       site.addFile_uploads(newTimeSeriesPreview)  
+      //     })
+
+      //     return newTimeSeriesPreview;
+      //   })
+      //   .catch((err) => {
+      //     console.error(error);
+      //     return err;
+      //   })
     },
   },
   Subscription: {
