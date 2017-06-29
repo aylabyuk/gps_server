@@ -186,9 +186,9 @@ const ContactNumber = db.models.contact_number;
 const FieldWork = db.models.fieldwork;
 
 console.log('\nAssociations');
-for (const assoc of Object.keys(FileUpload.associations)) {
-  for (const accessor of Object.keys(FileUpload.associations[assoc].accessors)) {
-    console.log(`${FileUpload.name}.${FileUpload.associations[assoc].accessors[accessor]}()`);
+for (const assoc of Object.keys(Logsheet.associations)) {
+  for (const accessor of Object.keys(Logsheet.associations[assoc].accessors)) {
+    console.log(`${Logsheet.name}.${Logsheet.associations[assoc].accessors[accessor]}()`);
   }
 }
 

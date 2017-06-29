@@ -7,7 +7,8 @@ type Subscription {
   contactCreated: Contact,
   contactDeleted: ID,
   logsheetCreated: Logsheet,
-  staffCreated: Staff
+  staffCreated: Staff,
+  logsheetUpdated: Logsheet,
 }
 
 type Mutation {
@@ -33,6 +34,10 @@ type Mutation {
   ) : Staff
 
   createLogsheet(
+    input: LogsheetInput
+  ) : Logsheet
+
+  updateLogsheet(
     input: LogsheetInput
   ) : Logsheet
 
@@ -264,6 +269,7 @@ input StaffIdInput {
 }
 
 input LogsheetInput {
+  id: Int
   survey_type:  String
   logsheet_date:  Date
   julian_day:  Int

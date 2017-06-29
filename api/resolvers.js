@@ -52,6 +52,41 @@ const resolvers = {
           return err;
         });
     },
+    updateLogsheet(_, args) {
+
+      return Logsheet.update(args.input, { where: { id: args.input.id} })
+        .then((updatedLogsheet) => {
+          
+
+
+
+          
+          pubsub.publish('logsheetUpdated', updatedLogsheet);
+          return updatedLogsheet;
+        })
+        .catch((err) => {
+          console.log(err);
+          return err
+        })
+
+      // return Logsheet.create(args.input)
+      //   .then((newlogsheet) => {
+      //     // query staffs and add it to logsheet as observers
+      //     // NOTE: need to fix async
+      //     Staff.findAll({
+      //       where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
+      //     }).then((staffs) => {
+      //       newlogsheet.setStaffs(staffs);
+      //     });
+
+      //     pubsub.publish('logsheetCreated', newlogsheet);
+      //     return newlogsheet;
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //     return err;
+      //   });
+    },
     deleteContact(_, args) {
       return Contact.destroy({ where: args })
         .then((success) => {
@@ -152,6 +187,10 @@ const resolvers = {
     },
     logsheetCreated(logsheet) {
       console.log('new logsheet created', logsheet);
+      return logsheet;
+    },
+    logsheetUpdated(logsheet) {
+      console.log('a logsheet was updated', logsheet);
       return logsheet;
     },
     staffCreated(staff) {
