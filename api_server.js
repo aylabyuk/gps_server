@@ -28,6 +28,7 @@ app.enable('trust proxy');
 
 // FIXES CORS ERROR
 const whitelist = [
+  'http://192.168.8.102:8000',
   'http://192.168.1.200:8000', // prod
   'http://gps-toto-pc:8000', // prod
   'http://192.168.1.200:8080', // dev
