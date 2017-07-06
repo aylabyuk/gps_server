@@ -53,39 +53,29 @@ const resolvers = {
         });
     },
     updateLogsheet(_, args) {
+      console.log('args update', args.input)
 
       return Logsheet.update(args.input, { where: { id: args.input.id} })
-        .then((updatedLogsheet) => {
-          
+        .then((result) => {
 
+          return Logsheet.findById(args.input.id)
+            .then((updatedLogsheet) => {
+              
+              Staff.findAll({
+                where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
+              }).then((staffs) => {
+                updatedLogsheet.setStaffs(staffs);
+              });
 
+              return updatedLogsheet
 
-          
-          pubsub.publish('logsheetUpdated', updatedLogsheet);
-          return updatedLogsheet;
+            })
+
         })
         .catch((err) => {
           console.log(err);
           return err
         })
-
-      // return Logsheet.create(args.input)
-      //   .then((newlogsheet) => {
-      //     // query staffs and add it to logsheet as observers
-      //     // NOTE: need to fix async
-      //     Staff.findAll({
-      //       where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
-      //     }).then((staffs) => {
-      //       newlogsheet.setStaffs(staffs);
-      //     });
-
-      //     pubsub.publish('logsheetCreated', newlogsheet);
-      //     return newlogsheet;
-      //   })
-      //   .catch((err) => {
-      //     console.error(err);
-      //     return err;
-      //   });
     },
     deleteContact(_, args) {
       return Contact.destroy({ where: args })
