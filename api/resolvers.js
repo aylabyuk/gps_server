@@ -170,27 +170,24 @@ const resolvers = {
   },
   Subscription: {
     contactDeleted: {
-      subscribe: ()=> pubsub.asyncIterator('contactDeleted')
+      resolve: (payload) => { return payload},
+      subscribe: () => pubsub.asyncIterator('contactDeleted')
     },
     contactCreated: {
-      subscribe: ()=> pubsub.asyncIterator('contactCreated')
+      resolve: (payload) => { return payload},
+      subscribe: () => pubsub.asyncIterator('contactCreated')
     },
     logsheetCreated: {
-      resolve: (payload) => {
-
-        console.log('new logsheet created',payload)
-
-        return {
-          logsheet: payload,
-        };
-      },
-      subscribe: ()=> pubsub.asyncIterator('logsheetCreated')
+      resolve: (payload) => { return payload},
+      subscribe: () => pubsub.asyncIterator('logsheetCreated') 
     },
     logsheetUpdated: {
-      subscribe: ()=> pubsub.asyncIterator('logsheetUpdated')
+      resolve: (payload) => { return payload},
+      subscribe: () => pubsub.asyncIterator('logsheetUpdated')
     },
     staffCreated: {
-      subscribe: ()=> pubsub.asyncIterator('staffCreated')
+      resolve: (payload) => { return payload},
+      subscribe: () => pubsub.asyncIterator('staffCreated')
     },
   },
   Query: {

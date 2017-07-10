@@ -5,7 +5,7 @@ import resolvers from './resolvers';
 
 const executableSchema = makeExecutableSchema({
   typeDefs: schema,
-  resolvers,
+  resolvers
 });
 
 export default executableSchema;
