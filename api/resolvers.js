@@ -12,12 +12,14 @@ import { Site,
   FileUpload,
 } from '../sql/connector';
 
-import { pubsub } from './schema';
 import { GraphQLScalarType } from 'graphql';
 import GraphQLToolsTypes from 'graphql-tools-types';
 import sequelize from 'sequelize'
+import { PubSub } from 'graphql-subscriptions';
 
 import { getnewPath } from './fsmodule'
+
+export const pubsub = new PubSub
 
 const resolvers = {
   Mutation: {
@@ -82,7 +84,7 @@ const resolvers = {
         .then((success) => {
           console.log('success', success);
           console.log('id', args);
-          pubsub.publish('contactDeleted', args);
+          pubsub.publish('contactDeleted', args.id);
           return args.id;
         });
     },
@@ -167,25 +169,28 @@ const resolvers = {
     },
   },
   Subscription: {
-    contactDeleted(args) {
-      console.log('contact deleted with id ', args.id);
-      return args.id;
+    contactDeleted: {
+      subscribe: ()=> pubsub.asyncIterator('contactDeleted')
     },
-    contactCreated(contact) {
-      console.log('new contact created', contact);
-      return contact;
+    contactCreated: {
+      subscribe: ()=> pubsub.asyncIterator('contactCreated')
     },
-    logsheetCreated(logsheet) {
-      console.log('new logsheet created', logsheet);
-      return logsheet;
+    logsheetCreated: {
+      resolve: (payload) => {
+
+        console.log('new logsheet created',payload)
+
+        return {
+          logsheet: payload,
+        };
+      },
+      subscribe: ()=> pubsub.asyncIterator('logsheetCreated')
     },
-    logsheetUpdated(logsheet) {
-      console.log('a logsheet was updated', logsheet);
-      return logsheet;
+    logsheetUpdated: {
+      subscribe: ()=> pubsub.asyncIterator('logsheetUpdated')
     },
-    staffCreated(staff) {
-      console.log('new staff created', staff);
-      return staff;
+    staffCreated: {
+      subscribe: ()=> pubsub.asyncIterator('staffCreated')
     },
   },
   Query: {

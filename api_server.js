@@ -1,6 +1,8 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
+import schema from './api/schema';
+import { execute, subscribe } from 'graphql';
 import http from 'http';
 import cors from 'cors';
 
@@ -8,9 +10,6 @@ import cors from 'cors';
 const graphiqlMiddleware = require('./middleware/graphiql').default;
 const graphqlMiddleware = require('./middleware/graphql').default;
 const uploadServerMiddleware = require('./middleware/upload').default;
-const subscriptionManager = require('./api/subscriptions').subscriptionManager;
-
-let server;
 
 const app = express();
 
@@ -53,18 +52,19 @@ app.use('/graphiql', (...args) => graphiqlMiddleware(...args));
 
 app.use(express.static('gpsUPLOADS'))
 
-server = http.createServer(app);
-
-const subscriptionServerConfig = {
-  server,
-  path: '/',
-};
-
-let subscriptionServer = new SubscriptionServer({
-  subscriptionManager,
-}, subscriptionServerConfig);
+let server = http.createServer(app);
 
 server.listen(port, () => {
+
+  new SubscriptionServer({
+    execute,
+    subscribe,
+    schema
+  }, {
+    server,
+    path: '/',
+  })
+
   console.log(`API is now running on port ${port}`);
 });
 
