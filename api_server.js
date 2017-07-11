@@ -5,6 +5,7 @@ import schema from './api/schema';
 import { execute, subscribe } from 'graphql';
 import http from 'http';
 import cors from 'cors';
+import index from './api_router'
 
 // Hot reloadable modules
 const graphiqlMiddleware = require('./middleware/graphiql').default;
@@ -49,6 +50,7 @@ app.use(bodyParser.json());
 app.use((...args) => uploadServerMiddleware(...args));
 app.use('/graphql', (...args) => graphqlMiddleware(...args));
 app.use('/graphiql', (...args) => graphiqlMiddleware(...args));
+app.use('/line', index);
 
 app.use(express.static('gpsUPLOADS'))
 
@@ -71,3 +73,4 @@ server.listen(port, () => {
 server.on('close', () => {
   server = undefined;
 });
+
