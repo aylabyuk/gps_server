@@ -23,7 +23,7 @@ if (!global.hasOwnProperty('db')) {
     });
   } else {
     // the application is executed on the local machine ... use mysql
-    db = new Sequelize(dbname, 'root', '', {
+    db = new Sequelize(dbname, 'gps', '', {
       dialect: 'mysql',
       host: 'localhost',
       port: '3306',
