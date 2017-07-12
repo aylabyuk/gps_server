@@ -6,10 +6,12 @@ module.exports = router
 ///server side velocity computation
 router.get('/compute', function (req, res) {
 
-    if(req.query = {}) {
-        res.send({ data: 'invalid data'  })
-        return 0
-    }
+    console.log('REQUEST:',req.query)
+
+    // if(req.query = {}) {
+    //     res.send({ data: 'invalid data'  })
+    //     return 0
+    // }
 
     let PythonShell = require('python-shell');
     let pyshell = new PythonShell('./compute_input.py', { mode: 'json' });

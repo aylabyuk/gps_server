@@ -18,9 +18,9 @@ def read_in():
             n.append(mydataRow['north'])
             u.append(mydataRow['up'])
 
-    e = (e - mean(e)) * 100
-    n = (n - mean(n)) * 100
-    u = (u - mean(u)) * 100
+    e = (e - mean(e)) * 1000
+    n = (n - mean(n)) * 1000
+    u = (u - mean(u)) * 1000
 
     d = zeros((len(t), 4))
     d[:,0] = e
