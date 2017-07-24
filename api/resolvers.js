@@ -12,12 +12,14 @@ import { Site,
   FileUpload,
 } from '../sql/connector';
 
-import { pubsub } from './schema';
 import { GraphQLScalarType } from 'graphql';
 import GraphQLToolsTypes from 'graphql-tools-types';
 import sequelize from 'sequelize'
+import { PubSub } from 'graphql-subscriptions';
 
 import { getnewPath } from './fsmodule'
+
+export const pubsub = new PubSub
 
 const resolvers = {
   Mutation: {
@@ -53,46 +55,36 @@ const resolvers = {
         });
     },
     updateLogsheet(_, args) {
+      console.log('args update', args.input)
 
       return Logsheet.update(args.input, { where: { id: args.input.id} })
-        .then((updatedLogsheet) => {
-          
+        .then((result) => {
 
+          return Logsheet.findById(args.input.id)
+            .then((updatedLogsheet) => {
+              
+              Staff.findAll({
+                where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
+              }).then((staffs) => {
+                updatedLogsheet.setStaffs(staffs);
+              });
 
+              return updatedLogsheet
 
-          
-          pubsub.publish('logsheetUpdated', updatedLogsheet);
-          return updatedLogsheet;
+            })
+
         })
         .catch((err) => {
           console.log(err);
           return err
         })
-
-      // return Logsheet.create(args.input)
-      //   .then((newlogsheet) => {
-      //     // query staffs and add it to logsheet as observers
-      //     // NOTE: need to fix async
-      //     Staff.findAll({
-      //       where: { id: { $in: args.input.observers.map((a) => { return a.id; }) } },
-      //     }).then((staffs) => {
-      //       newlogsheet.setStaffs(staffs);
-      //     });
-
-      //     pubsub.publish('logsheetCreated', newlogsheet);
-      //     return newlogsheet;
-      //   })
-      //   .catch((err) => {
-      //     console.error(err);
-      //     return err;
-      //   });
     },
     deleteContact(_, args) {
       return Contact.destroy({ where: args })
         .then((success) => {
           console.log('success', success);
           console.log('id', args);
-          pubsub.publish('contactDeleted', args);
+          pubsub.publish('contactDeleted', args.id);
           return args.id;
         });
     },
@@ -177,25 +169,25 @@ const resolvers = {
     },
   },
   Subscription: {
-    contactDeleted(args) {
-      console.log('contact deleted with id ', args.id);
-      return args.id;
+    contactDeleted: {
+      resolve: (payload) => { return payload},
+      subscribe: () => pubsub.asyncIterator('contactDeleted')
     },
-    contactCreated(contact) {
-      console.log('new contact created', contact);
-      return contact;
+    contactCreated: {
+      resolve: (payload) => { return payload},
+      subscribe: () => pubsub.asyncIterator('contactCreated')
     },
-    logsheetCreated(logsheet) {
-      console.log('new logsheet created', logsheet);
-      return logsheet;
+    logsheetCreated: {
+      resolve: (payload) => { return payload},
+      subscribe: () => pubsub.asyncIterator('logsheetCreated') 
     },
-    logsheetUpdated(logsheet) {
-      console.log('a logsheet was updated', logsheet);
-      return logsheet;
+    logsheetUpdated: {
+      resolve: (payload) => { return payload},
+      subscribe: () => pubsub.asyncIterator('logsheetUpdated')
     },
-    staffCreated(staff) {
-      console.log('new staff created', staff);
-      return staff;
+    staffCreated: {
+      resolve: (payload) => { return payload},
+      subscribe: () => pubsub.asyncIterator('staffCreated')
     },
   },
   Query: {
