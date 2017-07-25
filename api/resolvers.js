@@ -268,7 +268,24 @@ const resolvers = {
         }
       })
     },
+    timeseriesJpgFiles() {
+      const fs = require('fs');
+      let files = []
+
+      fs.readdirSync('./gpsUPLOADS/timeseries').forEach((f) => {
+        files.push(f.toString())
+      })
+
+      return files
+
+    }
     // input more query at the top of this comment
+  },
+  Filename: {
+    name(n) {
+      let name = n.replace('.jpg', '')
+      return name;
+    }
   },
   Site: {
     logsheets(site) {

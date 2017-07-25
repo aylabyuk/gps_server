@@ -92,6 +92,12 @@ type Query {
 
   siteTimeseriesPreview(name: String): FileUpload
 
+  timeseriesJpgFiles: [Filename]
+
+}
+
+type Filename {
+  name: String
 }
 
 type FileUpload {
