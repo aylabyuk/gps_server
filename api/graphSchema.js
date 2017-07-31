@@ -67,7 +67,7 @@ type Query {
 
   allSite(limit: Int, offset: Int): [Site]
 
-  sitesWithLogsheet: [Site]
+  sitesWithLogsheet(name: [String]): [Site]
 
   checkDuplicateLogsheetEntry(name: String, date: Date): [Site]
 
@@ -92,6 +92,12 @@ type Query {
 
   siteTimeseriesPreview(name: String): FileUpload
 
+  timeseriesJpgFiles: [Filename]
+
+}
+
+type Filename {
+  name: String
 }
 
 type FileUpload {
