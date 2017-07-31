@@ -207,10 +207,12 @@ const resolvers = {
         ],
       });
     },
-    sitesWithLogsheet() {
+    sitesWithLogsheet(_, args) {
       return Site.findAll({
         where: {
-          '$logsheets.survey_type$': 'CAMPAIGN',
+          name: {
+            $in: args.name
+          }
         },
         order: ['name'],
         include: [
