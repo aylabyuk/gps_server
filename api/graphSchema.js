@@ -68,6 +68,7 @@ type Query {
   allSite(limit: Int, offset: Int): [Site]
 
   sitesWithLogsheet(name: [String]): [Site]
+    allSitesWithLogsheet: [Site]
 
   checkDuplicateLogsheetEntry(name: String, date: Date): [Site]
 

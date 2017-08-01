@@ -208,17 +208,27 @@ const resolvers = {
       });
     },
     sitesWithLogsheet(_, args) {
-      return Site.findAll({
-        where: {
-          name: {
-            $in: args.name
-          }
-        },
-        order: ['name'],
-        include: [
-          Logsheet,
-        ],
-      });
+      if(args.name == undefined) {
+        return Site.findAll({
+            where: { '$logsheets.survey_type$': 'CAMPAIGN', },
+            order: ['name'],
+            include: [
+              Logsheet,
+            ],
+          });
+      } else {
+        return Site.findAll({
+          where: {
+            name: {
+              $in: args.name
+            }
+          },
+          order: ['name'],
+          include: [
+            Logsheet,
+          ],
+        });
+      }
     },
     allContact(_, args) {
       return Contact.findAll({ limit: args.limit, offset: args.offset, order: [args.order] });
