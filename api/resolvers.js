@@ -285,6 +285,7 @@ const resolvers = {
       let files = []
 
       fs.readdirSync('./gpsUPLOADS/timeseries').forEach((f) => {
+        console.log(f)
         files.push(f.toString())
       })
 

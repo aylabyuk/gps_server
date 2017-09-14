@@ -3,15 +3,23 @@ const typeDefs = [`
 scalar Date
 scalar Float
 
+# Graphql subscriptions for GPS dashboard application
 type Subscription {
+  # subscription for newly created contacts
   contactCreated: Contact,
+  # subscription for deleted contacts
   contactDeleted: ID,
+  # subscription for newly created logsheets
   logsheetCreated: Logsheet,
+  # subscription for newly created staff
   staffCreated: Staff,
+  # subscription for updated logsheets
   logsheetUpdated: Logsheet,
 }
 
+# Graphql mutations for GPS dashboard application
 type Mutation {
+  # each logsheets can have one contact person
   createContact(
     first_name: String!,
     last_name: String!,
@@ -24,75 +32,80 @@ type Mutation {
     city: String,
     province: String,
   ) : Contact
-
+  # delete a contact using its ID
   deleteContact(
     id: ID
   ) : ID
-
+  # create staff mutation
   createStaff(
     input: StaffInput
   ) : Staff
-
+  # create a new logsheet
   createLogsheet(
     input: LogsheetInput
   ) : Logsheet
-
+  # update existing logsheet
   updateLogsheet(
     input: LogsheetInput
   ) : Logsheet
-
+  # create new receiver data
   createReceiver(
     input: ReceiverInput
   ) : Receiver
-
+  # create new Antenna data
   createAntenna(
     input: AntennaInput
   ) : Antenna
-
+  # create new site
   createSite(
     input: SiteInput
   ) : Site
-
+  # create new fieldwork data 
   createFieldwork(
     input: FieldworkInput
   ) : Fieldwork
-
+  # update timeseries jpg file
   updateSiteTimeseriesPreview(
     siteName: String!
     timeseriesPreview: File!
   ) : FileUpload
 }
 
+# Graphql Queries for GPS dashboard application
 type Query {
-
+  # get all sites, you can use pagination using limit and offset technique 
   allSite(limit: Int, offset: Int): [Site]
-
+  # find specific sites that have logsheets information using sitename
   sitesWithLogsheet(name: [String]): [Site]
+    # query all sites that have a logsheet entry
     allSitesWithLogsheet: [Site]
-
+  # check for logsheet records for specific sitename and date (use this to check if logsheet is already or previously entered)
   checkDuplicateLogsheetEntry(name: String, date: Date): [Site]
-
+  # query all contacts 
   allContact(limit: Int, offset: Int, order: String): [Contact]
-
+  # query antenna information with either id, serial number, part number type as parameter
   Antenna(id: ID, serial_number: String, type: String, part_number: String): Antenna
+    # query all antenna
     allAntenna: [Antenna]
-    
+  # query receiver information with either id, serial number, part number type as parameter
   Receiver(id: ID, serial_number: String, type: String, part_number: String): Receiver
+     # query all receiver
     allReceiver: [Receiver]
-
+  # all staff using order as parameter (e.g order: "last_name")
   allStaff(order: String): [Staff]
-
+  # find Logsheet information for specific logsheet date
   allLogsheet(logsheet_date: Date): [Logsheet]
+    # query logsheets using logsheet ID
     singleLogsheet(id: ID): Logsheet
-
+  # query all division info
   allDivision: [Division]
-
+  # query all position info
   allPosition: [Position]
-
+  # query all fieldwork info
   allFieldWork: [Fieldwork]
-
+  # handles upload of timeseries jpg files to the server
   siteTimeseriesPreview(name: String): FileUpload
-
+  # query all available timeseries jpg files
   timeseriesJpgFiles: [Filename]
 
 }
