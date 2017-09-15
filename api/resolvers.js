@@ -18,6 +18,8 @@ import GraphQLToolsTypes from 'graphql-tools-types';
 import sequelize from 'sequelize'
 import { PubSub } from 'graphql-subscriptions';
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { pick } from 'lodash'
 
 import { getnewPath } from './fsmodule'
 
@@ -173,22 +175,31 @@ const resolvers = {
       const user = args;
       user.password = await bcrypt.hash(user.password, 12);
 
-      console.log(user)
-
+      console.log('Register user: ', user)
       return User.create(user)
+    },
+    login: async (_, { email, password }, { SECRET }) => {
+      const user = await User.findOne({ where: { email }  });
+      if (!user) {
+        throw new Error('Not user with that email');
+      }
+
+      const valid = await bcrypt.compare(password, user.password);
+      if (!valid) {
+        throw new Error('Incorrect password');
+      }
+
+      const token = jwt.sign(
+      {
+        user: pick(user, ['id', 'username']),
+      }, SECRET, {
+          expiresIn: '1y',
+        }
+      )
+
+      return token
+
     }
-    // register(_, args) {
-    //   const user = args
-    //   bcrypt.hash(user.password, 12, function(err, hash) {
-    //     user.password = hash
-
-    //     return User.create(user);
-    //   });
-
-    //   return user
-
-    // }
-
   },
   Subscription: {
     contactDeleted: {

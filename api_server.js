@@ -23,6 +23,9 @@ if (env === 'dev') {
   port = process.env.PORT || 4000;
 }
 
+// app secret
+export const SECRET = 'jskdaskdujhaskjdhn3487230409849abfikwkasbjkj';
+
 // Don't rate limit heroku
 app.enable('trust proxy');
 

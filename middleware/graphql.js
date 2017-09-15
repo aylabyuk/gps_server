@@ -1,11 +1,13 @@
 import { graphqlExpress } from 'graphql-server-express';
 
 import schema from '../api/schema';
-// import Count from '../sql/count'
+import { SECRET } from '../api_server';
 
 export default graphqlExpress(() => {
   return {
     schema,
-    context: {},
+    context: {
+      SECRET
+    },
   };
 });
