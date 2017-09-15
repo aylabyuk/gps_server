@@ -107,13 +107,12 @@ type Query {
   siteTimeseriesPreview(name: String): FileUpload
   # query all available timeseries jpg files
   timeseriesJpgFiles: [Filename]
-
 }
-
+# Filename is a graphql type that handle structure for files using their names.
 type Filename {
   name: String
 }
-
+# FileUpload is a type that consist the data structure for each uploaded files
 type FileUpload {
   id: ID
   name: String
@@ -123,7 +122,7 @@ type FileUpload {
   site: Site
   description: String
 }
-
+# Contact is a person who provides a link for information about specific GPS site.
 type Contact {
   id: ID,
   first_name: String,
@@ -137,7 +136,7 @@ type Contact {
   city: String,
   province: String,
 }
-
+# Site is a location where a GPS survey is conducted. It may either be a Continuous or a Campaign GPS site 
 type Site {
   id: ID
   name: String
@@ -161,7 +160,7 @@ input SiteInput {
   long: String
   lat: String
 }
-
+# Is a module of the GPS equipment that is used as the reference for locating the precise measurement of a GPS site
 type Antenna {
   id: ID
   serial_number: String
@@ -174,7 +173,7 @@ input AntennaInput {
   type: String
   part_number: String
 }
-
+# Is a module of the GPS equipment that logs and transmits the data. It is the brain of the GPS equipment. 
 type Receiver {
   id: ID
   serial_number: String
@@ -187,7 +186,7 @@ input ReceiverInput {
   type: String
   part_number: String
 }
-
+# The personnels involved in conducting GPS surveys.
 type Staff {
   id: ID
   first_name: String
@@ -240,12 +239,16 @@ type ContactNumber {
 input ContactNumberInput {
   number: String
 }
-
+# A GPS survey can either be Continuous or Campaign type.
 enum SurveyType {
+  # Continuous types of GPS surveys uses continuously operating GPS receivers to monitor displacements for some specific location for a long period of time.
   CONTINUOUS
+  # Campaign types of GPS surveys are regional, sub cm precision GPS survey type that uses portable equipments to log crustal deformation of a specific location. 
+  # It typically involved occupying sites/benchmarks for several days to get the highest possible accuracy.
+  # If possible benchmarks can be reoccuppied regularly. 
   CAMPAIGN
 }
-
+# Logsheets are forms that are used to record important details during GPS surveys.
 type Logsheet {
   id:  ID 
   survey_type:  SurveyType
@@ -332,7 +335,7 @@ input File {
   size: Int!
   path: String!
 }
-
+# Fieldwork is the collection of information 
 type Fieldwork {
   id: ID
   year: Int
