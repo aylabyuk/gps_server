@@ -69,6 +69,17 @@ type Mutation {
     siteName: String!
     timeseriesPreview: File!
   ) : FileUpload
+
+  register(
+    username: String!
+    email: String!
+    password: String
+  ) : User!
+
+  login(
+    email: String!
+    password: String
+  ) : String!
 }
 
 # Graphql Queries for GPS dashboard application
@@ -355,6 +366,12 @@ schema {
   query: Query
   mutation: Mutation
   subscription: Subscription
+}
+
+type User {
+  id: ID
+  username: String!
+  email: String!
 }
 
 `];

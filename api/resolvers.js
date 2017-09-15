@@ -10,12 +10,14 @@ import { Site,
   ContactNumber,
   FieldWork,
   FileUpload,
+  User
 } from '../sql/connector';
 
 import { GraphQLScalarType } from 'graphql';
 import GraphQLToolsTypes from 'graphql-tools-types';
 import sequelize from 'sequelize'
 import { PubSub } from 'graphql-subscriptions';
+import bcrypt from 'bcrypt'
 
 import { getnewPath } from './fsmodule'
 
@@ -167,6 +169,26 @@ const resolvers = {
           return err;
         })
     },
+    register: async (_, args) => {
+      const user = args;
+      user.password = await bcrypt.hash(user.password, 12);
+
+      console.log(user)
+
+      return User.create(user)
+    }
+    // register(_, args) {
+    //   const user = args
+    //   bcrypt.hash(user.password, 12, function(err, hash) {
+    //     user.password = hash
+
+    //     return User.create(user);
+    //   });
+
+    //   return user
+
+    // }
+
   },
   Subscription: {
     contactDeleted: {

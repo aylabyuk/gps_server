@@ -136,6 +136,12 @@ const FieldWorkModel = db.define('fieldwork', {
   description: { type: Sequelize.STRING, allowNull: false },
 });
 
+const UserModel = db.define('user', {
+  username: { type: Sequelize.STRING, unique: true },
+  email: { type: Sequelize.STRING, unique: true },
+  password: { type: Sequelize.STRING }
+});
+
 // staff, contactnumber, email, division, position relationships
 StaffModel.belongsTo(PositionModel);
 StaffModel.belongsTo(DivisionModel);
@@ -160,8 +166,7 @@ FieldWorkModel.belongsToMany(StaffModel, { through: 'fieldwork_staff' });
 SiteModel.hasOne(SiteModel, { as: 'PreviousSitename', foreignKey: 'previousSitenameId' });
 ContactModel.belongsTo(SiteModel);
 SiteModel.hasMany(FileUploadModel);
-FileUploadModel.belongsTo(SiteModel)
-
+FileUploadModel.belongsTo(SiteModel);
 
 // uncommment this lines below to create the database tables
 db.sync({
@@ -184,13 +189,14 @@ const Position = db.models.position;
 const Email = db.models.email;
 const ContactNumber = db.models.contact_number;
 const FieldWork = db.models.fieldwork;
+const User = db.models.user;
 
-console.log('\nAssociations');
-for (const assoc of Object.keys(Logsheet.associations)) {
-  for (const accessor of Object.keys(Logsheet.associations[assoc].accessors)) {
-    console.log(`${Logsheet.name}.${Logsheet.associations[assoc].accessors[accessor]}()`);
-  }
-}
+// console.log('\nAssociations');
+// for (const assoc of Object.keys(Logsheet.associations)) {
+//   for (const accessor of Object.keys(Logsheet.associations[assoc].accessors)) {
+//     console.log(`${Logsheet.name}.${Logsheet.associations[assoc].accessors[accessor]}()`);
+//   }
+// }
 
 export {
   Site,
@@ -205,5 +211,6 @@ export {
   Email,
   ContactNumber,
   FieldWork,
+  User
 };
 
