@@ -6,6 +6,7 @@ import { execute, subscribe } from 'graphql';
 import http from 'http';
 import cors from 'cors';
 import index from './api_router'
+import jwt from 'jsonwebtoken'
 
 // Hot reloadable modules
 const graphiqlMiddleware = require('./middleware/graphiql').default;
@@ -49,6 +50,19 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 // app.use(cors('*'))
+
+const addUser = async (req, res) => {
+  const token = req.headers['authentication'];
+  try {
+    const { user } = await jwt.verify(token, SECRET );
+    req.user = user
+  } catch (err) {
+    console.log(err);
+  }
+  res.next();
+}
+
+app.use(addUser);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
