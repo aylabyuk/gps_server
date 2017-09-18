@@ -90,7 +90,7 @@ type Query {
   sitesWithLogsheet(name: [String]): [Site]
     # query all sites that have a logsheet entry
     allSitesWithLogsheet: [Site]
-  # check for logsheet records for specific sitename and date (use this to check if logsheet is already or previously entered)
+  # check for logsheet recordfor specific sitename and date (use this to check if logsheet is already or previously entered)
   checkDuplicateLogsheetEntry(name: String, date: Date): [Site]
   # query all contacts 
   allContact(limit: Int, offset: Int, order: String): [Contact]
@@ -118,7 +118,7 @@ type Query {
   siteTimeseriesPreview(name: String): FileUpload
   # query all available timeseries jpg files
   timeseriesJpgFiles: [Filename]
-  getUser(username: String!) : User
+  me: User 
 }
 # Filename is a graphql type that handle structure for files using their names.
 type Filename {

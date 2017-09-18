@@ -325,18 +325,17 @@ const resolvers = {
       return files
 
     },
-    getUser: (_, { username }, { user }) => {
+    me: (_, args, { user }) => {
       if(user) {
-        // they are logged in
-      } else {
-        //not logged in
+        return User.findOne({
+          where: {
+            id: user.id,
+          }
+        });
       }
-      console.log(user);
-      return User.findOne({
-        where: {
-          username,
-        }
-      });
+
+      // not logged in
+      return null
     },
     // input more query at the top of this comment
   },
