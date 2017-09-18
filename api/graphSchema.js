@@ -373,6 +373,8 @@ type User {
   id: ID
   username: String!
   email: String!
+  isStaff: Boolean
+  isAdmin: Boolean
 }
 
 `];

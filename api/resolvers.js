@@ -20,6 +20,7 @@ import { PubSub } from 'graphql-subscriptions';
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { pick } from 'lodash'
+import { requiresStaff, requiresAdmin, requiresAuth } from './permissions'
 
 import { getnewPath } from './fsmodule'
 
@@ -37,7 +38,7 @@ const resolvers = {
           return err;
         });
     },
-    createLogsheet(_, args) {
+    createLogsheet: requiresStaff.createResolver((_, args) => {
       console.log('args', args.input);
 
       return Logsheet.create(args.input)
@@ -57,7 +58,7 @@ const resolvers = {
           console.error(err);
           return err;
         });
-    },
+    }),
     updateLogsheet(_, args) {
       console.log('args update', args.input)
 
@@ -152,7 +153,6 @@ const resolvers = {
         });
     },
     updateSiteTimeseriesPreview(_, args) {
-
       let newpath = getnewPath(args)
 
       return FileUpload.create({...args.timeseriesPreview, description: 'timeSeriesPreview', path: newpath})
@@ -224,11 +224,11 @@ const resolvers = {
     },
   },
   Query: {
-    allSite(_, args) {
+    allSite: requiresAuth.createResolver((_, args) => {
       return Site.findAll({ limit: args.limit,
         offset: args.offset,
         include: [{ all: true }] });
-    },
+    }),
     checkDuplicateLogsheetEntry(_, args) {
       return Site.findAll({
         where: {
@@ -335,7 +335,7 @@ const resolvers = {
       }
 
       // not logged in
-      return null
+      return null     
     },
     // input more query at the top of this comment
   },

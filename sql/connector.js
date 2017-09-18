@@ -139,7 +139,9 @@ const FieldWorkModel = db.define('fieldwork', {
 const UserModel = db.define('user', {
   username: { type: Sequelize.STRING, unique: true },
   email: { type: Sequelize.STRING, unique: true },
-  password: { type: Sequelize.STRING }
+  password: { type: Sequelize.STRING },
+  isStaff: { type: Sequelize.STRING, defaultValue: false },
+  isAdmin: { type: Sequelize.BOOLEAN, defaultValue: false },
 });
 
 // staff, contactnumber, email, division, position relationships
