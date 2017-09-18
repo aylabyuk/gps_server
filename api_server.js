@@ -51,15 +51,15 @@ const corsOptions = {
 app.use(cors(corsOptions));
 // app.use(cors('*'))
 
-const addUser = async (req, res) => {
-  const token = req.headers['authentication'];
+const addUser = async (req) => {
+  const token = req.headers.authorization;
   try {
     const { user } = await jwt.verify(token, SECRET );
     req.user = user
   } catch (err) {
     console.log(err);
   }
-  res.next();
+  req.next();
 }
 
 app.use(addUser);

@@ -118,6 +118,7 @@ type Query {
   siteTimeseriesPreview(name: String): FileUpload
   # query all available timeseries jpg files
   timeseriesJpgFiles: [Filename]
+  getUser(username: String!) : User
 }
 # Filename is a graphql type that handle structure for files using their names.
 type Filename {
