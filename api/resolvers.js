@@ -240,7 +240,7 @@ const resolvers = {
         ],
       });
     },
-    sitesWithLogsheet(_, args) {
+    sitesWithLogsheet: requiresAuth.createResolver((_, args) => {
       if(args.name == undefined) {
         return Site.findAll({
             where: { '$logsheets.survey_type$': 'CAMPAIGN', },
@@ -262,22 +262,22 @@ const resolvers = {
           ],
         });
       }
-    },
-    allContact(_, args) {
+    }),
+    allContact: requiresAuth((_, args) => {
       return Contact.findAll({ limit: args.limit, offset: args.offset, order: [args.order] });
-    },
-    Antenna(_, args) {
+    }),
+    Antenna: requiresAuth((_, args) => {
       return Antenna.find({ where: args });
-    },
-    allAntenna() {
+    }),
+    allAntenna: requiresAuth(() => {
       return Antenna.findAll();
-    },
-    Receiver(_, args) {
+    }),
+    Receiver: requiresAuth((_, args) => {
       return Receiver.find({ where: args });
-    },
-    allReceiver() {
+    }),
+    allReceiver: requiresAuth(() => {
       return Receiver.findAll();
-    },
+    }),
     allStaff(_, args) {
       return Staff.findAll({
         include: [{ all: true }],
@@ -313,7 +313,7 @@ const resolvers = {
         }
       })
     },
-    timeseriesJpgFiles() {
+    timeseriesJpgFiles: requiresAuth.createResolver(() => {
       const fs = require('fs');
       let files = []
 
@@ -324,7 +324,7 @@ const resolvers = {
 
       return files
 
-    },
+    }),
     me: (_, args, { user }) => {
       if(user) {
         return User.findOne({

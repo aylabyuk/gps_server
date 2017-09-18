@@ -140,7 +140,7 @@ const UserModel = db.define('user', {
   username: { type: Sequelize.STRING, unique: true },
   email: { type: Sequelize.STRING, unique: true },
   password: { type: Sequelize.STRING },
-  isStaff: { type: Sequelize.STRING, defaultValue: false },
+  isStaff: { type: Sequelize.BOOLEAN, defaultValue: false },
   isAdmin: { type: Sequelize.BOOLEAN, defaultValue: false },
 });
 
