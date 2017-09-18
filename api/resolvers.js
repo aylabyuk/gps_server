@@ -207,16 +207,28 @@ const resolvers = {
         ],
       });
     },
-    sitesWithLogsheet() {
-      return Site.findAll({
-        where: {
-          '$logsheets.survey_type$': 'CAMPAIGN',
-        },
-        order: ['name'],
-        include: [
-          Logsheet,
-        ],
-      });
+    sitesWithLogsheet(_, args) {
+      if(args.name == undefined) {
+        return Site.findAll({
+            where: { '$logsheets.survey_type$': 'CAMPAIGN', },
+            order: ['name'],
+            include: [
+              Logsheet,
+            ],
+          });
+      } else {
+        return Site.findAll({
+          where: {
+            name: {
+              $in: args.name
+            }
+          },
+          order: ['name'],
+          include: [
+            Logsheet,
+          ],
+        });
+      }
     },
     allContact(_, args) {
       return Contact.findAll({ limit: args.limit, offset: args.offset, order: [args.order] });
@@ -268,7 +280,25 @@ const resolvers = {
         }
       })
     },
+    timeseriesJpgFiles() {
+      const fs = require('fs');
+      let files = []
+
+      fs.readdirSync('./gpsUPLOADS/timeseries').forEach((f) => {
+        console.log(f)
+        files.push(f.toString())
+      })
+
+      return files
+
+    }
     // input more query at the top of this comment
+  },
+  Filename: {
+    name(n) {
+      let name = n.replace('.jpg', '')
+      return name;
+    }
   },
   Site: {
     logsheets(site) {
