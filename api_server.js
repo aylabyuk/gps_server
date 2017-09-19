@@ -54,7 +54,7 @@ app.use(cors(corsOptions));
 // app.use(cors('*'))
 
 
-// implement tokens and refresh tokens checks 
+// implement tokens and refresh-tokens checks 
 const addUser = async (req, res, next) => {
   const token = req.headers['x-token'];
   if (token) {
@@ -66,7 +66,6 @@ const addUser = async (req, res, next) => {
       const newTokens = await refreshTokens(
         token,
         refreshToken,
-        models,
         SECRET,
       );
       if (newTokens.token && newTokens.refreshToken) {
