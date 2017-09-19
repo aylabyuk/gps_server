@@ -259,21 +259,21 @@ const resolvers = {
     allReceiver: requiresAuth.createResolver(() => {
       return Receiver.findAll();
     }),
-    allStaff(_, args) {
+    allStaff: requiresStaff.createResolver((_, args) => {
       return Staff.findAll({
         include: [{ all: true }],
         order: [args.order],
       });
-    },
-    allLogsheet(_, args) {
+    }),
+    allLogsheet: requiresAuth.createResolvers((_, args) => {
       return Logsheet.findAll({
         include: [{ all: true }],
         where: args,
       });
-    },
-    singleLogsheet(_, args) {
+    }),
+    singleLogsheet: requiresAuth.createResolver((_, args) => {
       return Logsheet.find({ where: args });
-    },
+    }),
     allDivision() {
       return Division.findAll();
     },

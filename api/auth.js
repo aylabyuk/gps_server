@@ -8,7 +8,7 @@ import { User } from '../sql/connector'
 const createTokens = async (user, secret) => {
   const createToken = jwt.sign(
     {
-      user: _.pick(user, ['id', 'isAdmin']),
+      user: _.pick(user, ['id', 'isAdmin', 'isStaff']),
     },
     secret,
     {
