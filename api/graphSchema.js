@@ -76,10 +76,8 @@ type Mutation {
     password: String
   ) : User!
 
-  login(
-    email: String!
-    password: String
-  ) : String!
+  login( email: String!, password: String) : AuthPayload!
+  refreshTokens(token: String!, refreshToken: String!): AuthPayload!
 }
 
 # Graphql Queries for GPS dashboard application
@@ -375,6 +373,11 @@ type User {
   email: String!
   isStaff: Boolean
   isAdmin: Boolean
+}
+
+type AuthPayload {
+  token: String!
+  refreshToken: String!
 }
 
 `];

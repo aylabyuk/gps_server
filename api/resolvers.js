@@ -21,6 +21,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { pick } from 'lodash'
 import { requiresStaff, requiresAdmin, requiresAuth } from './permissions'
+import { refreshTokens, tryLogin } from './auth';
 
 import { getnewPath } from './fsmodule'
 
@@ -178,28 +179,8 @@ const resolvers = {
       console.log('Register user: ', user)
       return User.create(user)
     },
-    login: async (_, { email, password }, { SECRET }) => {
-      const user = await User.findOne({ where: { email }  });
-      if (!user) {
-        throw new Error('Not user with that email');
-      }
-
-      const valid = await bcrypt.compare(password, user.password);
-      if (!valid) {
-        throw new Error('Incorrect password');
-      }
-
-      const token = jwt.sign(
-      {
-        user: pick(user, ['id', 'username']),
-      }, SECRET, {
-          expiresIn: '1y',
-        }
-      )
-
-      return token
-
-    }
+    login: async (parent, { email, password }, { SECRET }) => tryLogin(email, password, SECRET),
+    refreshTokens: (parent, { token, refreshToken }, { SECRET }) => refreshTokens(token, refreshToken, SECRET),
   },
   Subscription: {
     contactDeleted: {
@@ -263,19 +244,19 @@ const resolvers = {
         });
       }
     }),
-    allContact: requiresAuth((_, args) => {
+    allContact: requiresAuth.createResolver((_, args) => {
       return Contact.findAll({ limit: args.limit, offset: args.offset, order: [args.order] });
     }),
-    Antenna: requiresAuth((_, args) => {
+    Antenna: requiresAuth.createResolver((_, args) => {
       return Antenna.find({ where: args });
     }),
-    allAntenna: requiresAuth(() => {
+    allAntenna: requiresAuth.createResolver(() => {
       return Antenna.findAll();
     }),
-    Receiver: requiresAuth((_, args) => {
+    Receiver: requiresAuth.createResolver((_, args) => {
       return Receiver.find({ where: args });
     }),
-    allReceiver: requiresAuth(() => {
+    allReceiver: requiresAuth.createResolver(() => {
       return Receiver.findAll();
     }),
     allStaff(_, args) {
