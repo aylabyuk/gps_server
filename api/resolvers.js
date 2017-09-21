@@ -265,7 +265,7 @@ const resolvers = {
         order: [args.order],
       });
     }),
-    allLogsheet: requiresAuth.createResolvers((_, args) => {
+    allLogsheet: requiresAuth.createResolver((_, args) => {
       return Logsheet.findAll({
         include: [{ all: true }],
         where: args,
