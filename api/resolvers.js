@@ -272,7 +272,7 @@ const resolvers = {
       });
     }),
     singleLogsheet: requiresAuth.createResolver((_, args) => {
-      return Logsheet.find({ where: args });
+      return Logsheet.find({ include: [{ all: true }], where: args });
     }),
     allDivision() {
       return Division.findAll();

@@ -52,13 +52,13 @@ export const tryLogin = async (email, password, SECRET) => {
   const user = await User.findOne({ where: { email }, raw: true });
   if (!user) {
     // user with provided email not found
-    throw new Error('Invalid login');
+    throw new Error('Invalid login, email not found.');
   }
 
   const valid = await bcrypt.compare(password, user.password);
   if (!valid) {
     // bad password
-    throw new Error('Invalid login');
+    throw new Error('Invalid login, please check your password.');
   }
 
   const [token, refreshToken] = await createTokens(user, SECRET);

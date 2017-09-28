@@ -295,6 +295,9 @@ type Logsheet {
   receiver:  Receiver  
   contact:  Contact 
   fieldworkId: Int
+  createdAt: Date
+  updatedAt: Date
+  author: User
 }
 
 input StaffIdInput {

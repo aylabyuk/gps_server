@@ -150,7 +150,7 @@ StaffModel.belongsTo(DivisionModel);
 StaffModel.hasMany(EmailModel);
 StaffModel.hasMany(ContactNumberModel);
 
-// logsheet, receiver, antennam, staff, contact, sitenamedetail relationships
+// logsheet, receiver, antenna, staff, contact, sitenamedetail relationships
 LogsheetModel.belongsToMany(StaffModel, { through: 'observer' });
 StaffModel.belongsToMany(LogsheetModel, { through: 'observer' });
 LogsheetModel.belongsTo(SiteModel);
@@ -158,6 +158,7 @@ LogsheetModel.belongsTo(AntennaModel, { targetKey: 'serial_number' });
 LogsheetModel.belongsTo(ReceiverModel, { targetKey: 'serial_number' });
 SiteModel.hasMany(LogsheetModel);
 LogsheetModel.belongsTo(ContactModel, { targetKey: 'id' });
+LogsheetModel.belongsTo(UserModel, { targetKey: 'username', as: 'author' })
 
 // logsheet, fieldwork relationship
 FieldWorkModel.hasMany(LogsheetModel);
