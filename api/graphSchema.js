@@ -84,7 +84,7 @@ type Mutation {
 type Query {
   # get all sites, you can use pagination using limit and offset technique 
   allSite(limit: Int, offset: Int): [Site]
-  # find specific sites that have logsheets information using sitename
+  # find specific sites that have logsheets information using sitename, start and end dates
   sitesWithLogsheet(name: [String]): [Site]
     # query all sites that have a logsheet entry
     allSitesWithLogsheet: [Site]
@@ -106,6 +106,8 @@ type Query {
   allLogsheet(logsheet_date: Date): [Logsheet]
     # query logsheets using logsheet ID
     singleLogsheet(id: ID): Logsheet
+    # searching for logsheets using sitenames and logsheet dates
+    searchLogsheet(sitename: [String], startDate: Date, endDate: Date): [Logsheet]
   # query all division info
   allDivision: [Division]
   # query all position info

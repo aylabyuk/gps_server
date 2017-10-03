@@ -244,6 +244,26 @@ const resolvers = {
         });
       }
     }),
+    searchLogsheet: requiresStaff.createResolver((_, args) => {
+      let { sitename, startDate, endDate  } = args
+
+      let whereClause = {}
+      
+      if(sitename) {
+        whereClause['$site.name$'] = { $in: sitename }
+      }
+
+      if(startDate) {
+        whereClause.logsheet_date = { $between: [ startDate, endDate ] }
+      }
+
+      return Logsheet.findAll({
+        where: whereClause,
+        include: [
+          Site,
+        ],
+      })
+    }),
     allContact: requiresAuth.createResolver((_, args) => {
       return Contact.findAll({ limit: args.limit, offset: args.offset, order: [args.order] });
     }),
