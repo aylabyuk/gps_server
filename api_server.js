@@ -1,16 +1,18 @@
 import express from 'express';
-import bodyParser from 'body-parser';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
-import schema from './api/schema';
-import { execute, subscribe } from 'graphql';
+// import bodyParser from 'body-parser';
+// import { SubscriptionServer } from 'subscriptions-transport-ws';
+// import schema from './api/schema';
+// import { execute, subscribe } from 'graphql';
 import http from 'http';
 import cors from 'cors';
 import index from './api_router'
 
+import * as m from './sql/connector';
+
 // Hot reloadable modules
-const graphiqlMiddleware = require('./middleware/graphiql').default;
-const graphqlMiddleware = require('./middleware/graphql').default;
-const uploadServerMiddleware = require('./middleware/upload').default;
+// const graphiqlMiddleware = require('./middleware/graphiql').default;
+// const graphqlMiddleware = require('./middleware/graphql').default;
+// const uploadServerMiddleware = require('./middleware/upload').default;
 
 const app = express();
 
@@ -40,35 +42,35 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-// app.use(cors('*'))
+app.use(cors('*'))
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 
 // app.use((...args) => uploadServerMiddleware(...args));
 // app.use('/graphql', (...args) => graphqlMiddleware(...args));
 // app.use('/graphiql', (...args) => graphiqlMiddleware(...args));
 // app.use('/line', index);
 
-app.use(express.static('gpsUPLOADS'))
+// app.use(express.static('gpsUPLOADS'))
 
 let server = http.createServer(app);
 
 server.listen(port, () => {
 
-  new SubscriptionServer({
-    execute,
-    subscribe,
-    schema
-  }, {
-    server,
-    path: '/',
-  })
+  // new SubscriptionServer({
+  //   execute,
+  //   subscribe,
+  //   schema
+  // }, {
+  //   server,
+  //   path: '/',
+  // })
 
   console.log(`API is now running on port ${port}`);
 });
 
-server.on('close', () => {
-  server = undefined;
-});
+// server.on('close', () => {
+//   server = undefined;
+// });
 
