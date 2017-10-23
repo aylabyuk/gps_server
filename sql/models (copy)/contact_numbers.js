@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('accessLevels', {
+  return sequelize.define('contactNumbers', {
     id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -9,12 +9,12 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
       field: 'id'
     },
-    type: {
-      type: DataTypes.STRING(10),
+    number: {
+      type: DataTypes.INTEGER(30),
       allowNull: false,
-      field: 'type'
+      field: 'number'
     }
   }, {
-    tableName: 'access_levels'
+    tableName: 'contact_numbers'
   });
 };

@@ -1,20 +1,19 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('accessLevels', {
+  return sequelize.define('surveyTypes', {
     id: {
-      type: DataTypes.INTEGER(11),
+      type: DataTypes.INTEGER(1),
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
       field: 'id'
     },
     type: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(15),
       allowNull: false,
       field: 'type'
     }
   }, {
-    tableName: 'access_levels'
+    tableName: 'survey_types'
   });
 };

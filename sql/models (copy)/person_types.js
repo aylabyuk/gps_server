@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('accessLevels', {
+  return sequelize.define('personTypes', {
     id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -10,11 +10,16 @@ module.exports = function(sequelize, DataTypes) {
       field: 'id'
     },
     type: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(20),
       allowNull: false,
       field: 'type'
+    },
+    description: {
+      type: DataTypes.STRING(300),
+      allowNull: false,
+      field: 'description'
     }
   }, {
-    tableName: 'access_levels'
+    tableName: 'person_types'
   });
 };

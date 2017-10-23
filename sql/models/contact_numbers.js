@@ -13,6 +13,15 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(30),
       allowNull: false,
       field: 'number'
+    },
+    staffId: {
+      type: DataTypes.INTEGER(30),
+      allowNull: false,
+      references: {
+        model: 'people',
+        key: 'id'
+      },
+      field: 'staff_id'
     }
   }, {
     tableName: 'contact_numbers'

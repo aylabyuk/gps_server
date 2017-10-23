@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('emails', {
+  return sequelize.define('campaignObservers', {
     id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -9,11 +9,14 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
       field: 'id'
     },
-    address: {
-      type: DataTypes.STRING(255),
+    campaignLogsheetId: {
+      type: DataTypes.INTEGER(11),
       allowNull: false,
-      unique: true,
-      field: 'address'
+      references: {
+        model: 'campaign_logsheets',
+        key: 'id'
+      },
+      field: 'campaign_logsheetId'
     },
     staffId: {
       type: DataTypes.INTEGER(11),
@@ -22,9 +25,9 @@ module.exports = function(sequelize, DataTypes) {
         model: 'people',
         key: 'id'
       },
-      field: 'staff_id'
+      field: 'staffId'
     }
   }, {
-    tableName: 'emails'
+    tableName: 'campaign_observers'
   });
 };

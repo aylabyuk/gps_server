@@ -9,15 +9,6 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
       field: 'id'
     },
-    antennaModelId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'antenna_models',
-        key: 'id'
-      },
-      field: 'antenna_modelId'
-    },
     serialNumber: {
       type: DataTypes.STRING(150),
       allowNull: false,

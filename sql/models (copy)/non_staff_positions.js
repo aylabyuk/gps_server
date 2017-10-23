@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('antennaModels', {
+  return sequelize.define('nonStaffPositions', {
     id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -10,20 +10,16 @@ module.exports = function(sequelize, DataTypes) {
       field: 'id'
     },
     name: {
-      type: DataTypes.STRING(200),
+      type: DataTypes.STRING(100),
       allowNull: false,
       field: 'name'
     },
-    equipmentBrandId: {
-      type: DataTypes.INTEGER(11),
+    description: {
+      type: DataTypes.STRING(1024),
       allowNull: false,
-      references: {
-        model: 'equipment_brands',
-        key: 'id'
-      },
-      field: 'equipment_brandId'
+      field: 'description'
     }
   }, {
-    tableName: 'antenna_models'
+    tableName: 'non_staff_positions'
   });
 };
