@@ -28,15 +28,10 @@ app.enable('trust proxy');
 
 // FIXES CORS ERROR
 const whitelist = [
-  'http://192.168.50.101:8000',
-  'http://192.168.8.102:8000',
-  'http://192.168.1.200:8000', // prod
-  'http://gps-toto-pc:8000', // prod
-  'http://192.168.1.200:8080', // dev
   'http://localhost:8080',
-  'http://localhost:8000',
-  'http://gpsteam.herokuapp.com',
+  'http://localhost:8000'
 ];
+
 const corsOptions = {
   origin(origin, callback) {
     const originIsWhitelisted = whitelist.indexOf(origin) !== -1;
@@ -50,10 +45,10 @@ app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use((...args) => uploadServerMiddleware(...args));
-app.use('/graphql', (...args) => graphqlMiddleware(...args));
-app.use('/graphiql', (...args) => graphiqlMiddleware(...args));
-app.use('/line', index);
+// app.use((...args) => uploadServerMiddleware(...args));
+// app.use('/graphql', (...args) => graphqlMiddleware(...args));
+// app.use('/graphiql', (...args) => graphiqlMiddleware(...args));
+// app.use('/line', index);
 
 app.use(express.static('gpsUPLOADS'))
 

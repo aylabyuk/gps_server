@@ -6,161 +6,45 @@ const env = process.env.NODE_ENV || 'prod';
 let dbname;
 
 if (env === 'dev') {
-  dbname = 'gpsdb_dev';
+  dbname = 'gpsdb_rev';
 } else {
-  dbname = 'gpsdb';
+  dbname = 'gpsdb_rev';
 }
 
-if (!global.hasOwnProperty('db')) {
-  if (process.env.HEROKU_POSTGRESQL_WHITE_URL) {
-    // the application is executed on Heroku ... use the postgres database
-    db = new Sequelize(process.env.HEROKU_POSTGRESQL_WHITE_URL, {
-      dialect: 'postgres',
-      protocol: 'postgres',
-      port: 5432,
-      host: 'ec2-23-21-219-105.compute-1.amazonaws.com',
-      logging: true, // false
-    });
-  } else {
-    // the application is executed on the local machine ... use mysql
-    db = new Sequelize(dbname, 'gps', '', {
-      dialect: 'mysql',
-      host: 'localhost',
-      port: '3306',
-    });
-  }
-}
-
-const SiteModel = db.define('site', {
-  name: { type: Sequelize.STRING },
-  marker: { type: Sequelize.STRING },
-  constructed: { type: Sequelize.DATE },
-  survey_type: { type: Sequelize.STRING },
-  long: { type: Sequelize.STRING },
-  lat: { type: Sequelize.STRING },
-  address: { type: Sequelize.STRING },
-  description: { type: Sequelize.STRING },
+db = new Sequelize(dbname, 'gps', 'thisisthegpsteam', {
+  dialect: 'mysql',
+  host: 'localhost',
+  port: '3306',
 });
 
-const FileUploadModel = db.define('file_upload', {
-  description: { type: Sequelize.STRING },
-  name: { type: Sequelize.STRING },
-  type: { type: Sequelize.STRING },
-  size: { type: Sequelize.INTEGER },
-  path: { type: Sequelize.STRING },
-});
+// set models
+export const AccessLevel = db.import("./models/access_levels")
+export const AntennaModel = db.import("./models/antenna_models")
+export const Antenna = db.import("./models/antennas")
+export const CampaignLogsheet = db.import("./models/campaign_logsheets")
+export const CampaignObserver = db.import("./models/campaign_observers")
+export const ContactNumber = db.import("./models/contact_numbers")
+export const ContinuousLogsheet = db.import("./models/continuous_logsheets")
+export const ContinuousObserver = db.import("./models/continuous_observers")
+export const Division = db.import("./models/divisions")
+export const Email = db.import("./models/emails")
+export const EquipmentBrand = db.import("./models/equipment_brands")
+export const Marker = db.import("./models/markers")
+export const NonStaffPosition = db.import("./models/non_staff_positions")
+export const OfficeLocation = db.import("./models/office_locations")
+export const Person = db.import("./models/people")
+export const PersonType = db.import("./models/person_types")
+export const Position = db.import("./models/positions")
+export const ReceiverModel = db.import("./models/receiver_models")
+export const Receiver = db.import("./models/receivers")
+export const Site = db.import("./models/sites")
+export const SurveyType = db.import("./models/survey_types")
+export const User = db.import("./models/users")
 
-const ContactModel = db.define('contact_person', {
-  first_name: { type: Sequelize.STRING, allowNull: false },
-  last_name: { type: Sequelize.STRING, allowNull: false },
-  position: { type: Sequelize.STRING },
-  contact_number: { type: Sequelize.STRING, allowNull: false },
-  organization: { type: Sequelize.STRING },
-  email_add: { type: Sequelize.STRING, unique: true },
-  address_one: { type: Sequelize.STRING },
-  address_two: { type: Sequelize.STRING },
-  city: { type: Sequelize.STRING },
-  province: { type: Sequelize.STRING },
-});
+// set relationships
 
-const AntennaModel = db.define('antenna', {
-  serial_number: { type: Sequelize.STRING, unique: true, allowNull: false },
-  part_number: { type: Sequelize.STRING, allowNull: false },
-  type: { type: Sequelize.STRING, allowNull: false },
-});
-
-const ReceiverModel = db.define('receiver', {
-  serial_number: { type: Sequelize.STRING, unique: true, allowNull: false },
-  type: { type: Sequelize.STRING, allowNull: false },
-  part_number: { type: Sequelize.STRING, allowNull: false },
-});
-
-const StaffModel = db.define('staff', {
-  first_name: { type: Sequelize.STRING, allowNull: false },
-  last_name: { type: Sequelize.STRING, allowNull: false },
-  nickname: { type: Sequelize.STRING, allowNull: false },
-  office_location: { type: Sequelize.STRING, allowNull: false },
-  birthday: { type: Sequelize.DATE, allowNull: true },
-});
-
-const EmailModel = db.define('email', {
-  address: { type: Sequelize.STRING, allowNull: true },
-});
-
-const ContactNumberModel = db.define('contact_number', {
-  number: { type: Sequelize.STRING, allowNull: true },
-});
-
-const LogsheetModel = db.define('logsheet', {
-  survey_type: { type: Sequelize.STRING, allowNull: false },
-  logsheet_date: { type: Sequelize.DATE, allowNull: false },
-  julian_day: { type: Sequelize.INTEGER, allowNull: false },
-  location: { type: Sequelize.STRING, allowNull: false },
-  marker: { type: Sequelize.STRING, allowNull: false },
-  north: { type: Sequelize.DOUBLE },
-  east: { type: Sequelize.DOUBLE },
-  south: { type: Sequelize.DOUBLE },
-  west: { type: Sequelize.DOUBLE },
-  time_start: { type: Sequelize.STRING },
-  time_end: { type: Sequelize.STRING },
-  azimuth: { type: Sequelize.INTEGER },
-  failure_time: { type: Sequelize.STRING },
-  receiver_status: { type: Sequelize.STRING },
-  antenna_status: { type: Sequelize.STRING },
-  rod_num: { type: Sequelize.INTEGER },
-  rod_correction: { type: Sequelize.INTEGER },
-  avg_slant_height: { type: Sequelize.DOUBLE },
-  ip_add: { type: Sequelize.STRING },
-  netmask: { type: Sequelize.STRING },
-  gateway: { type: Sequelize.STRING },
-  dns: { type: Sequelize.STRING },
-  local_tcp_port: { type: Sequelize.STRING },
-  latitude: { type: Sequelize.DOUBLE },
-  longitude: { type: Sequelize.DOUBLE },
-  observed_situation: { type: Sequelize.STRING },
-  lodging_road_information: { type: Sequelize.STRING },
-  others: { type: Sequelize.STRING },
-});
-
-const DivisionModel = db.define('division', {
-  division_name: { type: Sequelize.STRING, allowNull: false },
-});
-
-const PositionModel = db.define('position', {
-  position_name: { type: Sequelize.STRING, allowNull: false },
-});
-
-const FieldWorkModel = db.define('fieldwork', {
-  year: { type: Sequelize.INTEGER, allowNull: false },
-  month: { type: Sequelize.STRING, allowNull: false },
-  description: { type: Sequelize.STRING, allowNull: false },
-});
-
-// staff, contactnumber, email, division, position relationships
-StaffModel.belongsTo(PositionModel);
-StaffModel.belongsTo(DivisionModel);
-StaffModel.hasMany(EmailModel);
-StaffModel.hasMany(ContactNumberModel);
-
-// logsheet, receiver, antennam, staff, contact, sitenamedetail relationships
-LogsheetModel.belongsToMany(StaffModel, { through: 'observer' });
-StaffModel.belongsToMany(LogsheetModel, { through: 'observer' });
-LogsheetModel.belongsTo(SiteModel);
-LogsheetModel.belongsTo(AntennaModel, { targetKey: 'serial_number' });
-LogsheetModel.belongsTo(ReceiverModel, { targetKey: 'serial_number' });
-SiteModel.hasMany(LogsheetModel);
-LogsheetModel.belongsTo(ContactModel, { targetKey: 'id' });
-
-// logsheet, fieldwork relationship
-FieldWorkModel.hasMany(LogsheetModel);
-StaffModel.belongsToMany(FieldWorkModel, { through: 'fieldwork_staff' });
-FieldWorkModel.belongsToMany(StaffModel, { through: 'fieldwork_staff' });
-
-// sitedetail, sitename relationships
-SiteModel.hasOne(SiteModel, { as: 'PreviousSitename', foreignKey: 'previousSitenameId' });
-ContactModel.belongsTo(SiteModel);
-SiteModel.hasMany(FileUploadModel);
-FileUploadModel.belongsTo(SiteModel)
+// user management
+AccessLevel.belongsTo(User)
 
 
 // uncommment this lines below to create the database tables
@@ -169,41 +53,5 @@ db.sync({
   // warning: setting force to true will delete all the data
   // make backup of the database first
   // only enable force to true if you know what you are doing.
-  // force: true,
+  force: true,
 });
-
-const Site = db.models.site;
-const FileUpload = db.models.file_upload;
-const Contact = db.models.contact_person;
-const Antenna = db.models.antenna;
-const Receiver = db.models.receiver;
-const Staff = db.models.staff;
-const Logsheet = db.models.logsheet;
-const Division = db.models.division;
-const Position = db.models.position;
-const Email = db.models.email;
-const ContactNumber = db.models.contact_number;
-const FieldWork = db.models.fieldwork;
-
-console.log('\nAssociations');
-for (const assoc of Object.keys(Logsheet.associations)) {
-  for (const accessor of Object.keys(Logsheet.associations[assoc].accessors)) {
-    console.log(`${Logsheet.name}.${Logsheet.associations[assoc].accessors[accessor]}()`);
-  }
-}
-
-export {
-  Site,
-  FileUpload,
-  Contact,
-  Antenna,
-  Receiver,
-  Staff,
-  Logsheet,
-  Division,
-  Position,
-  Email,
-  ContactNumber,
-  FieldWork,
-};
-
