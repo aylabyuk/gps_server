@@ -8,6 +8,8 @@ type Person {
     birthdate: Date
     position: Position
     division: Division
+    email: [Email]
+    contactNumber: [ContactNumber]
 }
 
 type Query {

@@ -1,0 +1,4 @@
+type ContactNumber {
+    id: ID!
+    number: String!
+}

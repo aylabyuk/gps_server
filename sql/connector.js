@@ -117,8 +117,8 @@ db.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then((res) => {
 })
 
 console.log('\nAssociations');
-for (const assoc of Object.keys(ContinuousLogsheet.associations)) {
-  for (const accessor of Object.keys(ContinuousLogsheet.associations[assoc].accessors)) {
-    console.log(`${ContinuousLogsheet.name}.${ContinuousLogsheet.associations[assoc].accessors[accessor]}()`);
+for (const assoc of Object.keys(Person.associations)) {
+  for (const accessor of Object.keys(Person.associations[assoc].accessors)) {
+    console.log(`${Person.name}.${Person.associations[assoc].accessors[accessor]}()`);
   }
 }

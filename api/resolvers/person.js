@@ -10,4 +10,12 @@ export default {
         }
     },
     Date: GraphQLToolsTypes.Date({ name: 'Date' }),
+    Person: {
+        email(person) {
+            return person.getEmails()   
+        },
+        contactNumber(person) {
+            return person.getContactNumbers()
+        }
+    }
 }
