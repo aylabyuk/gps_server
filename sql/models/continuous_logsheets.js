@@ -9,15 +9,6 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
       field: 'id'
     },
-    userId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'users',
-        key: 'id'
-      },
-      field: 'user_id'
-    },
     isPowerOn: {
       type: DataTypes.INTEGER(1),
       allowNull: false,
@@ -28,24 +19,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       // defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
       field: 'date'
-    },
-    receiverId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'receivers',
-        key: 'id'
-      },
-      field: 'receiver_id'
-    },
-    antennaId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'antennas',
-        key: 'id'
-      },
-      field: 'antenna_id'
     },
     batteryCondition: {
       type: DataTypes.STRING(1024),

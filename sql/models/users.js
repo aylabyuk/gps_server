@@ -29,24 +29,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: false,
       field: 'updatedAt'
-    },
-    staffId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-      references: {
-        model: 'people',
-        key: 'id'
-      },
-      field: 'staff_id'
-    },
-    accessLevelId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'access_levels',
-        key: 'id'
-      },
-      field: 'access_level_id'
     }
   }, {
     tableName: 'users'

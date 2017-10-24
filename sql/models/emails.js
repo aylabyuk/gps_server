@@ -14,15 +14,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       unique: true,
       field: 'address'
-    },
-    staffId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'people',
-        key: 'id'
-      },
-      field: 'staff_id'
     }
   }, {
     tableName: 'emails'

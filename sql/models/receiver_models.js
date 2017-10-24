@@ -13,15 +13,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(200),
       allowNull: false,
       field: 'name'
-    },
-    equipmentBrandId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'equipment_brands',
-        key: 'id'
-      },
-      field: 'equipment_brand_id'
     }
   }, {
     tableName: 'receiver_models'

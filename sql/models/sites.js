@@ -15,24 +15,6 @@ module.exports = function(sequelize, DataTypes) {
       unique: true,
       field: 'name'
     },
-    markerId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-      references: {
-        model: 'markers',
-        key: 'id'
-      },
-      field: 'marker_id'
-    },
-    surveyTypeId: {
-      type: DataTypes.INTEGER(1),
-      allowNull: false,
-      references: {
-        model: 'survey_types',
-        key: 'id'
-      },
-      field: 'survey_type_id'
-    },
     dateEstablished: {
       type: DataTypes.DATE,
       allowNull: true,

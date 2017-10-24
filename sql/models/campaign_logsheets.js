@@ -9,47 +9,11 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
       field: 'id'
     },
-    userId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'users',
-        key: 'id'
-      },
-      field: 'userId'
-    },
     date: {
       type: DataTypes.DATE,
       allowNull: false,
       // defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
       field: 'date'
-    },
-    siteId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'sites',
-        key: 'id'
-      },
-      field: 'site_id'
-    },
-    receiverId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'receivers',
-        key: 'id'
-      },
-      field: 'receiver_id'
-    },
-    antennaId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'antennas',
-        key: 'id'
-      },
-      field: 'antenna_id'
     },
     heightNorthMeters: {
       type: "DOUBLE",

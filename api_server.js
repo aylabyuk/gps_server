@@ -1,17 +1,17 @@
 import express from 'express';
-// import bodyParser from 'body-parser';
+import { apolloExpress } from 'apollo-server';
+import bodyParser from 'body-parser';
 // import { SubscriptionServer } from 'subscriptions-transport-ws';
 // import schema from './api/schema';
 // import { execute, subscribe } from 'graphql';
 import http from 'http';
 import cors from 'cors';
-import index from './api_router'
 
-import * as m from './sql/connector';
+import * as models from './sql/connector';
 
 // Hot reloadable modules
-// const graphiqlMiddleware = require('./middleware/graphiql').default;
-// const graphqlMiddleware = require('./middleware/graphql').default;
+const graphiqlMiddleware = require('./middleware/graphiql').default;
+const graphqlMiddleware = require('./middleware/graphql').default;
 // const uploadServerMiddleware = require('./middleware/upload').default;
 
 const app = express();

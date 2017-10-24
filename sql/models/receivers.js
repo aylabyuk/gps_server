@@ -9,15 +9,6 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true,
       field: 'id'
     },
-    receiverModelId: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
-      references: {
-        model: 'receiver_models',
-        key: 'id'
-      },
-      field: 'receiver_model_id'
-    },
     serialNumber: {
       type: DataTypes.STRING(150),
       allowNull: false,

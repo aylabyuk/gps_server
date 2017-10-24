@@ -51,7 +51,7 @@ export const User = db.import("./models/users")
 // set relationships
 // user, person, access_level
 AccessLevel.hasMany(User)
-User.belongsTo(Person, {as : 'staff'})
+User.belongsTo(Person)
 
 /* (Staff) position, division, person 
 email, contact_number
