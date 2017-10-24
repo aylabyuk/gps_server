@@ -1,0 +1,16 @@
+scalar Date
+
+type Person {
+    id: ID!
+    firstName: String
+    lastName: String
+    nickName: String
+    birthdate: Date
+    position: Position
+    division: Division
+}
+
+type Query {
+    singlePerson(id: ID!): Person
+    allPerson: [Person]
+}

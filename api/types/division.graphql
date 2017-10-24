@@ -1,0 +1,10 @@
+type Division {
+    id: ID!
+    name: String!
+    staff: [Person]
+}
+
+type Query {
+    singleDivision(id: ID!): Division
+    allDivision: [Division]
+}

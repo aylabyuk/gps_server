@@ -2,7 +2,7 @@ import express from 'express';
 import { apolloExpress } from 'apollo-server';
 import bodyParser from 'body-parser';
 // import { SubscriptionServer } from 'subscriptions-transport-ws';
-// import schema from './api/schema';
+import schema from './api/schema';
 // import { execute, subscribe } from 'graphql';
 import http from 'http';
 import cors from 'cors';
@@ -44,12 +44,12 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(cors('*'))
 
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // app.use((...args) => uploadServerMiddleware(...args));
-// app.use('/graphql', (...args) => graphqlMiddleware(...args));
-// app.use('/graphiql', (...args) => graphiqlMiddleware(...args));
+app.use('/graphql', (...args) => graphqlMiddleware(...args));
+app.use('/graphiql', (...args) => graphiqlMiddleware(...args));
 // app.use('/line', index);
 
 // app.use(express.static('gpsUPLOADS'))
@@ -70,7 +70,7 @@ server.listen(port, () => {
   console.log(`API is now running on port ${port}`);
 });
 
-// server.on('close', () => {
-//   server = undefined;
-// });
+server.on('close', () => {
+  server = undefined;
+});
 

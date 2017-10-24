@@ -1,0 +1,10 @@
+type Position {
+    id: ID!
+    name: String!
+    staff: [Person]
+}
+
+type Query {
+    singlePosition(id: ID!): Position
+    allPosition: [Position]
+}

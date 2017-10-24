@@ -1,22 +1,6 @@
-import * as m from '../sql/connector';
+import path from 'path';
+import { fileLoader, mergeResolvers } from 'merge-graphql-schemas';
 
-import { GraphQLScalarType } from 'graphql';
-import GraphQLToolsTypes from 'graphql-tools-types';
-import sequelize from 'sequelize'
-import { PubSub } from 'graphql-subscriptions';
+const resolversArray = fileLoader(path.join(__dirname, './resolvers'));
 
-import { getnewPath } from './fsmodule'
-
-export const pubsub = new PubSub
-
-const resolvers = {
-  Mutation: {
-  },
-  Subscription: {
-  },
-  Query: {
-  }
-};
-
-
-export default resolvers;
+export default mergeResolvers(resolversArray);

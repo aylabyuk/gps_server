@@ -112,7 +112,7 @@ db.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then((res) => {
     // warning: setting force to true will delete all the data
     // make backup of the database first
     // only enable force to true if you know what you are doing.
-    force: true,
+    // force: true,
   });
 })
 
