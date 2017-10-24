@@ -1,10 +1,10 @@
 type Division {
     id: ID!
     name: String!
-    staff: [Person]
+    staff: [Staff]
 }
 
 type Query {
     singleDivision(id: ID!): Division
-    allDivision: [Division]
+    allDivision: [Staff]
 }

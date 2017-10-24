@@ -1,6 +1,6 @@
 scalar Date
 
-type Person {
+type Staff {
     id: ID!
     firstName: String
     lastName: String
@@ -13,6 +13,6 @@ type Person {
 }
 
 type Query {
-    singlePerson(id: ID!): Person
-    allPerson: [Person]
+    singleStaff(id: ID!): Staff
+    allStaff: [Staff]
 }

@@ -6,5 +6,10 @@ export default {
         allPosition: (parent, args, { models }) => {
             return models.Position.findAll({ include: [{ all: true }] })
         }
+    },
+    Position: {
+        staff(position) {
+            return position.getPeople()
+        }
     }
 }

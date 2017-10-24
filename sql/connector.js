@@ -3,8 +3,6 @@ import Sequelize from 'sequelize';
 // clear terminal window
 process.stdout.write("\u001b[2J\u001b[0;0H");
 
-let db = null;
-
 const env = process.env.NODE_ENV || 'prod';
 let dbname;
 
@@ -15,7 +13,7 @@ if (env === 'dev') {
 }
 
 // define the database
-db = new Sequelize(dbname, 'gps', 'thisisthegpsteam', {
+export let db = new Sequelize(dbname, 'gps', 'thisisthegpsteam', {
   dialect: 'mysql',
   host: 'localhost',
   port: '3306',
@@ -117,8 +115,8 @@ db.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then((res) => {
 })
 
 console.log('\nAssociations');
-for (const assoc of Object.keys(Person.associations)) {
-  for (const accessor of Object.keys(Person.associations[assoc].accessors)) {
-    console.log(`${Person.name}.${Person.associations[assoc].accessors[accessor]}()`);
+for (const assoc of Object.keys(Position.associations)) {
+  for (const accessor of Object.keys(Position.associations[assoc].accessors)) {
+    console.log(`${Position.name}.${Position.associations[assoc].accessors[accessor]}()`);
   }
 }

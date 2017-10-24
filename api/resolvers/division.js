@@ -6,5 +6,10 @@ export default {
         allDivision: (parent, args, { models }) => {
             return models.Division.findAll({ include: [{ all: true }] })
         }
+    },
+    Division: {
+        staff(division) {
+            return division.getPeople()
+        }
     }
 }

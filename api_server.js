@@ -1,9 +1,9 @@
 import express from 'express';
 import { apolloExpress } from 'apollo-server';
 import bodyParser from 'body-parser';
-// import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 import schema from './api/schema';
-// import { execute, subscribe } from 'graphql';
+import { execute, subscribe } from 'graphql';
 import http from 'http';
 import cors from 'cors';
 
@@ -58,14 +58,14 @@ let server = http.createServer(app);
 
 server.listen(port, () => {
 
-  // new SubscriptionServer({
-  //   execute,
-  //   subscribe,
-  //   schema
-  // }, {
-  //   server,
-  //   path: '/',
-  // })
+  new SubscriptionServer({
+    execute,
+    subscribe,
+    schema
+  }, {
+    server,
+    path: '/',
+  })
 
   console.log(`API is now running on port ${port}`);
 });
