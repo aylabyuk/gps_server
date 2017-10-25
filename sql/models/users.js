@@ -16,20 +16,10 @@ module.exports = function(sequelize, DataTypes) {
       field: 'username'
     },
     password: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING(200),
       allowNull: false,
       field: 'password'
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      field: 'createdAt'
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      field: 'updatedAt'
-    }
   }, {
     tableName: 'users'
   });
