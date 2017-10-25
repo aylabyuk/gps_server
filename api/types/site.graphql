@@ -1,0 +1,27 @@
+type Site {
+    id: ID! 
+    name: String! 
+    dateEstablished: Date 
+    latitude: Float
+    longitude: Float 
+    location: String 
+    description: String
+    surveyType: SurveyType
+    marker: Marker
+}
+
+type SurveyType {
+    id: ID!
+    type: String!
+}
+
+type Marker {
+    id: ID!
+    name: String!
+    description: String
+}
+
+type Query {
+    singleSite(id: ID!): Site
+    allSite: [Site]
+}

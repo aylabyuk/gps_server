@@ -115,8 +115,8 @@ db.query('SET FOREIGN_KEY_CHECKS = 0', {raw: true}).then((res) => {
 })
 
 console.log('\nAssociations');
-for (const assoc of Object.keys(Position.associations)) {
-  for (const accessor of Object.keys(Position.associations[assoc].accessors)) {
-    console.log(`${Position.name}.${Position.associations[assoc].accessors[accessor]}()`);
+for (const assoc of Object.keys(Site.associations)) {
+  for (const accessor of Object.keys(Site.associations[assoc].accessors)) {
+    console.log(`${Site.name}.${Site.associations[assoc].accessors[accessor]}()`);
   }
 }
