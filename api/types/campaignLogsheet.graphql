@@ -1,0 +1,25 @@
+scalar Time
+
+type CampaignLogsheet {
+    id: ID!
+    date: Date!
+    site: Site!
+    antenna: Antenna!
+    receiver: Receiver!
+    observers: [Staff]
+    heightNorthMeters: Float
+    heightEastMeters: Float
+    heightWestMeters: Float
+    heightSouthMeters: Float
+    timeStart: String
+    timeEnd: String
+    failureTime: String
+    azimuth: Float
+    notes: String
+    createdAt: Date
+}
+
+type Query {
+    singleCampaignLogsheet(id: ID!): CampaignLogsheet
+    allCampaignLogsheet: [CampaignLogsheet]
+}

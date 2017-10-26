@@ -1,4 +1,5 @@
 import GraphQLToolsTypes from 'graphql-tools-types';
+import { GraphQLTime } from 'graphql-iso-date'
 import { db } from '../../sql/connector'
 
 const Op = db.Op

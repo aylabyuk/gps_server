@@ -6,5 +6,5 @@ type Division {
 
 type Query {
     singleDivision(id: ID!): Division
-    allDivision: [Staff]
+    allDivision: [Division]
 }

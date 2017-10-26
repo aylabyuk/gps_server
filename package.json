@@ -20,6 +20,7 @@
     "express": "^4.16.2",
     "file-type": "^5.2.0",
     "graphql": "^0.10.5",
+    "graphql-iso-date": "^3.3.0",
     "graphql-server-express": "^1.1.7",
     "graphql-subscriptions": "^0.4.4",
     "graphql-tools": "^1.2.3",
