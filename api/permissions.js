@@ -17,16 +17,16 @@ export const requiresAuth = createResolver((parent, args, context) => {
     }
 });
 
-// export const requiresStaff = requiresAuth.createResolver((parent, args, context) => {
-//     if(!context.user.isStaff) {
-//         throw new Error('Action not permitted for non-GPS staff')
-//     }
-// })
+export const requiresStaff = requiresAuth.createResolver((parent, args, context) => {
+    if(!context.user.access_level_id > 2) {
+        throw new Error('Action not permitted for non-GPS staff')
+    }
+})
 
-// export const requiresAdmin = requiresAuth.createResolver(
-//     (parent, args, context) => {
-//         if (!context.user.isAdmin) {
-//         throw new Error('Requires admin access');
-//         }
-//     },
-// );
+export const requiresAdmin = requiresAuth.createResolver(
+    (parent, args, context) => {
+        if (!context.user.access_level_id > 1) {
+        throw new Error('Requires admin access');
+        }
+    },
+);

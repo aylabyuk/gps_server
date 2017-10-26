@@ -6,9 +6,10 @@ import bcrypt from 'bcrypt';
 import { User } from '../sql/connector'
 
 const createTokens = async (user, secret) => {
+  
   const createToken = jwt.sign(
     {
-      user: _.pick(user, ['id']),
+      user: _.pick(user, ['id', 'access_level_id']),
     },
     secret,
     {
