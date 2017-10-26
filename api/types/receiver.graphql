@@ -1,0 +1,23 @@
+type Receiver {
+    id: ID! 
+    serialNumber: String!
+    partNumber: String!
+    retirementDate: Date 
+    receiverModel: ReceiverModel
+}
+
+type ReceiverModel {
+    id: ID
+    name: String
+    equipmentBrand: EquipmentBrand
+}
+
+type EquipmentBrand {
+    id: ID
+    name: String
+}
+
+type Query {
+    singleReceiver(id: ID!): Receiver
+    allReceiver: [Receiver]
+}

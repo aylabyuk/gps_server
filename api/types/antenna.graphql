@@ -1,0 +1,18 @@
+type Antenna {
+    id: ID! 
+    serialNumber: String!
+    partNumber: String!
+    retirementDate: Date 
+    antennaModel: AntennaModel
+}
+
+type AntennaModel {
+    id: ID
+    name: String
+    equipmentBrand: EquipmentBrand
+}
+
+type Query {
+    singleAntenna(id: ID!): Antenna
+    allAntenna: [Antenna]
+}
