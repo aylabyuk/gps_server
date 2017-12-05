@@ -1,6 +1,7 @@
 import express from 'express'
 import graphqlHTTP from 'express-graphql'
-import { getSchema, ModelTypes } from 'graphql-sequelize-crud'
+import { getSchema } from '../../generator/graphql-sequelize-crud/dist/src'
+// import { getSchema } from 'graphql-sequelize-crud'
 import { db as sequelize} from './sql/connector'
 
 const expressPlayground = require('graphql-playground-middleware-express').default
@@ -11,6 +12,7 @@ sequelize.sync({
     // force: true
 }).then(() => {
     const schema = getSchema(sequelize);
+    console.log(schema)
 
     app.use('/graphql', graphqlHTTP({
         schema,
