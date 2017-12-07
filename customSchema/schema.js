@@ -4,6 +4,12 @@ export const typeDefs = `
         refreshToken: String!
     }
 
+    type regUser {
+        id: ID
+        username: String!
+        access_level_id: Int
+    }
+
     type Query {
         developer: String!
     }
@@ -13,7 +19,7 @@ export const typeDefs = `
         register(
             username: String!
             password: String
-        ) : RegUser!
+        ) : regUser!
 
         login( username: String!, password: String) : AuthPayload!
         
