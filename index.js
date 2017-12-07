@@ -3,6 +3,8 @@ import graphqlHTTP from 'express-graphql'
 import { getSchema } from './graphql-sequelize-crud-aylabyuk/src'
 // import { getSchema } from 'graphql-sequelize-crud'
 import { db as sequelize} from './sql/connector'
+import jwt from 'jsonwebtoken'
+import { request } from 'https';
 
 const expressPlayground = require('graphql-playground-middleware-express').default
 
@@ -44,14 +46,14 @@ sequelize.sync({
 
     const schema = getSchema(sequelize)
 
-    app.use('/graphql', graphqlHTTP({
+    app.use('/graphql', graphqlHTTP((req) => ({
         schema,
         graphiql: true,
         context: {
             SECRET,
             user: req.user
         }
-    }));
+    })));
 
     app.get('/playground', expressPlayground({ endpoint: '/graphql' }));
 
