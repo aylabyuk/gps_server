@@ -5,6 +5,7 @@ import { getSchema } from './graphql-sequelize-crud-aylabyuk/src'
 import { db as sequelize} from './sql/connector'
 import jwt from 'jsonwebtoken'
 import { request } from 'https';
+import { customSchema } from './customSchema'
 
 const expressPlayground = require('graphql-playground-middleware-express').default
 

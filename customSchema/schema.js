@@ -4,12 +4,16 @@ export const typeDefs = `
         refreshToken: String!
     }
 
+    type Query {
+        developer: String!
+    }
+
     type Mutation {
 
         register(
             username: String!
             password: String
-        ) : User!
+        ) : RegUser!
 
         login( username: String!, password: String) : AuthPayload!
         

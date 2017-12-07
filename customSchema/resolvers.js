@@ -3,6 +3,9 @@ import { SECRET } from '../index'
 import { User } from '../sql/connector'
 
 export const resolvers = {
+    Query: {
+        developer: "Oriel Vinci Absin"
+    },
     Mutation: {
         register: async (_, args) => {
             const user = args;
