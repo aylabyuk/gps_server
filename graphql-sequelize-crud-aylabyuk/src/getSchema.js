@@ -233,7 +233,7 @@ function getSchema(sequelize) {
     // Configure NodeTypeMapper
     nodeTypeMapper.mapTypes(__assign({}, modelTypes));
     var queryRoot = new graphql_1.GraphQLObjectType({
-        name: "Root",
+        name: "Query",
         description: "Root of the Schema",
         fields: function () { return (__assign({ root: {
                 // Cite: https://github.com/facebook/relay/issues/112#issuecomment-170648934

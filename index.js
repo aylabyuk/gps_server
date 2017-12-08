@@ -5,7 +5,8 @@ import { getSchema } from './graphql-sequelize-crud-aylabyuk/src'
 import { db as sequelize} from './sql/connector'
 import jwt from 'jsonwebtoken'
 import { request } from 'https';
-import { customSchema } from './customSchema'
+import { customSchema } from './customSchema/index'
+import { mergeSchemas } from 'graphql-tools'
 
 const expressPlayground = require('graphql-playground-middleware-express').default
 
@@ -41,14 +42,20 @@ const addUser = async (req, res, next) => {
   
 app.use(addUser);
 
+console.log("custom", customSchema)
+
 sequelize.sync({
     // force: true
 }).then(() => {
 
     const schema = getSchema(sequelize)
 
+    let merged = mergeSchemas({
+        schemas: [schema, customSchema]
+    })
+
     app.use('/graphql', graphqlHTTP((req) => ({
-        schema,
+        schema: merged,
         graphiql: true,
         context: {
             SECRET,
