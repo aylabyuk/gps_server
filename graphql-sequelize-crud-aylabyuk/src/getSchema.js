@@ -16,7 +16,7 @@ var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
 var sequelizeNodeInterface = graphql_sequelize_teselagen_1.relay.sequelizeNodeInterface, sequelizeConnection = graphql_sequelize_teselagen_1.relay.sequelizeConnection;
 var OperationFactory_1 = require("./OperationFactory");
 var utils_1 = require("./utils");
-function getSchema(sequelize) {
+function getSchema(sequelize, hooks) {
     var _a = sequelizeNodeInterface(sequelize), nodeInterface = _a.nodeInterface, nodeField = _a.nodeField, nodeTypeMapper = _a.nodeTypeMapper;
     var models = sequelize.models;
     var queries = {};
@@ -73,7 +73,7 @@ function getSchema(sequelize) {
             models: models,
             modelTypes: types,
             associationsFromModel: associationsFromModel,
-            associationsToModel: associationsToModel,
+            associationsToModel: associationsToModel
         });
         // CREATE single
         operationFactory.createRecord({
@@ -85,13 +85,14 @@ function getSchema(sequelize) {
         operationFactory.findRecord({
             queries: queries,
             model: model,
-            modelType: modelType,
+            modelType: modelType
         });
         // READ all
         operationFactory.findAll({
             queries: queries,
             model: model,
             modelType: modelType,
+            hooks: hooks
         });
         // UPDATE single
         operationFactory.updateRecord({

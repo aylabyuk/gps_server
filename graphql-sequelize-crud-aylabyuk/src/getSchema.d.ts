@@ -2,4 +2,5 @@
 /// <reference types="sequelize" />
 import { GraphQLSchema } from 'graphql';
 import { Sequelize } from "sequelize";
-export declare function getSchema(sequelize: Sequelize): GraphQLSchema;
+import { HookObject } from "./OperationFactory";
+export declare function getSchema(sequelize: Sequelize, hooks?: HookObject): GraphQLSchema;

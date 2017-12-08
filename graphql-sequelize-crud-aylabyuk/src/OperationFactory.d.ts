@@ -19,10 +19,11 @@ export declare class OperationFactory {
         model: Model;
         modelType: GraphQLObjectType;
     }): void;
-    findAll({queries, model, modelType}: {
+    findAll({queries, model, modelType, hooks}: {
         model: Model;
         modelType: GraphQLObjectType;
         queries: Queries;
+        hooks?: HookObject;
     }): void;
     updateRecords({mutations, model, modelType}: {
         mutations: Mutations;
@@ -76,10 +77,17 @@ export interface Queries extends GraphQLFieldConfigMap<any, any> {
 export interface Mutations extends GraphQLFieldConfigMap<any, any> {
     [mutationName: string]: GraphQLFieldConfig<any, any>;
 }
+export interface HookObject {
+    [operationName: string]: {
+        before?: any;
+        after?: any;
+    };
+}
 export interface OperationFactoryConfig {
     models: Models;
     modelTypes: ModelTypes;
     associationsToModel: AssociationToModels;
     associationsFromModel: AssociationFromModels;
     cache: Cache;
+    hooks?: HookObject;
 }

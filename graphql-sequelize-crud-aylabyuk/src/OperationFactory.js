@@ -124,7 +124,7 @@ var OperationFactory = /** @class */ (function () {
         };
     };
     OperationFactory.prototype.findAll = function (_a) {
-        var queries = _a.queries, model = _a.model, modelType = _a.modelType;
+        var queries = _a.queries, model = _a.model, modelType = _a.modelType, hooks = _a.hooks;
         var findAllQueryName = utils_1.queryName(model, 'findAll');
         var queryArgs = graphql_sequelize_teselagen_1.defaultListArgs(model);
         var baseResolve = utils_1.createNonNullListResolver(graphql_sequelize_teselagen_1.resolver(model, { list: true }));
@@ -138,10 +138,17 @@ var OperationFactory = /** @class */ (function () {
             }
             return baseResolve(source, args, context, info);
         };
+        if (hooks) {
+            if (findAllQueryName in hooks) {
+                resolve = hooks[findAllQueryName].before.createResolver(function (source, args, context, info) {
+                    resolve;
+                });
+            }
+        }
         queries[findAllQueryName] = {
             type: utils_1.createNonNullList(modelType),
             args: queryArgs,
-            resolve: resolve,
+            resolve: resolve
         };
     };
     OperationFactory.prototype.updateRecords = function (_a) {

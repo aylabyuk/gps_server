@@ -8,6 +8,8 @@ import { request } from 'https';
 import { customSchema } from './customSchema/index'
 import { mergeSchemas } from 'graphql-tools'
 
+import { requiresAuth } from './helpers/permission'
+
 const expressPlayground = require('graphql-playground-middleware-express').default
 
 const app = express();
@@ -42,13 +44,16 @@ const addUser = async (req, res, next) => {
   
 app.use(addUser);
 
-console.log("custom", customSchema)
-
 sequelize.sync({
     // force: true
 }).then(() => {
 
-    const schema = getSchema(sequelize)
+    const schema = getSchema(sequelize, {
+        accessLevels: {
+            before: requiresAuth,
+            after: ()=> "test"
+        }
+    })
 
     let merged = mergeSchemas({
         schemas: [schema, customSchema]
