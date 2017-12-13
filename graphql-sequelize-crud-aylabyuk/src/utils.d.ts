@@ -21,4 +21,3 @@ export declare function getTableName(model: Model): string;
 export declare function globalIdInputField(modelName: string): GraphQLInputField;
 export declare function createNonNullList<T extends GraphQLInputType | GraphQLType>(modelType: T): T;
 export declare function createNonNullListResolver(resolver: GraphQLFieldResolver<any, any>): GraphQLFieldResolver<any, any>;
-export declare function createResolver(resolver: any): any;

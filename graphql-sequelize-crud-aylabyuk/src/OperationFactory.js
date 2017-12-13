@@ -130,6 +130,13 @@ var OperationFactory = /** @class */ (function () {
         var baseResolve = utils_1.createNonNullListResolver(graphql_sequelize_teselagen_1.resolver(model, { list: true }));
         // tslint:disable-next-line:max-func-args
         var resolve = function (source, args, context, info) {
+            if (hooks) {
+                if (findAllQueryName in hooks) {
+                    if (hooks[findAllQueryName].before(context)) {
+                        return hooks[findAllQueryName].before(context);
+                    }
+                }
+            }
             if (args.where) {
                 utils_1.convertFieldsFromGlobalId(model, args.where);
             }
@@ -138,13 +145,6 @@ var OperationFactory = /** @class */ (function () {
             }
             return baseResolve(source, args, context, info);
         };
-        if (hooks) {
-            if (findAllQueryName in hooks) {
-                resolve = hooks[findAllQueryName].before.createResolver(function (source, args, context, info) {
-                    resolve;
-                });
-            }
-        }
         queries[findAllQueryName] = {
             type: utils_1.createNonNullList(modelType),
             args: queryArgs,

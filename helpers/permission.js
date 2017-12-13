@@ -1,22 +1,30 @@
-import { createResolver } from '../graphql-sequelize-crud-aylabyuk/src'
+const createFunction = (resolver) => {
+    const baseFunction = resolver;
+    baseFunction.createFunction = (childFunction) => {
+        const newFunction = async (context) => {
+            await resolver(context);
+            return childFunction(context);
+        };
+        return createFunction(newFunction);
+    };
+    return baseFunction;
+};
 
-export const requiresAuth = createResolver((source, args, context, info) => {
+
+export const requiresAuth = createFunction((context) => {
     if (!context.user || !context.user.id) {
         throw new Error('Not authenticated');
     }
 });
-  
-export const requiresStaff = requiresAuth.createResolver((source, args, context, info) => {
-    if(!context.user.access_level_id === 2) {
+
+export const requiresStaff = requiresAuth.createFunction((context) => {
+    if(context.user.access_level_id !== 2) {
         throw new Error('Action not permitted for non-GPS staff')
     }
 })
-  
-export const requiresAdmin = requiresAuth.createResolver(
-    (source, args, context, info) => {
-        if (!context.user.access_level_id === 1) {
-            throw new Error('Requires admin access');
-        }
-    },
-);
-  
+
+export const requiresAdmin = requiresAuth.createFunction((context) => {
+    if (context.user.access_level_id !== 1) {
+        throw new Error('Requires admin access');
+    }
+})

@@ -7,8 +7,9 @@ import jwt from 'jsonwebtoken'
 import { request } from 'https';
 import { customSchema } from './customSchema/index'
 import { mergeSchemas } from 'graphql-tools'
+import { refreshTokens } from './helpers/auth'
 
-import { requiresAuth } from './helpers/permission'
+import { requiresAuth, requiresStaff, requiresAdmin } from './helpers/permission'
 
 const expressPlayground = require('graphql-playground-middleware-express').default
 
@@ -21,23 +22,27 @@ export const SECRET = 'jskdaskdujhaskjdhn3487230409849abfikwkasbjkj';
 const addUser = async (req, res, next) => {
     const token = req.headers['x-token'];
     if (token) {
-      try {
-        const { user } = jwt.verify(token, SECRET);
-        req.user = user;
-    } catch (err) {
-        const refreshToken = req.headers['x-refresh-token'];
-        const newTokens = await refreshTokens(
-            token,
-            refreshToken,
-            SECRET,
-        );
-        if (newTokens.token && newTokens.refreshToken) {
-            res.set('Access-Control-Expose-Headers', 'x-token, x-refresh-token');
-            res.set('x-token', newTokens.token);
-            res.set('x-refresh-token', newTokens.refreshToken);
+        try {
+            const { user } = jwt.verify(token, SECRET);
+            req.user = user;
+            console.log('SUCCESS JWT: ', user)
+        } catch (err) {
+            console.log('ERROR JWT', err)
+            const refreshToken = req.headers['x-refresh-token'];
+            const newTokens = await refreshTokens(
+                token,
+                refreshToken,
+                SECRET,
+            );
+            if (newTokens.token && newTokens.refreshToken) {
+                res.set('Access-Control-Expose-Headers', 'x-token, x-refresh-token');
+                res.set('x-token', newTokens.token);
+                res.set('x-refresh-token', newTokens.refreshToken);
+            }   
+            req.user = newTokens.user;
         }
-        req.user = newTokens.user;
-      }
+    } else {
+        req.user = {}
     }
     next();
 };
@@ -50,8 +55,7 @@ sequelize.sync({
 
     const schema = getSchema(sequelize, {
         accessLevels: {
-            before: requiresAuth,
-            after: ()=> "test"
+            before: requiresStaff
         }
     })
 
