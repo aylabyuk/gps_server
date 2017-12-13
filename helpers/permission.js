@@ -1,8 +1,8 @@
-const createFunction = (resolver) => {
-    const baseFunction = resolver;
+const createFunction = (func) => {
+    const baseFunction = func;
     baseFunction.createFunction = (childFunction) => {
-        const newFunction = async (context) => {
-            await resolver(context);
+        const newFunction = (context) => {
+            func(context);
             return childFunction(context);
         };
         return createFunction(newFunction);
@@ -19,7 +19,7 @@ export const requiresAuth = createFunction((context) => {
 
 export const requiresStaff = requiresAuth.createFunction((context) => {
     if(context.user.access_level_id !== 2) {
-        throw new Error('Action not permitted for non-GPS staff')
+        throw new Error('Action not permitted for non-GPS staff');
     }
 })
 

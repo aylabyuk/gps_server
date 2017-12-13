@@ -15,8 +15,21 @@ var OperationFactory = /** @class */ (function () {
         this.associationsToModel = config.associationsToModel;
         this.associationsFromModel = config.associationsFromModel;
         this.cache = config.cache;
+        this.hooks = config.hooks;
     }
+    OperationFactory.prototype.checkBeforeHooks = function (_a) {
+        var operationName = _a.operationName, context = _a.context;
+        if (this.hooks) {
+            if (operationName in this.hooks) {
+                var check = Promise.resolve(this.hooks[operationName].before(context));
+                check.catch(function (err) {
+                    return err;
+                });
+            }
+        }
+    };
     OperationFactory.prototype.createRecord = function (_a) {
+        var _this = this;
         var mutations = _a.mutations, model = _a.model, modelType = _a.modelType;
         var _b = this, models = _b.models, modelTypes = _b.modelTypes, associationsToModel = _b.associationsToModel, associationsFromModel = _b.associationsFromModel, cache = _b.cache;
         var createMutationName = utils_1.mutationName(model, 'create');
@@ -88,13 +101,16 @@ var OperationFactory = /** @class */ (function () {
                 // console.log(`${getTableName(Model)} mutation output`, output);
                 return output;
             },
-            mutateAndGetPayload: function (data) {
+            mutateAndGetPayload: function (data, context) {
+                var createMutationName = utils_1.mutationName(model, 'create');
+                _this.checkBeforeHooks({ operationName: createMutationName, context: context });
                 utils_1.convertFieldsFromGlobalId(model, data);
                 return model.create(data);
             }
         });
     };
     OperationFactory.prototype.findRecord = function (_a) {
+        var _this = this;
         var queries = _a.queries, model = _a.model, modelType = _a.modelType;
         var findByIdQueryName = utils_1.queryName(model, 'findById');
         var queryArgs = graphql_sequelize_teselagen_1.defaultArgs(model);
@@ -109,6 +125,7 @@ var OperationFactory = /** @class */ (function () {
         var baseResolve = graphql_sequelize_teselagen_1.resolver(model, {});
         // tslint:disable-next-line:max-func-args
         var resolve = function (source, args, context, info) {
+            _this.checkBeforeHooks({ operationName: findByIdQueryName, context: context });
             utils_1.convertFieldsFromGlobalId(model, args);
             if (args.where) {
                 utils_1.convertFieldsFromGlobalId(model, args.where);
@@ -124,19 +141,14 @@ var OperationFactory = /** @class */ (function () {
         };
     };
     OperationFactory.prototype.findAll = function (_a) {
+        var _this = this;
         var queries = _a.queries, model = _a.model, modelType = _a.modelType, hooks = _a.hooks;
         var findAllQueryName = utils_1.queryName(model, 'findAll');
         var queryArgs = graphql_sequelize_teselagen_1.defaultListArgs(model);
         var baseResolve = utils_1.createNonNullListResolver(graphql_sequelize_teselagen_1.resolver(model, { list: true }));
         // tslint:disable-next-line:max-func-args
         var resolve = function (source, args, context, info) {
-            if (hooks) {
-                if (findAllQueryName in hooks) {
-                    if (hooks[findAllQueryName].before(context)) {
-                        return hooks[findAllQueryName].before(context);
-                    }
-                }
-            }
+            _this.checkBeforeHooks({ operationName: findAllQueryName, context: context });
             if (args.where) {
                 utils_1.convertFieldsFromGlobalId(model, args.where);
             }
@@ -152,6 +164,7 @@ var OperationFactory = /** @class */ (function () {
         };
     };
     OperationFactory.prototype.updateRecords = function (_a) {
+        var _this = this;
         var mutations = _a.mutations, model = _a.model, modelType = _a.modelType;
         var _b = this, models = _b.models, modelTypes = _b.modelTypes, associationsToModel = _b.associationsToModel, associationsFromModel = _b.associationsFromModel, cache = _b.cache;
         var updateMutationName = utils_1.mutationName(model, 'update');
@@ -257,7 +270,9 @@ var OperationFactory = /** @class */ (function () {
                     }
                 };
             },
-            mutateAndGetPayload: function (data) {
+            mutateAndGetPayload: function (data, context) {
+                var updateMutationName = utils_1.mutationName(model, 'update');
+                _this.checkBeforeHooks({ operationName: updateMutationName, context: context });
                 // console.log('mutate', data);
                 var values = data.values, where = data.where;
                 utils_1.convertFieldsFromGlobalId(model, values);
@@ -275,6 +290,7 @@ var OperationFactory = /** @class */ (function () {
         });
     };
     OperationFactory.prototype.updateRecord = function (_a) {
+        var _this = this;
         var mutations = _a.mutations, model = _a.model, modelType = _a.modelType;
         var _b = this, models = _b.models, modelTypes = _b.modelTypes, associationsToModel = _b.associationsToModel, associationsFromModel = _b.associationsFromModel, cache = _b.cache;
         var updateMutationName = utils_1.mutationName(model, 'updateOne');
@@ -358,7 +374,9 @@ var OperationFactory = /** @class */ (function () {
                 cache[updateModelOutputTypeName] = outputType;
                 return output;
             },
-            mutateAndGetPayload: function (data) {
+            mutateAndGetPayload: function (data, context) {
+                var updateMutationName = utils_1.mutationName(model, 'updateOne');
+                _this.checkBeforeHooks({ operationName: updateMutationName, context: context });
                 // console.log('mutate', data);
                 var values = data.values;
                 var where = (_a = {},
@@ -377,6 +395,7 @@ var OperationFactory = /** @class */ (function () {
         });
     };
     OperationFactory.prototype.deleteRecords = function (_a) {
+        var _this = this;
         var mutations = _a.mutations, model = _a.model, modelType = _a.modelType;
         var cache = this.cache;
         var deleteMutationName = utils_1.mutationName(model, 'delete');
@@ -409,7 +428,9 @@ var OperationFactory = /** @class */ (function () {
                     }
                 };
             },
-            mutateAndGetPayload: function (data) {
+            mutateAndGetPayload: function (data, context) {
+                var deleteMutationName = utils_1.mutationName(model, 'delete');
+                _this.checkBeforeHooks({ operationName: deleteMutationName, context: context });
                 var where = data.where;
                 utils_1.convertFieldsFromGlobalId(model, where);
                 return model.destroy({
@@ -425,6 +446,7 @@ var OperationFactory = /** @class */ (function () {
         });
     };
     OperationFactory.prototype.deleteRecord = function (_a) {
+        var _this = this;
         var mutations = _a.mutations, model = _a.model, modelType = _a.modelType;
         var deleteMutationName = utils_1.mutationName(model, 'deleteOne');
         mutations[deleteMutationName] = graphql_relay_1.mutationWithClientMutationId({
@@ -448,7 +470,9 @@ var OperationFactory = /** @class */ (function () {
                     _a;
                 var _a;
             },
-            mutateAndGetPayload: function (data) {
+            mutateAndGetPayload: function (data, context) {
+                var deleteMutationName = utils_1.mutationName(model, 'deleteOne');
+                _this.checkBeforeHooks({ operationName: deleteMutationName, context: context });
                 var where = (_a = {},
                     _a[model.primaryKeyAttribute] = data[model.primaryKeyAttribute],
                     _a);

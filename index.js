@@ -56,6 +56,24 @@ sequelize.sync({
     const schema = getSchema(sequelize, {
         accessLevels: {
             before: requiresStaff
+        },
+        accessLevel: {
+            before: requiresAdmin
+        },
+        createAccessLevel: {
+            before: requiresStaff
+        },
+        updateAccessLevels: {
+            before: requiresStaff
+        },
+        updateAccessLevel: {
+            before: requiresStaff
+        },
+        deleteAccessLevels: {
+            before: requiresStaff
+        },
+        deleteAccessLevel: {
+            before: requiresStaff
         }
     })
 

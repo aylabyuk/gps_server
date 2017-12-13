@@ -73,7 +73,8 @@ function getSchema(sequelize, hooks) {
             models: models,
             modelTypes: types,
             associationsFromModel: associationsFromModel,
-            associationsToModel: associationsToModel
+            associationsToModel: associationsToModel,
+            hooks: hooks
         });
         // CREATE single
         operationFactory.createRecord({
@@ -85,14 +86,13 @@ function getSchema(sequelize, hooks) {
         operationFactory.findRecord({
             queries: queries,
             model: model,
-            modelType: modelType
+            modelType: modelType,
         });
         // READ all
         operationFactory.findAll({
             queries: queries,
             model: model,
             modelType: modelType,
-            hooks: hooks
         });
         // UPDATE single
         operationFactory.updateRecord({

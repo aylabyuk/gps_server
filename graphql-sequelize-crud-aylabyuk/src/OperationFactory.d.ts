@@ -8,6 +8,8 @@ export declare class OperationFactory {
     private associationsToModel;
     private associationsFromModel;
     private cache;
+    private hooks?;
+    private checkBeforeHooks({operationName, context});
     constructor(config: OperationFactoryConfig);
     createRecord({mutations, model, modelType}: {
         mutations: Mutations;
