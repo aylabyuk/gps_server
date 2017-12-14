@@ -8,6 +8,7 @@ var camelcase = require("camelcase");
 var graphql_relay_1 = require("graphql-relay");
 var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
 var utils_1 = require("./utils");
+var utils_2 = require("./utils");
 var OperationFactory = /** @class */ (function () {
     function OperationFactory(config) {
         this.models = config.models;
@@ -16,6 +17,7 @@ var OperationFactory = /** @class */ (function () {
         this.associationsFromModel = config.associationsFromModel;
         this.cache = config.cache;
         this.hooks = config.hooks;
+        this.pubsub = config.pubsub;
     }
     OperationFactory.prototype.checkBeforeHooks = function (_a) {
         var operationName = _a.operationName, context = _a.context;
@@ -102,10 +104,13 @@ var OperationFactory = /** @class */ (function () {
                 return output;
             },
             mutateAndGetPayload: function (data, context) {
-                var createMutationName = utils_1.mutationName(model, 'create');
-                _this.checkBeforeHooks({ operationName: createMutationName, context: context });
+                var operationName = utils_1.mutationName(model, 'create');
+                _this.checkBeforeHooks({ operationName: operationName, context: context });
                 utils_1.convertFieldsFromGlobalId(model, data);
-                return model.create(data);
+                return model.create(data).then(function (d) {
+                    _this.pubsub.publish(utils_2.subscriptionName(model, 'created'), d.dataValues);
+                    return d.dataValues;
+                });
             }
         });
     };
@@ -142,7 +147,7 @@ var OperationFactory = /** @class */ (function () {
     };
     OperationFactory.prototype.findAll = function (_a) {
         var _this = this;
-        var queries = _a.queries, model = _a.model, modelType = _a.modelType, hooks = _a.hooks;
+        var queries = _a.queries, model = _a.model, modelType = _a.modelType;
         var findAllQueryName = utils_1.queryName(model, 'findAll');
         var queryArgs = graphql_sequelize_teselagen_1.defaultListArgs(model);
         var baseResolve = utils_1.createNonNullListResolver(graphql_sequelize_teselagen_1.resolver(model, { list: true }));
@@ -271,8 +276,8 @@ var OperationFactory = /** @class */ (function () {
                 };
             },
             mutateAndGetPayload: function (data, context) {
-                var updateMutationName = utils_1.mutationName(model, 'update');
-                _this.checkBeforeHooks({ operationName: updateMutationName, context: context });
+                var operationName = utils_1.mutationName(model, 'update');
+                _this.checkBeforeHooks({ operationName: operationName, context: context });
                 // console.log('mutate', data);
                 var values = data.values, where = data.where;
                 utils_1.convertFieldsFromGlobalId(model, values);
@@ -285,6 +290,12 @@ var OperationFactory = /** @class */ (function () {
                         where: where,
                         affectedCount: result[0]
                     };
+                }).then(function (d) {
+                    model.findAll({ where: values }).then(function (dat) {
+                        console.log('UPDATED ROWS', dat.dataValues);
+                        _this.pubsub.publish(utils_2.subscriptionName(model, 'updated'), d);
+                    });
+                    return d;
                 });
             }
         });
@@ -375,8 +386,8 @@ var OperationFactory = /** @class */ (function () {
                 return output;
             },
             mutateAndGetPayload: function (data, context) {
-                var updateMutationName = utils_1.mutationName(model, 'updateOne');
-                _this.checkBeforeHooks({ operationName: updateMutationName, context: context });
+                var operationName = utils_1.mutationName(model, 'updateOne');
+                _this.checkBeforeHooks({ operationName: operationName, context: context });
                 // console.log('mutate', data);
                 var values = data.values;
                 var where = (_a = {},
@@ -429,8 +440,8 @@ var OperationFactory = /** @class */ (function () {
                 };
             },
             mutateAndGetPayload: function (data, context) {
-                var deleteMutationName = utils_1.mutationName(model, 'delete');
-                _this.checkBeforeHooks({ operationName: deleteMutationName, context: context });
+                var operationName = utils_1.mutationName(model, 'delete');
+                _this.checkBeforeHooks({ operationName: operationName, context: context });
                 var where = data.where;
                 utils_1.convertFieldsFromGlobalId(model, where);
                 return model.destroy({
@@ -471,8 +482,8 @@ var OperationFactory = /** @class */ (function () {
                 var _a;
             },
             mutateAndGetPayload: function (data, context) {
-                var deleteMutationName = utils_1.mutationName(model, 'deleteOne');
-                _this.checkBeforeHooks({ operationName: deleteMutationName, context: context });
+                var operationName = utils_1.mutationName(model, 'deleteOne');
+                _this.checkBeforeHooks({ operationName: operationName, context: context });
                 var where = (_a = {},
                     _a[model.primaryKeyAttribute] = data[model.primaryKeyAttribute],
                     _a);

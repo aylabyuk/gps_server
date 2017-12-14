@@ -1,21 +1,28 @@
 import express from 'express'
-import graphqlHTTP from 'express-graphql'
 import { getSchema } from './graphql-sequelize-crud-aylabyuk/src'
-// import { getSchema } from 'graphql-sequelize-crud'
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
 import { db as sequelize} from './sql/connector'
+import cors from 'cors'
 import jwt from 'jsonwebtoken'
-import { request } from 'https';
+import bodyParser from 'body-parser'
+import { createServer } from 'http'
 import { customSchema } from './customSchema/index'
 import { mergeSchemas } from 'graphql-tools'
 import { refreshTokens } from './helpers/auth'
+import { SubscriptionServer } from 'subscriptions-transport-ws'
+import { execute, subscribe } from 'graphql'
 
 import { requiresAuth, requiresStaff, requiresAdmin } from './helpers/permission'
 
 const expressPlayground = require('graphql-playground-middleware-express').default
 
-const app = express();
+const server = express();
 
-// app secret
+const PORT = 4000;
+
+server.use('*', cors({ origin: `http://localhost:${PORT}` }));
+
+// server secret
 export const SECRET = 'jskdaskdujhaskjdhn3487230409849abfikwkasbjkj';
 
 // implement tokens and refresh-tokens checks 
@@ -47,55 +54,48 @@ const addUser = async (req, res, next) => {
     next();
 };
   
-app.use(addUser);
+server.use(addUser);
 
 sequelize.sync({
     // force: true
 }).then(() => {
 
-    const schema = getSchema(sequelize, {
-        accessLevels: {
-            before: requiresStaff
-        },
-        accessLevel: {
-            before: requiresAdmin
-        },
-        createAccessLevel: {
-            before: requiresStaff
-        },
-        updateAccessLevels: {
-            before: requiresStaff
-        },
-        updateAccessLevel: {
-            before: requiresStaff
-        },
-        deleteAccessLevels: {
-            before: requiresStaff
-        },
-        deleteAccessLevel: {
-            before: requiresStaff
-        }
-    })
+    const schema = getSchema(sequelize)
 
     let merged = mergeSchemas({
         schemas: [schema, customSchema]
     })
 
-    app.use('/graphql', graphqlHTTP((req) => ({
+    server.use('/graphql', bodyParser.json(), graphqlExpress((req) => ({
         schema: merged,
-        graphiql: true,
         context: {
             SECRET,
             user: req.user
         }
     })));
 
-    app.get('/playground', expressPlayground({ endpoint: '/graphql' }));
+    server.use('/graphiql', graphiqlExpress({
+        endpointURL: '/graphql',
+        subscriptionsEndpoint: `ws://localhost:${PORT}/graphql`
+    }));
 
-    const port = 4000;
+    server.get('/playground', expressPlayground({ 
+        endpoint: '/graphql',
+        subscriptionEndpoint: `ws://localhost:${PORT}/graphql`
+    }));
 
-    app.listen(port, () => {
-        console.log(`Listening on port ${port}`)
-    })
-    
+    const ws = createServer(server);
+    ws.listen(PORT, () => {
+        console.log(`Apollo Server is now running on http://localhost:${PORT}`);
+        // Set up the WebSocket for handling GraphQL subscriptions
+        new SubscriptionServer({
+            execute,
+            subscribe,
+            schema: merged
+        }, {
+            server: ws,
+            path: '/graphql',
+        });
+    });
+
 })

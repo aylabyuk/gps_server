@@ -136,4 +136,28 @@ function createNonNullListResolver(resolver) {
     };
 }
 exports.createNonNullListResolver = createNonNullListResolver;
+function subscriptionName(model, type) {
+    switch (type) {
+        case 'created': {
+            return camelcase(getTableName(model) + "_" + type);
+        }
+        case 'updated': {
+            return camelcase(getTableName(model) + "_" + type);
+        }
+        case 'deleted': {
+            return camelcase(getTableName(model) + "_" + type);
+        }
+        case 'updatedOne': {
+            return camelcase(type + "_" + getTableName(model));
+        }
+        case 'deletedOne': {
+            return camelcase(type + "_" + getTableName(model));
+        }
+        default: {
+            console.warn('Unknown subscription type: ', type);
+            return camelcase(getTableName(model) + "_" + type);
+        }
+    }
+}
+exports.subscriptionName = subscriptionName;
 //# sourceMappingURL=utils.js.map

@@ -15,15 +15,19 @@ var _ = require("lodash");
 var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
 var sequelizeNodeInterface = graphql_sequelize_teselagen_1.relay.sequelizeNodeInterface, sequelizeConnection = graphql_sequelize_teselagen_1.relay.sequelizeConnection;
 var OperationFactory_1 = require("./OperationFactory");
+var SubscriptionFactory_1 = require("./SubscriptionFactory");
 var utils_1 = require("./utils");
+var graphql_subscriptions_1 = require("graphql-subscriptions");
 function getSchema(sequelize, hooks) {
     var _a = sequelizeNodeInterface(sequelize), nodeInterface = _a.nodeInterface, nodeField = _a.nodeField, nodeTypeMapper = _a.nodeTypeMapper;
     var models = sequelize.models;
     var queries = {};
     var mutations = {};
+    var subscriptions = {};
     var associationsToModel = {};
     var associationsFromModel = {};
     var cache = {};
+    var pubsub = new graphql_subscriptions_1.PubSub;
     // Create types map
     var modelTypes = Object.keys(models).reduce(function (types, key) {
         var model = models[key];
@@ -67,6 +71,33 @@ function getSchema(sequelize, hooks) {
             interfaces: [nodeInterface]
         });
         types[utils_1.getTableName(model)] = modelType;
+        // == SUBSCRIPTION ==
+        var subscriptionFactory = new SubscriptionFactory_1.SubscriptionFactory({ pubsub: pubsub });
+        subscriptionFactory.created({
+            subscriptions: subscriptions,
+            model: model,
+            modelType: modelType
+        });
+        subscriptionFactory.deleted({
+            subscriptions: subscriptions,
+            model: model,
+            modelType: modelType
+        });
+        subscriptionFactory.updated({
+            subscriptions: subscriptions,
+            model: model,
+            modelType: modelType
+        });
+        subscriptionFactory.deletedOne({
+            subscriptions: subscriptions,
+            model: model,
+            modelType: modelType
+        });
+        subscriptionFactory.updatedOne({
+            subscriptions: subscriptions,
+            model: model,
+            modelType: modelType
+        });
         // === CRUD ====
         var operationFactory = new OperationFactory_1.OperationFactory({
             cache: cache,
@@ -74,7 +105,8 @@ function getSchema(sequelize, hooks) {
             modelTypes: types,
             associationsFromModel: associationsFromModel,
             associationsToModel: associationsToModel,
-            hooks: hooks
+            hooks: hooks,
+            pubsub: pubsub
         });
         // CREATE single
         operationFactory.createRecord({
@@ -247,9 +279,14 @@ function getSchema(sequelize, hooks) {
         name: "Mutations",
         fields: function () { return (__assign({}, mutations)); }
     });
+    var subscriptionRoot = new graphql_1.GraphQLObjectType({
+        name: "Subscriptions",
+        fields: function () { return (__assign({}, subscriptions)); }
+    });
     return new graphql_1.GraphQLSchema({
         query: queryRoot,
-        mutation: mutationRoot
+        mutation: mutationRoot,
+        subscription: subscriptionRoot
     });
 }
 exports.getSchema = getSchema;

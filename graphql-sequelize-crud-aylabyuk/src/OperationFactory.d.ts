@@ -2,6 +2,7 @@
 import { GraphQLObjectType, GraphQLFieldConfigMap, GraphQLFieldConfig } from 'graphql';
 import { SequelizeConnection, Cache } from "graphql-sequelize-teselagen";
 import { Model, ModelsHashInterface as Models, ModelTypes } from "./types";
+import { PubSub } from 'graphql-subscriptions/dist/pubsub';
 export declare class OperationFactory {
     private models;
     private modelTypes;
@@ -9,6 +10,7 @@ export declare class OperationFactory {
     private associationsFromModel;
     private cache;
     private hooks?;
+    private pubsub;
     private checkBeforeHooks({operationName, context});
     constructor(config: OperationFactoryConfig);
     createRecord({mutations, model, modelType}: {
@@ -21,11 +23,10 @@ export declare class OperationFactory {
         model: Model;
         modelType: GraphQLObjectType;
     }): void;
-    findAll({queries, model, modelType, hooks}: {
+    findAll({queries, model, modelType}: {
         model: Model;
         modelType: GraphQLObjectType;
         queries: Queries;
-        hooks?: HookObject;
     }): void;
     updateRecords({mutations, model, modelType}: {
         mutations: Mutations;
@@ -92,4 +93,5 @@ export interface OperationFactoryConfig {
     associationsFromModel: AssociationFromModels;
     cache: Cache;
     hooks?: HookObject;
+    pubsub: PubSub;
 }
