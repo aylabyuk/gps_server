@@ -104,10 +104,6 @@ function queryName(model, type) {
     }
 }
 exports.queryName = queryName;
-function getTableName(model) {
-    return model.name;
-}
-exports.getTableName = getTableName;
 function globalIdInputField(modelName) {
     return {
         name: 'id',
@@ -116,6 +112,28 @@ function globalIdInputField(modelName) {
     };
 }
 exports.globalIdInputField = globalIdInputField;
+function subscriptionName(model, type) {
+    switch (type) {
+        case 'created': {
+            return camelcase(getTableName(model) + "_" + type);
+        }
+        case 'updated': {
+            return camelcase(getTableName(model) + "_" + type);
+        }
+        case 'deleted': {
+            return camelcase(getTableName(model) + "_" + type);
+        }
+        default: {
+            console.warn('Unknown subscription type: ', type);
+            return camelcase(getTableName(model) + "_" + type);
+        }
+    }
+}
+exports.subscriptionName = subscriptionName;
+function getTableName(model) {
+    return model.name;
+}
+exports.getTableName = getTableName;
 function createNonNullList(modelType) {
     return new graphql_1.GraphQLNonNull(new graphql_1.GraphQLList(new graphql_1.GraphQLNonNull(modelType)));
 }
@@ -136,28 +154,4 @@ function createNonNullListResolver(resolver) {
     };
 }
 exports.createNonNullListResolver = createNonNullListResolver;
-function subscriptionName(model, type) {
-    switch (type) {
-        case 'created': {
-            return camelcase(getTableName(model) + "_" + type);
-        }
-        case 'updated': {
-            return camelcase(getTableName(model) + "_" + type);
-        }
-        case 'deleted': {
-            return camelcase(getTableName(model) + "_" + type);
-        }
-        case 'updatedOne': {
-            return camelcase(type + "_" + getTableName(model));
-        }
-        case 'deletedOne': {
-            return camelcase(type + "_" + getTableName(model));
-        }
-        default: {
-            console.warn('Unknown subscription type: ', type);
-            return camelcase(getTableName(model) + "_" + type);
-        }
-    }
-}
-exports.subscriptionName = subscriptionName;
 //# sourceMappingURL=utils.js.map

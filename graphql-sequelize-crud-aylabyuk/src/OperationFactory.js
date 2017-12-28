@@ -8,7 +8,6 @@ var camelcase = require("camelcase");
 var graphql_relay_1 = require("graphql-relay");
 var graphql_sequelize_teselagen_1 = require("graphql-sequelize-teselagen");
 var utils_1 = require("./utils");
-var utils_2 = require("./utils");
 var OperationFactory = /** @class */ (function () {
     function OperationFactory(config) {
         this.models = config.models;
@@ -107,9 +106,9 @@ var OperationFactory = /** @class */ (function () {
                 var operationName = utils_1.mutationName(model, 'create');
                 _this.checkBeforeHooks({ operationName: operationName, context: context });
                 utils_1.convertFieldsFromGlobalId(model, data);
-                return model.create(data).then(function (d) {
-                    _this.pubsub.publish(utils_2.subscriptionName(model, 'created'), d.dataValues);
-                    return d.dataValues;
+                return model.create(data).then(function (result) {
+                    _this.pubsub.publish(utils_1.subscriptionName(model, 'created'), result.dataValues);
+                    return result.dataValues;
                 });
             }
         });
@@ -290,12 +289,6 @@ var OperationFactory = /** @class */ (function () {
                         where: where,
                         affectedCount: result[0]
                     };
-                }).then(function (d) {
-                    model.findAll({ where: values }).then(function (dat) {
-                        console.log('UPDATED ROWS', dat.dataValues);
-                        _this.pubsub.publish(utils_2.subscriptionName(model, 'updated'), d);
-                    });
-                    return d;
                 });
             }
         });
@@ -400,6 +393,14 @@ var OperationFactory = /** @class */ (function () {
                 })
                     .then(function (result) {
                     return where;
+                }).then(function (result) {
+                    model.find({ where: where }).then(function (res) {
+                        if (!res) {
+                            return;
+                        }
+                        _this.pubsub.publish(utils_1.subscriptionName(model, 'updated'), res.dataValues);
+                    });
+                    return result;
                 });
                 var _a;
             }
@@ -492,6 +493,10 @@ var OperationFactory = /** @class */ (function () {
                     where: where
                 })
                     .then(function (affectedCount) {
+                    if (!affectedCount) {
+                        throw new Error('Nothing to delete');
+                    }
+                    _this.pubsub.publish(utils_1.subscriptionName(model, 'deleted'), data);
                     return data;
                 });
                 var _a;

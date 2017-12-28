@@ -5,7 +5,20 @@ import bcrypt from 'bcrypt'
 
 export const resolvers = {
     Query: {
-        developer: () => "Oriel Vinci Absin"
+        developer: () => "Oriel Vinci Absin",
+        me: (_, args, { user }) => {
+            if(user) {
+                return User.findOne({
+                    where: {
+                        id: user.id
+                    }
+                });
+            } 
+
+            // not logged in
+            return 'Not logged in'
+
+        }
     },
     Mutation: {
         register: async (_, args) => {

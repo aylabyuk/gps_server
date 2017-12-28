@@ -15,19 +15,9 @@ export declare class SubscriptionFactory {
         modelType: GraphQLObjectType;
         subscriptions: Subscriptions;
     }): void;
-    deleted({subscriptions, model, modelType}: {
+    deleted({subscriptions, model, idOnlyType}: {
         model: Model;
-        modelType: GraphQLObjectType;
-        subscriptions: Subscriptions;
-    }): void;
-    updatedOne({subscriptions, model, modelType}: {
-        model: Model;
-        modelType: GraphQLObjectType;
-        subscriptions: Subscriptions;
-    }): void;
-    deletedOne({subscriptions, model, modelType}: {
-        model: Model;
-        modelType: GraphQLObjectType;
+        idOnlyType: GraphQLObjectType;
         subscriptions: Subscriptions;
     }): void;
 }

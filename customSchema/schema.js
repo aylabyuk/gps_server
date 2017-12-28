@@ -12,6 +12,7 @@ export const typeDefs = `
 
     type Query {
         developer: String!
+        me: regUser
     }
 
     type Mutation {

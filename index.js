@@ -11,6 +11,7 @@ import { mergeSchemas } from 'graphql-tools'
 import { refreshTokens } from './helpers/auth'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
 import { execute, subscribe } from 'graphql'
+import { express as middleware } from 'graphql-voyager/middleware'
 
 import { requiresAuth, requiresStaff, requiresAdmin } from './helpers/permission'
 
@@ -20,10 +21,12 @@ const server = express();
 
 const PORT = 4000;
 
-server.use('*', cors({ origin: `http://localhost:${PORT}` }));
+server.use('*', cors());
 
 // server secret
 export const SECRET = 'jskdaskdujhaskjdhn3487230409849abfikwkasbjkj';
+
+
 
 // implement tokens and refresh-tokens checks 
 const addUser = async (req, res, next) => {
@@ -76,18 +79,20 @@ sequelize.sync({
 
     server.use('/graphiql', graphiqlExpress({
         endpointURL: '/graphql',
-        subscriptionsEndpoint: `ws://localhost:${PORT}/graphql`
+        subscriptionsEndpoint: `ws://192.168.1.200:${PORT}/graphql`
     }));
 
     server.get('/playground', expressPlayground({ 
         endpoint: '/graphql',
-        subscriptionEndpoint: `ws://localhost:${PORT}/graphql`
+        subscriptionEndpoint: `ws://192.168.1.200:${PORT}/graphql`
     }));
+
+    server.use('/voyager', middleware({ endpointUrl: '/graphql' }))
 
     const ws = createServer(server);
     ws.listen(PORT, () => {
-        console.log(`Apollo Server is now running on http://localhost:${PORT}`);
-        // Set up the WebSocket for handling GraphQL subscriptions
+        console.log(`Apollo Server is now running on http://192.168.1.200:${PORT}`);
+        // Set up the WebSocket for handling GraphQL subscsriptions
         new SubscriptionServer({
             execute,
             subscribe,

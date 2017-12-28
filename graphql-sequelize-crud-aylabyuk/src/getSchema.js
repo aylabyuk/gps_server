@@ -18,6 +18,7 @@ var OperationFactory_1 = require("./OperationFactory");
 var SubscriptionFactory_1 = require("./SubscriptionFactory");
 var utils_1 = require("./utils");
 var graphql_subscriptions_1 = require("graphql-subscriptions");
+var scalars_1 = require("graphql/type/scalars");
 function getSchema(sequelize, hooks) {
     var _a = sequelizeNodeInterface(sequelize), nodeInterface = _a.nodeInterface, nodeField = _a.nodeField, nodeTypeMapper = _a.nodeTypeMapper;
     var models = sequelize.models;
@@ -27,10 +28,19 @@ function getSchema(sequelize, hooks) {
     var associationsToModel = {};
     var associationsFromModel = {};
     var cache = {};
-    var pubsub = new graphql_subscriptions_1.PubSub;
+    var pubsub = new graphql_subscriptions_1.PubSub();
     // Create types map
     var modelTypes = Object.keys(models).reduce(function (types, key) {
         var model = models[key];
+        var idOnlyType = new graphql_1.GraphQLObjectType({
+            name: utils_1.getTableName(model) + "ID",
+            description: "ID for the deleted " + utils_1.getTableName(model),
+            fields: function () { return ({
+                id: {
+                    type: scalars_1.GraphQLID
+                }
+            }); }
+        });
         var modelType = new graphql_1.GraphQLObjectType({
             name: utils_1.getTableName(model),
             fields: function () {
@@ -81,19 +91,9 @@ function getSchema(sequelize, hooks) {
         subscriptionFactory.deleted({
             subscriptions: subscriptions,
             model: model,
-            modelType: modelType
+            idOnlyType: idOnlyType
         });
         subscriptionFactory.updated({
-            subscriptions: subscriptions,
-            model: model,
-            modelType: modelType
-        });
-        subscriptionFactory.deletedOne({
-            subscriptions: subscriptions,
-            model: model,
-            modelType: modelType
-        });
-        subscriptionFactory.updatedOne({
             subscriptions: subscriptions,
             model: model,
             modelType: modelType

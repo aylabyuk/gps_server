@@ -60,11 +60,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       field: 'notes'
     },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      field: 'createdAt'
-    }
+    // createdAt: {
+    //   type: DataTypes.DATE,
+    //   allowNull: false,
+    //   field: 'createdAt'
+    // }
   }, {
     tableName: 'campaign_logsheets'
   });

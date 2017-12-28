@@ -18,7 +18,7 @@ export const requiresAuth = createFunction((context) => {
 });
 
 export const requiresStaff = requiresAuth.createFunction((context) => {
-    if(context.user.access_level_id !== 2) {
+    if(context.user.access_level_id <= 2) {
         throw new Error('Action not permitted for non-GPS staff');
     }
 })
