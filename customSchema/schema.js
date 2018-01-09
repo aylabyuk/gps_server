@@ -6,7 +6,7 @@ export const typeDefs = `
 
     type regUser {
         id: ID
-        username: String!
+        username: String
         access_level_id: Int
     }
 
